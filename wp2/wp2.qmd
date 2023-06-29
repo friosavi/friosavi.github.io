@@ -1,0 +1,99 @@
+---
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
+
+format: 
+    pdf: default
+
+keywords: Statistical Matching; American Time Use Survey; Survey of Consumer Finances; Levy Institute Measure of Economic Well-Being (LIMEW); United States
+author: Fernando Rios-Avila
+number-sections: true
+number-depth: 2
+
+tbl-cap-location: top
+fig-cap-location: top
+
+asec:
+  year:     2020
+  sample:   "124,806"
+  wsample:  "264,870,782" 
+  hsample: 50
+  whsample:   150
+
+atus:
+  year:     2019
+  sample:   "9,421"
+  wsample:   "262,823,885" 
+  hsample: "60,413"
+  whsample:   "128,451,203"
+
+scf:
+  year:     2019
+  sample:   1000
+  wsample:     200
+  hsample0: "5,777"
+  hsample: "28,885"
+  whsample:   "128,642,431"
+---
+
+# Introduction
+
+This paper describes the construction of the synthetic dataset created for use in the estimation of the Levy Institute Measure of Economic Well-Being (LIMEW) for the United States. The LIMEW was developed as an alternative to conventional income measures that provides a more comprehensive measure of economic well-being. Construction of the LIMEW requires a variety of information for households. In addition to the standard demographic and household income information, the estimation process also requires information about household members' time use and information on a household's wealth, assets, and debts. Unfortunately, no single dataset contains all required data for the estimation.
+
+In order to produce LIMEW estimates, a synthetic dataset is created combining information from three datasets, applying a statistical matching process. For current elaboration of this dataset, the Annual Social and Economic Supplement (ASEC) of the Current Population Survey (CPS) {{< meta asec.year >}} is used as the base dataset, as it contains good information regarding demographic, social, and economic characteristics, as well as income, work experience, noncash benefits, and migration status of persons 15 years old and over. Time use data comes from the American Time Use Survey (ATUS) {{< meta atus.year >}}, which provides rich data regarding how people divide their time among life's activities, including time spent doing paid and unpaid activities, inside and outside the household, for one person in the household. Wealth data come from the Survey of Consumers Finances (SCF) {{< meta scf.year >}}, which collects detailed information on household finances, income, assets, and liabilities.
+
+This paper is organized as follows. Section one describes the data. Section two assesses the alignment of the information between ASEC and ATUS at the individual level, and the ASEC and the SCF at the household level. Section three briefly describes the methodology and analyzes the matching quality of the statistical matching. Section four concludes.
+
+```{stata}
+*| echo: false
+*| output: false
+graph set svg fontface Garamond
+```
+
+<!-- Data Description -->
+{{< include wp2_des.qmd >}}
+
+
+<!-- Methodology -->
+
+{{< include wp2_method.qmd >}}
+
+<!-- Data Aligment-->
+
+{{< include wp2_align19.qmd >}}
+
+
+
+# Matching Quality
+
+Statistical matching is a widely used technique, predominantly in observational studies in the medical literature. This method consists of combining the information from two separate and independent surveys into a single combined dataset from which statistical inferences can be obtained. The methodology enables the combination of the datasets using common information between both surveys, preserving the distributional characteristics of the combined information. In the following, the match quality between the ASEC {{< meta asec.year >}} (recipient) and ATUS {{< meta atus.year >}} (donor), and ASEC {{< meta asec.year >}} (recipient) and SCF {{< meta scf.year >}} (donor), correspondingly, are assessed.
+
+{{< include wp2_matus_2019.qmd >}}
+
+{{< include wp2_mscf_2019.qmd >}}
+
+# Conclusions
+
+Overall, the ATUS and ASEC data are well aligned, with the some imbalances with respect to labor force status. The matching quality is good, with some limitations. There is a strong balance across the individual strata variables, showing good balance for aggregate measures (household production) for most of the variables analyzed. The results across the individual matching cells and other variables, however, show less balance.
+
+On the one hand, the imputed information on the hours allocated to care activities shows important (relative) imbalances across many matching cells. The absolute differences, however, are small and should not create a large bias. On the other hand, information across other variables, such as education, household income, and (particularly) age, show important balance problems. The imputed dataset overstates household production of people with less than a high school education, and understates it for those with tertiary education, as well as for people in poor households. Across age, while the aggregate results are balanced, the individual components show large over- and under-estimations for different age groups.
+
+With respect to the SCF and ASEC, the data is also well aligned, with the exception of mortgage holding, with small differences in the proportions of the breakdown by the sex of the householder. The results regarding the quality of the match are mixed. While the overall results show good balance between the imputed and donor surveys, with small underestimations of some items, analyzing the results across the strata variables shows relatively large imbalances (up to {{< meta v9 >}} 20 percent) for a relatively small subset of strata variables. As we would expect, larger imbalances are observed for narrower groupings. The data shows some underestimation of mortgage debt, probably caused by the differences in the alignment of household property (see @tbl-t3). Given that the SCF collects information from high-income households, it is possible that the information transferred from these observations has a strong influence on the cellspecific statistics. These results imply that careful consideration must be taken when making statistical inferences from certain populations. One can make inferences for the aggregate population, but attempting a similar analysis using two or more variables at the same time may carry too much bias to be informative.
+
+# References
+
+Kennickell, A. B. 2000. "Revisions to the Variance Estimation Procedure for the SCF." Washington, DC: Board of Governors of the Federal Reserve System.
+
+Kennickell, A. B., and R. L. Woodburn. 1999. "Consistent Weight Design for the 1989, 1992, and 1995 SCFs, and the Distribution of Wealth." Review of Income and Wealth 45(2): 193--215. 
+
+Kum, H., and T. N. Masterson. 2010. "Statistical matching using propensity scores: Theory and application to the analysis of the distribution of income and wealth." Journal of Economic and Social Measurement 35(3): 177--96.
+
+Semega, J., and E. Welniak, Jr. 2013. "Evaluating the 2013 CPS ASEC Income Redesign Content Test." US Census Bureau Income Statistics Working Paper. Washington, DC: US Census Bureau.
+
+Wolff, E. N., and A. Zacharias. 2003. "The Levy Institute Measure of Economic Well-Being." Levy Institute Working Paper 372. Annandale-on-Hudson, NY: Levy Economics Institute of Bard College.
+

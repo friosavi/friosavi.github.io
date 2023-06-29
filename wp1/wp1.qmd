@@ -1,0 +1,527 @@
+---
+title: "Quality of Match for Statistical Matching"
+subtitle: "For the Development of the Levy Institute Measure of Time and Consumption Poverty (LIMTCP) for Mali"
+format:   pdf
+author: Fernando Rios-Avila
+abstract: "This paper presents a description of the quality of the statistical matches used in the LIMTCP estimates prepared for Mali. For this country we combine information from the TUS, HBS and DHS. Given the large divergence data collection design regarding the identification of households, standard statistical matching could not be implemented. Instead we use an alternative approach redefining the identification of households, combined with reweighting approach. After adjusting household member definitions, and implement a reweighted analysis, we show quality of match for Mali is high. This suggests  the synthetic dataset appropriate for the time poverty analysis. "
+
+keywords: "Statistical Matching; Time Use; Household Production; Poverty; LIMTCP; Mali"
+
+bibliography: references.bib
+biblio-style: authoryear-comp
+
+---
+
+**I.   INTRODUCTION** 
+
+This paper describes the construction of synthetic datasets created for use in estimation of the Levy Institute Measure of Time and Consumption Poverty (LIMTCP) for Ethiopia and South Africa. Construction of LIMTCP estimates requires a variety of information at the household and individual level. In addition to demographic characteristics, the estimation process requires information about income and time use. In order to produce LIMTCP estimates, a synthetic data file is created by statistically matching two source datasets: the base data (recipient data), which contains detailed demographic and income/consumption data for households and individuals; and time use data (donor data). This creates a unique dataset that would not be available otherwise, from which we can extract patterns of time use and income/consumption for all household members.[^1]  
+
+For this analysis, the Ethiopian Socio-economic Survey—Wave 3—2015/2016 (ESS3) (Central Statistical Agency of Ethiopia 2017a, 2017b), the South African October Household Survey (OHS) 1998 (Statistics South Africa 1998, 2000) and the South African Living Conditions Survey (SALCS) 2014/2015 (Statistics South Africa 2017a, 2017b) are used as the base/recipient datasets. They contain rich information on demographics and expenditure data that is representative at the national level for all households in their respective countries. Time use data comes from the Ethiopian Time Use Survey (ETUS) 2013 (Central Statistical Agency of Ethiopia 2014), and from the South African Time Use Survey (SATUS) 2000 and 2010 (Statistics South Africa 2001a, 2001b, 2013, 2016).  
+
+Due to large structural differences between the ETUS and ESS, the analysis differs from other statistical matches previously undertaken (see Rios-Avila 2015, 2016). Specifically, matching is restricted to a subsample of married couple households with at least a working spouse and at least one child younger than 15. In addition, data is reweighted to improve the quality of the synthetic dataset. 
+
+The rest of the paper is organized as follows. Section two describes the data. Section three assesses the alignment of the information between the household surveys and time use surveys for Ethiopia and South Africa, providing details on the data preparation for the Ethiopian case. Section four briefly describes the methodology and analyzes the matching quality. Section five concludes. 
+
+2. **DATA DESCRIPTION** 
+1. **Data Sources** 
+
+The construction of the LIMTCP estimates requires two different sets of data: household survey data that collects information regarding consumption, demographics, and employment; and time use data, from which we can estimate the total amount of time households dedicate to household production. A summary of the main characteristics of the data can be found in table 1. 
+
+For Ethiopia, we use the ESS3, which was conducted in 2015–16. It is a nationally representative dataset that was collected with the purpose of measuring living conditions and wellbeing, and is used to obtain the official poverty profiles in Ethiopia. The survey is focused on colleting comprehensive data on total household consumption including food, nonfood items, and housing costs, adjusting for cost of living differences across the region. A total of 4,954 households and 27,990 persons were included in this survey. As a source for time use data, we use the ETUS, collected in 2013, the first stand-alone time use survey conducted in Ethiopia. The survey had the objective of measuring and analyzing the time spent on all activities of individuals ten years of age or older over a 24-hour period, with particular emphasis on the gender issues regarding time use. A total of 52,730 persons (ten years of age or older) in 20,121 households were interviewed in February 2013 using a face-to-face recall interview method.  
+
+In the case of South Africa, the data used to obtain consumption-expenditure and employment information comes from the OHS and LCS. The OHS survey was conducted with the purpose of collecting data on labor force statistics in the country and was implemented in October 1998. The final sample of the survey reached a total of 23,380 households covering 88,906 persons in the 
+
+country. The consumption-expenditure data come from the LCS. This survey was conducted with the purpose of understanding living conditions and poverty in South Africa and was collected in between October 2014 and October 2015. The final sample of the survey collected data for 88,906 persons in 23,380 households. The time use data comes from the SATUS for 2000 and 2010, the first two time use surveys collected in South Africa. The time survey data was collected for 39,018 persons in 22,484 households, covering individuals ten years or older. In contrast with ETUS, only up to two individuals per households were selected to participate in the survey. 
+
+**Table 1. Data Sources, Ethiopia and South Africa** 
+
+<table><tr><th colspan="1"><b>Country</b> </th><th colspan="1"><b>Survey Subject</b> </th><th colspan="1"><b>Name</b> </th><th colspan="1"><b>Sample Size</b> </th></tr>
+<tr><td colspan="1" rowspan="2" valign="top">Ethiopia 2015 </td><td colspan="1">Consumption expenditures and employment </td><td colspan="1">Ethiopian Socio-economic Survey (ESS)—Wave 3— 2015/2016  </td><td colspan="1"><p>Full Sample: 27,990 persons in 4,954 households </p><p>Restricted Sample: 11,124 persons in 1,873 households </p></td></tr>
+<tr><td colspan="1">Time use  </td><td colspan="1">Ethiopian Time Use Survey (ETUS) 2013 </td><td colspan="1">52,730 persons in 20,121 households. The study used a 24- hour diary, divided into one-hour slots, and records up to five simultaneous activities for all individuals ten years old or older within the household. </td></tr>
+<tr><td colspan="1" rowspan="2">South Africa 1998 </td><td colspan="1">Consumption expenditures and employment </td><td colspan="1">October Household Survey (OHS) 1998  </td><td colspan="1">82,263 persons in 18,968 households, 63,741 who are ten years or older.  </td></tr>
+<tr><td colspan="1">Time use </td><td colspan="1">South African Time Use Survey (SATUS) 2000 </td><td colspan="1">14,294 persons, ages ten years or older, in 8,337 households. Each interviewed person reports data for 24 hours, in 30-minute slots. Only up to two members per household are interviewed. </td></tr>
+<tr><td colspan="1" rowspan="2">South Africa 2015 </td><td colspan="1">Consumption expenditures and employment </td><td colspan="1">Living Conditions Survey (LCS) 2014/2015 </td><td colspan="1">88,906 persons in 23,380 households. </td></tr>
+<tr><td colspan="1">Time use  </td><td colspan="1">South African Time Use Survey (SATUS) 2010 </td><td colspan="1">39,018 persons, ages ten years or older, in 22,484 households. Each interviewed person reports data for 24 hours, in 30-minute slots. Only up to two members per household are interviewed. </td></tr>
+</table>
+
+2. **Methodological Concerns** 
+
+*2.2.1.  Time Thresholds and Identification* 
+
+In order to create the estimates of the time–consumption poverty measures for Ethiopia and South Africa, time thresholds for household production must be constructed at the household level using total time spent on household production by all its members. For an appropriate identification of the threshold, the reference group consists of households with at least one nonemployed adult and income around the official consumption poverty line. For practical purposes, this is identified as households with consumption levels within 75 percent and 150 percent of the poverty line (referred to as the “poverty band” hereafter). 
+
+In previous iterations, the time thresholds were estimated using subsamples based on the number of children (0, 1, 2, and 3 or more) and number of adults (1, 2, and 3 or more) in order to account for the heterogeneity on the thresholds across different household structures. In the current study, however, we use a parametric version, where the time thresholds are estimated as a nonlinear function of number of children, number of working age adults, and number of elderly. In principle, they represent the predicted average amount of household production that is required to subsist at the poverty level of income, conditional on the household structure. 
+
+In order to appropriately transfer the hours spent by individuals on household production in the reference group as closely as possible, we should control for the household’s membership in the reference group in the donor and recipient data files. In our previous work on Ghana and Tanzania, we used the value of assets and household income to construct a poverty, or poverty- band, indicator in the time use surveys. Unfortunately, such information is not available in the time use surveys of Ethiopia or South Africa. Based on data availability, we also control for detailed household demographic and dwelling characteristics. In addition, the following strata variables are included in the match: indicators for having one or more nonemployed adults in the household, the number of children, the number of adults, sex, employment status, geographical area, own labor status, type of household, and relationship to the head of the household.  
+
+In contrast with the earlier analysis in Rios-Avila (2016) for Tanzania and Ghana, as well as the present analysis for Ethiopia, important differences need to be accounted for in the case of South Africa. Both rounds of the time use survey collect information only for up to two people in the household, with data on relationships to other household members being captured with respect to the reference person(s). Because of this, household characteristics are constructed in terms of age structure and gender alone, excluding interaction variables constructed from gender and relationship to the head. 
+
+In the case of Ethiopia, we observed substantial differences in the employment rates of working age adults between the ESS and ETUS data. These differences seem to be driven by the differences in the focus, sampling design,[^2] and concept of employment across the surveys. Because of the differences, two adjustments are imposed before the statistical matching is performed. First, samples are restricted to married couple households where at least one of the spouses is employed and has at least one child under 15 years of age living in the household. The sample restriction is motivated by the central goal of the study for which the matching was carried out—an examination of intrahousehold divisions of paid and unpaid work (see Zacharias et al. fortcoming). Further, by construction, the restriction narrows the differences in terms of employment rates of working age adults. Because differences in distribution of a number of characteristics remain between the restricted samples, we employed an iterative reweighting strategy that focuses on balancing the univariate distributions of selected characteristics, including employment status, gender, sex, household type, household structure, and others. Using these weights, the ETUS subsample data is reweighted to have a distribution similar to the one observed in the ESS’s restricted sample. This strategy is similar to the standard inverse probability weighting but allows one to obtain better univariate balancing.[^3] From here forward, this subsample/reweighted data will be used. 
+
+It should be noted that while the time use survey in both countries collects relevant information for all members of the household, the data is not matched at the household level, but rather at the individual level. This implies that two individuals from the same donor family might not be matched to the same household in the recipient data. Nevertheless, during the matching process we include an array of household-level variables that should help improve the quality of the match within the household. 
+
+3. **DATA ALIGNMENT AND STATISTICS** 
+
+One of the conditions that needs to be fulfilled before proceeding through a statistical matching process is for the surveys (which are to be statistically merged) to represent the same population, with approximately similar characteristics across their weighted samples. If this were not to be true, the donor or recipient data would need to be reweighted for the synthetic data to be appropriate for inferences.[^4] In this section we present a set of statistics for assessing the comparability of the household surveys and time use data for Ethiopia and South Africa.   
+
+**3.1.  Data Alignment** 
+
+Table 2, table 3, and table 4 compare the distribution of individuals across selected characteristics for both Ethiopia and South Africa, including the strata variables. Despite the fact that the surveys were collected in different years (with a two-year and five-year gap for South Africa), we can still expect them to be relatively well aligned, as most of the variables used should reflect structural characteristics that are rather stable across time. As mentioned before, because the Ethiopian data shows a drastically different distribution of characteristics across years, we only present data based on the restricted and reweighted samples that we used in our matching procedure. 
+
+When looking at Ethiopia (table 2), one must keep in mind that the sample is already restricted to married couple households with at least one working spouse. In addition, the data from the ETUS is already reweighted to correct for the large discrepancies in characteristics’ distributions. Because of this, by construction, most of the characteristics in table 2 will show strong balance. As a matter of fact, the strong balance is observed for almost all characteristics in the data. The only differences are observed for education and household structure. The latter is due to oversampling of households with many adults and few children (ESS) or many children with few adults (ETUS). 
+
+For South Africa 1998–2000 (table 3), we see small differences with respect to the household structure and number of children in the household, or the age structure in the population. In contrast with Ethiopia and consistent with the well-known discrepancy in life expectancy between the two countries, we observe a larger proportion of older individuals in the sample. It is also worth noting that educational attainment is well balanced between the OHS1998 and STUS2000 data. However, in contrast with Ethiopia and later data for South Africa, the earlier data for South Africa provide educational attainment information only for the first 12 grades in school. There is less than a 2 percentage point difference in terms of geographical area, gender, or labor force participation between the OHS1998 and SATUS2000. These statistics suggest a strong balance between the two surveys. 
+
+For the latest South African TUS and the associated recipient data file (table 4) we see that there are some differences with respect to the household structure and number of children in the household. The most notable difference is that there are more people living in households with 3+ children and 4+ adults according to the SATUS2010 data. We can also observe that the population in the SATUS is somewhat more educated than in the SALCS, something unexpected considering there is a five-year gap between both surveys. We also observe a slightly higher share of the population living in urban areas according to the SATUS, with a larger proportion of employed adults. Nevertheless, the differences are small and no corrections are applied before implementing the statistical matching. 
+
+**Table 2. Alignment for Ethiopia  ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.005.png)**
+
+**ESS  ETUS  ESS  ETUS** 
+
+**Adult X Child** 
+
+2 adults, 1 child  5.2  5.2  **Geographical Area** 
+
+2 adults, 2 children  10.1  10.3  Urban   19.4  19.3 2 adults, 3 children  11.7  12.0  Rural   80.6  83.7 2 adults, 3+ children  26.6  29.1 
+
+3 adults, 1 child  1.7  1.5  **Sex** 
+
+3 adults, 2 children  4.2  4.0  Male  51.1  51.1 3 adults, 3 children  5.6  5.2  Female  48.9  48.9 3 adults, 3+ children  13.0  11.3 
+
+4+ adults, 1 child  1.5  2.3  **Nonworking Adult** 
+
+4+ adults, 2 children  4.8  3.2  All adults working  40.9  48.1 4+ adults, 3 children  3.2  6.2  1+ nonworking adults  59.1  51.9 4+ adults, 3+ children  12.4  9.7 
+
+**Age Group**   **Labor Force Status** 
+
+10–17  35.7  35.8  Employed  63.9  63.9 18–24  13.0  13.1  Not employed  36.1  36.1 25–34  20.9  20.8 
+
+**Rel. to the Household** 
+
+17\.3  17.3 
+
+35–44  **Head** 
+
+45–54  9.2  9.2  Head  25.4  25.3 
+
+55–64  3.1  3.1  Spouse  25.6  25.5 
+
+65+  0.8  0.8  Children  41.8  42.0 **Education Distribution**   Extended family  5.7  5.7 
+
+Less than 1st grade  2.0  1.1  other  1.6  1.6 
+
+Primary education  52.5  53.4 
+
+Secondary education  7.2  7.6  **Household Type** 
+
+Some college  2.5  2.6  Only husband works  36.0  36.1 BA +  1.1  0.7  Only wife works  8.5  8.5 Not educated  34.8  34.6  Both work  55.5  55.5 
+
+**Note:** Data corresponds to restricted sample using reweighting strategy. Reweighting only affects time use data. ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.006.png)
+
+9 
+**Table 3. Alignment for South Africa (2000) ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.007.png)**
+
+**OHS  SATUS  OHS  SATUS** 
+
+**Adult X, Child** 
+
+1 adult, 0 children  4.2  4.9  **Education Level** 
+
+1 adult, 1 child  1.1  1.7  None  11.4  11.5 1 adult, 2 children  1.5  1.7  1–4 grade  12.8  12.7 1 adult, 3+ children  3.2  2.9  5–8 grade  31.9  31.5 2 adults, 0 children  7.5  8.4  9–11 grade  23.9  24.0 2 adults, 1 child  5.5  5.8  12 grade  19.9  20.3 2 adults, 2 children  7.2  7.5 
+
+2 adults, 3+ children  10.6  10.3  **Geographical Area** 
+
+3 adults, 0 children  4.2  3.7  Urban   56.7  58.5 3 adults, 1 child  4.1  4.8  Rural   43.3  41.5 3 adults, 2 children  4.9  5.4 
+
+3 adults, 3+ children  9.7  7.9  **Sex** 
+
+4+ adults, 0 children  4.9  4.4  Male   47.7  48.1 4+ adults, 1 child  5.8  5.2  Female   52.3  51.9 4+ adults, 2 children  6.5  6.1 
+
+4+ adults, 3+ children  19.0  19.4  **Labor Force Participation** 
+
+Too young  15.6  15.3 **Age Group**   Employed   29.1  28.5 10–19  29.1  28.8  Unemployed   11.7  12.3 20–29  24.2  23.8  Not in LF   43.6  44.0 
+
+30–39  18.3  18.3 
+
+40–49  11.8  12.5 
+
+50–59  7.3  7.4 
+
+60–69  5.4  5.4 
+
+70+  3.8  3.8 ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.008.png)
+
+10 
+**Table 4. Alignment for South Africa (2010) ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.007.png)**
+
+**SALCS  SATUS  SALCS  SATUS** 
+
+**Adult X, Child** 
+
+1 adult, 0 children  6.8  5.9  **Education Level** 
+
+1 adult, 1 child  1.8  1.5  Primary school or less  32.7  29.5 1 adult, 2 children  1.9  1.5  Secondary s. incomplete  39.2  39.4 1 adult, 3+ children  2.6  1.7  Secondary s. complete  24.4  25.2 2 adults, 0 children  10.5  9.4  College+  3.7  5.9 2 adults, 1 child  7.4  6.5 
+
+2 adults, 2 children  7.7  7.2 
+
+2 adults, 3+ children  8.3  7.3  **Geographical Area** 
+
+3 adults, 0 children  5.2  5.7  Urban   63.98  65.59 3 adults, 1 child  5.8  5.1  Rural   36.02  34.41 3 adults, 2 children  4.5  5.3 
+
+3 adults, 3+ children  7.2  7.2  **Sex** 
+
+4+ adults, 0 children  5.0  5.0  Male   48.17  48.5 4+ adults, 1 child  5.6  6.7  Female   51.83  51.5 4+ adults, 2 children  6.6  6.7 
+
+4+ adults, 3+ children  13.3  17.3  **Labor Force Participation** 
+
+Too young  15.72  14.26 **Age Group**   Employed   34.53  39.23 10–19  26.2  23.7  Not working  49.75  46.52 
+
+20–29  24.0  24.2 
+
+30–39  19.0  18.6 
+
+40–49  12.0  13.7 
+
+50-59  9.2  9.7 
+
+60–69  5.8  6.2 
+
+70+  3.8  4.0 ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.009.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.010.png)
+
+The majority of the statistics presented here suggest that there is reasonably good alignment between the household surveys and the time use data in both countries. For Ethiopia, this was expected, as the data has been reweighted to warrant balancing between the time use and household surveys. The statistics on the quality of matches shown in the next section compare the imputed and real distribution of time use based on the original survey weights, but restricted sample in the case of Ethiopia. 
+
+11 
+
+4. **MATCH QUALITY** 
+1. **Methodology** 
+
+Statistical matching (also known as data fusion) is a widely used technique in empirical studies and has been applied in cases when no single survey contains all variables needed for drawing statistical inferences about a population. There are numerous empirical works in the economic field that have applied this strategy (see, for example, Rässler [2002] and, more recently, D’Orazio, Di Zio, and Scanu [2006]). 
+
+This method, which is similar to a single imputation method, consists of combining the information from two separate and independent surveys into a single synthetic dataset. This new dataset will have variables that are not otherwise available in standard surveys, as is the case for the analysis of consumption and time use data. The combination of the datasets is done using common information between both surveys, while trying to preserve the distributional characteristics of the combined information under the assumption that both surveys represent the same population. 
+
+The algorithms that can be used to perform statistical matching can broadly be classified into two groups. The first one is known as “unconstrained statistical matching.” This strategy frequently uses some type of distance criterion (propensity score matching, for example) so that the best possible candidate (based on observable characteristics) is chosen (often with replacement) from the donor file to be matched with the corresponding recipient observation. 
+
+The second group is known as “constrained statistical matching.” In this case, the strategy imposes the restriction that all observations, specifically their weighted representation from both the donor and recipient surveys, need to be used in the final match. This strategy often relies on a rank imputation, using broad strata variables to avoid undesirable matches.[^5] This paper uses the methodology proposed in Kum and Masterson (2010), which has been used in the estimation of the Levy Institute Measure of Economic Well-Being (LIMEW) (Wolff and Zacharias 2003) and 
+
+12 
+
+Levy Institute Measure of Time and Consumption Poverty (LIMTCP) (Zacharias, Masterson, and Memis 2014).  
+
+2. **Matching Rounds** 
+
+We now turn our attention to the match process and results. We start by looking at the distribution of matched records by matching round. While one would prefer to have a larger share of the observations be matched during the first steps of the matching algorithm, thus ensuring a higher quality match, the rate at which observations are matched can vary based on the restrictions that can be imposed on strata variables. Figure 1, figure 2, and figure 3 present the share of observations in the household budgets that are matched during each round for Ethiopia and both years of South Africa. 
+
+For all countries, the bulk of the matches occur in the first round. For South Africa 2010, 54 percent of the observations are matched in the first round, whereas 57.5 percent are matched in the first round for South Africa 2000. For Ethiopia, 63.9 percent of the matches occur in the first round and an additional 27 percent matched in round four. This is somewhat lower than in other time use matches, (see, for example, Masterson [2010]), but it happens because of the higher than usual number of variables used in this first round of the match.[^6] Nevertheless, over 80 percent of the data is matched once we restrict the number of strata variables to six. All observations in the recipient files are matched to a donor from the time use data. 
+
+**Figure 1. Distribution of Matched Records by Matching Round, Ethiopia  ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.011.png)**
+
+70 100
+
+90
+
+60
+
+80
+
+50 70
+
+40 60
+
+50
+
+30 40
+
+Frequ20ency~~ 30
+
+Cum. Frequency 20
+
+10
+
+10
+
+0 0
+
+1 4 7 10 13 16 19 22 25 28 Round
+
+**Figure 2. Distribution of Matched Records by Matching Round, South Africa (2000) ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.012.png)**
+
+70 100
+
+90
+
+60
+
+80
+
+50 70
+
+40 60
+
+50
+
+Freq30uency 40
+
+20~~ 30 Cum. Frequency
+
+20
+
+10
+
+10
+
+0 0
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 Round
+
+**Figure 3. Distribution of Matched Records by Matching Round, South Africa (2010) ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.013.png)**
+
+60 100
+
+90 50
+
+80
+
+70 40
+
+60 30 50
+
+40
+
+Frequency
+
+20
+
+30 Cum. Frequency 20
+
+10
+
+10
+
+0 0
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 Round
+
+3. **Match Quality Assessment** 
+
+We now turn our attention to the assessment of the match quality for Ethiopia and South Africa. According to Rässler (2002, 2004), the quality of the statistical matching can be assessed based on the ability of the match to preserve the true individual values of the distribution (strongest test), the joint distribution of the transferred data, the correlation of the data, or the marginal distributions (weakest test). Since the true values of the transferred data—as well as the joint distribution or correlations—are unknown, we need to apply statistical matching, and we will assess the quality of the match based on comparisons of the marginal distribution of the transferred data (time use) across various selected household characteristics. 
+
+While there are different strategies that have been developed to assess the quality of the transferred data, including the comparison of the coefficients of potential explanatory econometric models (see Rios-Avila [2015] for an example of this alternative), in this paper we will analyze the ratio of the average (or some selected percentiles) value of the transferred variables over the true averages in the original sample. In this case, we report the ratios of household production components across many selected characteristics and strata variables.[^7] 
+
+**Table 5. Distribution of Weekly Hours of Household Production in Time Use Survey and Matched File** 
+
+|**Ethiopia** |**Gini** |**p10** |**p25** |**p50** |**p75** |**p90** |
+| - | - | - | - | - | - | - |
+|Matched |0\.411 |0 |0 |14\.0 |38\.5 |60\.7 |
+|Time use |0\.413 |0 |0 |14\.0 |37\.3 |60\.7 |
+|**South Africa 00** |**Gini** |**p10** |**p25** |**p50** |**p75** |**p90** |
+|Matched |0\.468 |0\.0 |3\.5 |11\.7 |28\.0 |49\.0 |
+|Time use |0\.468 |0\.0 |3\.5 |11\.7 |28\.0 |49\.0 |
+|**South Africa 10** |**Gini** |**p10** |**p25** |**p50** |**p75** |**p90** |
+|Matched |0\.459 |0\.0 |3\.5 |12\.3 |29\.2 |49\.0 |
+|Time use |0\.459 |0\.0 |3\.5 |12\.3 |29\.8 |49\.0 |
+
+Table 5 provides a comparison of the distribution of weekly hours of household production in the donor and matched file for the overall distribution for both Ethiopia and South Africa, specifically looking at different quantiles of the unconditional distribution. The Gini coefficient of the time spent on household production is also presented. First, the Gini coefficients are similar in the three cases and, not surprisingly, so are all the quantiles. The close balance of the overall distribution is expected, as the matching process guarantees an almost-perfect transference of the overall distribution from the time use to the household survey data.  
+
+**Table 6. Comparison of Mean Time use Variables and Matched Data** 
+
+|**Ethiopia** |**Care** |**Core** |**Procurement** |**Total Household Production** |
+| - | - | - | - | :-: |
+|Matched |3\.86 |17\.96 |0\.76 |22\.58 |
+|Time use |3\.87 |17\.68 |0\.73 |22\.28 |
+|Ratio |99\.8% |101\.6% |103\.6% |101\.4% |
+|**South Africa 00** |**Care** |**Core** |**Procurement** |**Total Household Production** |
+|Matched |2\.22 |15\.54 |0\.83 |18\.59 |
+|Time use |2\.21 |15\.53 |0\.85 |18\.59 |
+|Ratio |100\.6% |100\.0% |97\.5% |100\.0% |
+|**South Africa 10**  |**Care** |**Core** |**Procurement** |**Total Household Production** |
+|Matched |2\.02 |15\.63 |0\.98 |18\.63 |
+|Time use |1\.99 |15\.70 |1\.01 |18\.70 |
+|Ratio |101\.1% |99\.6% |97\.2% |99\.6% |
+
+Table 6 breaks down household production into the three categories, namely care (child care, elder care, etc.), procurement (shopping, etc.), and core (cooking, cleaning, laundry, etc.), and compares the donor–recipient ratio of averages for both countries. We see that for all the time use aggregates, the differences in the averages of the synthetic and original file variables are small, with the largest proportional difference observed for procurement (about 3.5 percent across all countries). This shouldn’t be considered as a problem because less than an hour per day (on average) is dedicated to procurement. 
+
+In figure 4, figure 5, and figure 6, we present boxplot representations of the distribution of time use on household production by number of adults and number of children. A visual inspection of these data suggests the quality of the match data is high, but that the distribution observed in the recipient files seems smoother compared to the distribution from the donor data. There are a few observable misalignments around the edge of the distribution (3+ children or 4+ adults), but the distribution across characteristics appears to follow similar trends. 
+
+**Figure 4. Household Production by Type of Household, Matched vs. Time Use, Ethiopia** ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.014.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.015.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.016.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.017.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.018.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.019.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.019.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.018.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.017.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.020.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.020.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.021.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.022.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.023.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.024.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.023.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.024.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.025.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.025.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.027.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.027.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.028.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.028.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.029.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.029.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.031.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.032.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.031.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.032.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.031.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.033.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.031.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.033.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.034.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.031.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.031.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.034.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.035.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.036.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.035.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.036.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.037.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.037.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.038.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.038.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.039.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.040.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.041.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.041.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.042.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.043.png)
+
+**Figure 5. Household Production by Type of Household, Matched vs. Time Use, South Africa (1998–2000) ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.044.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.016.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.015.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.020.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.017.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.018.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.019.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.020.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.017.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.018.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.019.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.021.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.022.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.045.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.045.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.046.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.046.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.047.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.047.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.048.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.048.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.049.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.049.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.050.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.036.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.036.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.050.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.038.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.038.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.041.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.041.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.051.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.051.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.052.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.052.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.053.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.053.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.054.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.054.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.056.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.056.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.039.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.040.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.057.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.057.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.043.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.042.png)**
+
+**Figure 6. Household Production by Type of Household, Matched vs. Time Use, South Africa (2010–15) ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.058.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.015.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.016.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.020.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.017.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.019.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.019.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.020.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.018.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.018.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.017.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.021.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.022.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.045.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.046.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.046.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.045.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.047.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.047.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.048.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.048.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.049.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.049.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.030.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.050.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.036.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.050.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.036.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.038.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.038.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.041.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.041.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.051.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.026.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.051.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.052.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.053.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.052.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.053.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.054.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.054.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.056.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.056.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.039.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.040.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.055.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.057.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.057.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.043.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.042.png)**
+
+An alternative analysis is to estimate the average (median) household production ratios conditional on a few important strata variables. In table 7, table 8, and table 9, we present these ratios for Ethiopia and South Africa as a function of the number of children, the number of adults, individual employment status, sex, and geographical area. We can see that all the ratios of average values of the selected variables fall within a very narrow band of under 10 percent, with only few exceptions. In Ethiopia, the largest differences can be observed for households with four or more adults living in the household (17 percent and 21 percent). In South Africa, for both years, we observe that all gaps remain within the 10 percent gap. Looking instead into the ratios of the median values shows that there are few cases with gaps above 10 percent, but we also observe a larger share of narrower gaps, suggesting high match quality. 
+
+20 
+**Table 6. Mean and Median Weekly Hours of Household Production by Selected Strata** 
+
+**Variables, Ethiopia** 
+
+|**Average** ||||||||||||||||
+| - | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- |
+|<p>**Number of Children** </p><p>**1 child** </p><p>**3 children** </p><p>**3 children** </p><p>**4+ children Number of Adults** </p><p>**2 adults** </p><p>**3 adults** </p><p>**4 adults** </p><p>**5+ adults** </p>||<p>**Matched**  </p><p>23\.14 21.49 22.80 22.81 </p><p>24\.22 21.10 21.63 18.05 </p>|<p>**Time Use**  22.83 23.15 21.66 22.13 </p><p>25\.11 20.16 18.37 14.82 </p>||<p>**Ratio** 101.4% 92.8% 105.3% 103.1% </p><p>96\.5% 104.7% 117.7% 121.8% </p>||<p>**2/1 3/1 4+/1** </p><p>**3/2 4/2 5+/2** </p>|<p>**Matched**  </p><p>0\.93 0.99 0.99 </p><p>0\.87 0.89 0.75 </p>||<p>**Time Use**  </p><p>1\.01 0.95 0.97 </p><p>0\.80 0.73 0.59 </p>||||||
+|<p>**Employment status** </p><p>**Not employed Employed** </p>||25\.46 20.98 |24\.24 21.16 ||105\.0% 99.1% |**Emp/Nemp** |0\.82 ||0\.87 |||||||
+|<p>**Sex** </p><p>**Male Female** </p>||10\.97 34.66 |11\.16 33.77 ||98\.3% 102.6% |**Fem/Male** |3\.16 ||3\.03 |||||||
+|<p>**Rural/Urban** </p><p>**Urban Rural** </p>||18\.54 23.55 |18\.48 23.16 ||100\.3% 101.7% |**Rural/Urb** |1\.27 ||1\.25 |||||||
+|**Average** ||||||||||||||||
+|<p>**Number of Children** </p><p>**1 child** </p><p>**3 children** </p><p>**3 children** </p><p>**4+ children Number of Adults** </p><p>**2 adults** </p><p>**3 adults** </p><p>**4 adults** </p><p>**5+ adults** </p>||<p>**Matched**  </p><p>14\.00 12.25 14.01 14.82 </p><p>16\.33 13.42 14.00 7.00 </p>|<p>**Time Use**  14.00 14.23 14.00 14.00 </p><p>17\.50 12.59 9.33 7.00 </p>||<p>**Ratio** 100.0% 86.1% 100.1% 105.8% </p><p>93\.3% 106.6% 150.0% 100.0% </p>||<p>**2/1 3/1 4+/1** </p><p>**3/2 4/2 5+/2** </p>|<p>**Matched**  </p><p>0\.88 1.00 1.06 </p><p>0\.82 0.86 0.43 </p>||<p>**Time Use**  </p><p>1\.02 1.00 1.00 </p><p>0\.72 0.53 0.40 </p>||||||
+|<p>**Employment status** </p><p>**Not employed Employed** </p>||18\.67 12.83 |15\.17 14.00 ||123\.1% 91.7% |**Emp/Nemp** ||0\.69 ||0\.92 ||||||
+|<p>**Sex** </p><p>**Male Female** </p>||1\.40 32.67 |1\.17 30.80 ||119\.9% 106.1% |**Fem/Male** ||23\.35 ||26\.40 ||||||
+|<p>**Rural/Urban** </p><p>**Urban Rural** </p>||7\.00 15.75 |7\.00 15.17 ||100\.0% 103.8% |**Rural/Urb** ||2\.25 ||2\.17 ||||||
+
+21 
+**Table 7. Mean and Median Weekly Hours of Household Production by Selected Strata** 
+
+**Variables, South Africa (1998–2000)** 
+
+|**Average** ||||||||||||||||||
+| - | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- |
+|<p>**Number of Children  Matched    Time Use**   </p><p>**No children**  16.64  16.85 </p><p>**1 child**  18.63  19.58 </p><p>**2 children**  18.70  18.58 </p><p>**3+ children**  19.45  19.10 **Number of Adults** </p><p>**1 adult**  19.38  20.76 **2 adults**  18.04  19.06 **3 adults**  18.22  18.52 **4+ adults**  19.06  17.31 </p>||<p>**Ratio** </p><p>98\.8% 95.1% 100.7% 101.9% </p><p>93\.3% 94.7% 98.4% 110.1% </p>||<p>**2/1 3/1 4+/1** </p><p>**3/2 4/2 5+/2** </p>|<p>**Matched**   </p><p>1\.12 1.12 1.17 </p><p>0\.93 0.94 0.98 </p>||<p>**Time Use**   </p><p>1\.16 1.10 </p><p>1\.13 </p><p>0\.92 0.89 0.83 </p>|||||||||||
+|<p>**Employment status** </p><p>**Not employed Employed** </p>||22\.68 15.13 |24\.04 16.22 ||94\.4% 93.3% |**Emp/Nemp** ||0\.67 ||0\.67 ||||||||
+|<p>**Sex** </p><p>**Male Female** </p>||9\.69 26.70 |9\.70 26.41 |99\.9% 101.1% |**Fem/Male** ||2\.75 ||2\.72 |||||||||
+|<p>**Rural/Urban** </p><p>**Urban Rural** </p>||16\.91 20.78 |16\.73 21.13 ||101\.1% 98.4% |**Rural/Urb** ||1\.23 ||1\.26 ||||||||
+|**Median** ||||||||||||||||||
+|<p>**Number of Children  Matched** </p><p>**No children**  11.67 </p><p>**1 child**  10.50 </p><p>**2 children**  10.50 </p><p>**3+ children**  12.25 **Number of Adults** </p><p>**1 adult**  14.00 **2 adults**  10.50 **3 adults**  10.50 **4+ adults**  11.67 </p>|<p>**Time Use** </p><p>12\.25 12.25 11.08 10.50 </p><p>14\.00 12.25 10.50 9.92 </p>||<p>**Ratio** </p><p>95\.2% 85.7% 94.7% 116.7% </p><p>100\.0% 85.7% 100.0% 117.6% </p>||<p>**2/1 3/1 4+/1** </p><p>**3/2 4/2 5+/2** </p>|<p>**Matched** </p><p>0\.90 0.90 1.05 </p><p>0\.75 0.75 0.83 </p>||<p>**Time Use** </p><p>1\.00 0.90 0.86 </p><p>0\.88 0.75 0.71 </p>||||||||||
+|<p>**Employment status** </p><p>**Not employed Employed** </p>||16\.92 8.75 |18\.96 9.92 ||89\.2% 88.2% |**Emp/Nemp** ||0\.52 ||0\.52 ||||||||
+|<p>**Sex** </p><p>**Male Female** </p>||5\.25 22.17 |5\.25 21.58 ||100\.0% 102.7% |**Fem/Male** ||4\.22 ||4\.11 ||||||||
+|<p>**Rural/Urban** </p><p>**Urban Rural** </p>||10\.50 14.00 |10\.50 14.00 ||100\.0% 100.0% |**Rural/Urb** ||1\.33 ||1\.33 ||||||||
+
+22 
+**Table 8. Mean and Median Weekly Hours of Household Production by Selected Strata** 
+
+**Variables, South Africa (2010–15)** 
+
+|**Average** ||||||||||||||||||||||
+| - | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- | :- |
+|<p>**Number of Children** </p><p>**No children** </p><p>**1 child** </p><p>**2 children** </p><p>**3+ children Number of Adults** </p><p>**1 adult** </p><p>**2 adults** </p><p>**3 adults** </p><p>**4+ adults** </p>|<p>**Matched**  </p><p>16\.78 18.94 18.85 19.74 </p><p>17\.73 17.60 18.40 19.92 </p>|<p>**Time Use**  </p><p>17\.43 19.17 18.95 19.35 </p><p>19\.59 19.79 18.40 17.34 </p>||<p>**Ratio** </p><p>96\.3% 98.8% 99.5% 102.0% </p><p>90\.5% 89.0% 100.0% 114.8% </p>||<p>**2/1 3/1 4+/1** </p><p>**3/2 4/2 5+/2** </p>||<p>**Matched**  </p><p>1\.13 1.12 1.18 </p><p>0\.99 1.04 1.12 </p>|<p>**Time Use**  </p><p>1\.10 1.09 1.11 </p><p>1\.01 0.94 0.89 </p>|||||||||||||
+|<p>**Employment status** </p><p>**Not employed Employed** </p>||24\.30 14.13 |24\.89 13.17 ||97\.6% 107.3% |**Emp/Nemp** ||||0\.58 |0\.53 |||||||||||
+|<p>**Sex** </p><p>**Male Female** </p>||10\.57 26.22 |10\.70 26.14 ||98\.8% 100.3% |**Fem/Male** ||||2\.48 |2\.44 |||||||||||
+|<p>**Rural/Urban** </p><p>**Urban Rural** </p>||17\.80 20.21 |18\.00 19.95 ||98\.9% 101.3% |**Rural/Urb** ||||1\.14 |1\.11 |||||||||||
+|**Median** ||||||||||||||||||||||
+|<p>**Number of Children** </p><p>**No children** </p><p>**1 child** </p><p>**2 children** </p><p>**3+ children Number of Adults** </p><p>**1 adult** </p><p>**2 adults** </p><p>**3 adults** </p><p>**4+ adults** </p>|<p>**Matched**  </p><p>12\.25 12.25 10.50 12.25 </p><p>12\.25 10.50 11.38 13.42 </p>|<p>**Time Use**  </p><p>12\.25 12.25 10.50 12.25 </p><p>14\.00 13.42 10.50 10.50 </p>||<p>**Ratio** 100.0% 100.0% 100.0% 100.0% </p><p>87\.5% 78.3% 108.3% 127.8% </p>||<p>**2/1 3/1 4+/1** </p><p>**3/2 4/2 5+/2** </p>||<p>**Matched**  </p><p>1\.00 0.86 1.00 </p><p>0\.86 0.93 1.10 </p>|<p>**Time Use**  </p><p>1\.00 0.86 1.00 </p><p>0\.96 0.75 0.75 </p>|||||||||||||
+|<p>**Employment status** </p><p>**Not employed Employed** </p>|19\.25 8.17 |21\.00 7.00 ||91\.7% 116.7% |Emp/Nemp |||0\.42 |0\.33 |||||||||||||
+|<p>**Sex** </p><p>**Male Female** </p>|5\.25 21.00 |5\.25 21.00 ||100\.0% 100.0% |**Fem/Male** |||4\.00 |4\.00 |||||||||||||
+|<p>**Rural/Urban** </p><p>**Urban Rural** </p>|10\.50 14.00 |10\.50 14.00 ||100\.0% 100.0% |**Rural/Urb** |||1\.33 |1\.33 |||||||||||||
+
+While the results in table 6, table 7, and table 8 provide a reasonable overview of the quality of the transferred time use data, it is still rather restrictive, as it only shows results for a select group of variables. In an attempt to provide a more comprehensive overview of the marginal distribution across all the categorical variables involved in the matching process, including a few variable combinations, we provide a kernel density of all ratios, weighted by the number of 
+
+23 
+
+observations used for the ratio in each category. Thus, ratios that represent a more comprehensive group, say men or women, will have more weight on the kernel density compared to the ratio of young unemployed women living in rural areas. This information is presented in figure 7, figure 8, and figure 9. 
+
+**Figure 7. Density of Ratios of Mean Household Production (matched/time use), Ethiopia ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.059.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.060.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.061.png)**
+
+![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.062.png)
+
+**Note:** Figure uses kernel density of the ratio of hours of household production based on different variables used in the match. Each ratio is weighted by the number of people in that particular group. ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.063.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.064.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.065.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.066.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.067.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.068.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.069.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.070.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.071.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.072.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.073.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.074.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.075.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.076.png)
+
+**Figure 8. Density of Ratios of Mean Household Production (matched/time use), South Africa (1998–2000) ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.077.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.078.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.068.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.065.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.079.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.080.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.069.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.070.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.081.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.073.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.082.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.083.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.084.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.085.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.086.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.060.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.061.png)**
+
+**Note:** Figure uses kernel density of the ratio of hours of household production based on different variables used in the match. Each ratio is weighted by the number of people in that particular group. 
+
+24 
+
+**Figure 9. Density of Ratios of Mean Household Production (matched/time use), South Africa (2010–15)  ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.087.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.060.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.061.png)**
+
+**Note:** Figure uses kernel density of the ratio of hours of household production based on different variables used in the match. Each ratio is weighted by the number of people in that particular group. ![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.064.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.063.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.066.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.065.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.088.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.068.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.069.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.089.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.070.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.072.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.073.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.084.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.085.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.086.png)![](Aspose.Words.53154230-bd1d-4bf3-a91f-9b7347aabe51.090.png)
+
+Based on figures 7–9, the examination of the quality of the match within population subgroups shows generally good results. In both countries, the largest share of the distribution falls within the 10 percent difference between the matched and donor data, and almost all the ratios fall within the 20 percent difference. Ethiopia does show a somewhat asymmetric distribution, which suggests that even after restricting the sample and reweighting, some structural differences between the ETUS and ESS remain, but they are small. While there are a few observations that fall beyond this interval for all countries—observed in the long tails of the distribution—they represent very small segments of the population or often involve gaps that are small in magnitude. It should be expected that such a difference would not affect the conclusions of the matching results.  
+
+5. **CONCLUSIONS** 
+
+This paper presents the application and quality assessment of the statistical matching algorithm used to combine the household survey data and time use data for Ethiopia and South Africa as part of a project to obtain comprehensive estimates on time and income poverty. These countries required special attention because of the peculiarities of each’s survey structure. For Ethiopia, data had to be restricted to married couple households with children, whereas in South Africa one only had access to information on up to two members per household.  
+
+Overall, for both Ethiopia (reweighted) and South Africa, the household survey data and time use data are well aligned, which warrants the implementation of the statistical matching. Based on the statistics presented here, the matching quality is good, showing strong balance across different household characteristics. There are, however, a few large imbalances that are isolated in small groups. Despite its limitations for some small groups, in general the statistical matching procedure does a good job in transferring the distribution of hours of household production for both countries.  
+
+**REFERENCES**  
+
+Central Statistical Agency of Ethiopia. 2014. “Ethiopia Time Use Survey 2013: How women and 
+
+men spend their time.” Report. Addis Ababa: Central Statistical Agency of Ethiopia. Available at: https://www.timeuse.org/sites/ctur/files/public/ctur\_report/9414/ethiopian\_time\_use\_surv ey\_report\_2014.pdf 
+
+———. 2017a. “Ethiopia Socioeconomic Survey—Wave 3 (ESS3)—2015–2016.” Public Use 
+
+Dataset. Ref: ETH\_2015\_ESS\_v02\_M. Available at: https://microdata.worldbank.org/index.php/catalog/2783. Accessed July 1, 2019. 
+
+———. 2017b. “LSMS—Integrated Surveys on Agriculture Ethiopia Socioeconomic Survey 
+
+(ESS) 2015/2016.” Public Use Dataset. Available at https://microdata.worldbank.org/index.php/catalog/2783/download/48263.  
+
+D’Orazio, M., M. Di Zio, and M. Scanu. 2006. *Statistical Matching: Theory and Practice.* 
+
+Chichester, UK: Wiley. 
+
+Kum, H., and T. N. Masterson. 2010. “Statistical matching using propensity scores: Theory and 
+
+application to the analysis of the distribution of income and wealth.” *Journal of Economic and Social Measurement* 35(3): 177–96.  
+
+Masterson, T. N. 2010. “Quality of Match for Statistical Matches Used in the 1992 and 2007 
+
+LIMEW Estimates for the United States.” Levy Institute Working Paper 618. Annandale- on-Hudson, NY: Levy Economics Institute of Bard College. 
+
+Rässler, S. 2002. *Statistical matching: A frequentist theory, practical applications, and* 
+
+*alternative Bayesian approaches*. New York: Springer. 
+
+———. 2004. “Data Fusion: Identification Problems, Validity, and Multiple Imputation.” 
+
+*Austrian Journal of Statistics* 33(1, 2): 153–71. 
+
+Rios-Avila, F. 2015. “Quality of Match for Statistical Matches Using the Consumer Expenditure 
+
+Survey 2011 and Annual Social Economic Supplement 2011.” Levy Institute Working Paper 830. Annandale-on-Hudson, NY: Levy Economics Institute of Bard College. 
+
+———. 2016. “Quality of Match for Statistical Matches Used in the Development of the Levy 
+
+Institute Measure of Time and Consumption Poverty (LIMTCP) for Ghana and Tanzania.” Levy Institute Working Paper 873. Annandale-on-Hudson, NY: Levy Economics Institute of Bard College. 
+
+Statistics South Africa. 1998. “October Household Survey 1998, Version 1.1.” Dataset. Pretoria 
+
+and Cape Town: Statistics South Africa (formerly Central Statistical Service) and DataFirst. Available at: https://doi.org/10.25828/xc07-zq48 
+
+———. 2000. “October Household Survey 1998—Release.” Pretoria and Cape Town: Statistics 
+
+South Africa (formerly Central Statistical Service) and DataFirst. Available at: https://www.datafirst.uct.ac.za/dataportal/index.php/catalog/63/download/2782 
+
+———. 2001a. Time use survey 2000 [dataset]. Version 1. Pretoria and Cape Town: Statistics 
+
+South Africa (formerly Central Statistical Service) and DataFirst. Available at: https://doi.org/10.25828/tjdv-k836 
+
+———. 2001b. “A Survey of Time Use: How South African women and men spend their time.” 
+
+Report. Pretoria: Statistics South Africa. Cape Town. Available at: https://www.datafirst.uct.ac.za/dataportal/index.php/catalog/116/download/10869.   
+
+———. 2013. “A Survey of Time Use—2010.” Report. Pretoria: Statistics South Africa. 
+
+Available at: https://www.datafirst.uct.ac.za/dataportal/index.php/catalog/497/download/10872.  
+
+———. 2016. “Time use survey 2010, Version 1.2.” Dataset. Pretoria and Cape Town: Statistics 
+
+South Africa (formerly Central Statistical Service) and DataFirst. Available at: https://doi.org/10.25828/sed9-z823 
+
+———. 2017a. “Living Conditions Survey 2014–2015, Version 1.1.” Dataset. Pretoria and Cape 
+
+Town: Statistics South Africa (formerly Central Statistical Service) and DataFirst. Available at: https://doi.org/10.25828/9229-xz60 
+
+———. 2017b. “Living Conditions Survey 2014–2015—Release. Living Conditions of 
+
+Households in South Africa: An analysis of household expenditure and income data using the LCS 2014/2015.” Report. Cape Town: Statistics South Africa (formerly Central Statistical Service) and DataFirst. Available at: https://microdata.worldbank.org/index.php/catalog/2882/download/40692. 
+
+Wolff, E. N., and A. Zacharias. 2003. “The Levy Institute Measure of Economic Well-Being.” 
+
+Levy Institute Working Paper 372. Annandale-on-Hudson, NY: Levy Economics Institute of Bard College. 
+
+Zacharias, A., T. N. Masterson, and E. Memis. 2014. “Time Deficits and Poverty: The Levy 
+
+Institute Measure of Time and Consumption Poverty for Turkey.” Levy Institute Research Project Report, May. Annandale-on-Hudson, NY: Levy Economics Institute of Bard College.  
+
+Zacharias, A., T. N. Masterson, F. Rios-Avilla, and A. Oduro. Forthcoming. “Scope and Effects 
+
+of Reducing Time Deficits via Intrahousehold Redistribution of Household Production: Evidence from Sub-Saharan Africa.” Research project report. Annandale-on-Hudson, NY: Levy Economics Institute of Bard College.  
+28 
+
+[^1]: See Kum and Masterson (2010) for details of the statistical matching procedure that we use.  
+[^2]: In specific, the ETUS reports a larger presence of children under ten years of age, higher rate of married individuals, and lower rates of formal education compared to the ESS. 
+[^3]: In principle, the algorithm used for the creation of the weights adjusts sample weights so that a single variable in a list of covariates is balanced at a time until all variables in the list are used. The process is repeated until there is no significant weight adjustment for any of the variables in the list.  
+[^4]: This is the case for Ethiopia. 
+[^5]: The hot deck matching uses ranked information based on some auxiliary information, such as the propensity score. For further details on the matching procedure, see Kum and Masterson (2010). 
+[^6]: In a typical time use match (as in Masterson [2010]), only five variables are used, yielding a total of 32 matching cells. For Ethiopia and South Africa more variables are used as matching strata, which results in the smaller rate of matching in the first rounds. For a similar pattern of match, see Rios-Avila (2015, 2016). 
+[^7]: Ratios around 100 percent are considered signals for good quality of the match. As a general rule, we use a confidence interval from 80–120 percent for such assessment. 

@@ -1,0 +1,874 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  11pt,
+]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{3}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Levy Income Measure of Time and Income Poverty: United States},
+  pdfauthor={Fernando Rios-Avila; Aashima Sinha},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Levy Income Measure of Time and Income Poverty: United States}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Sources, Methods and Assessment}
+\author{
+Fernando Rios-Avila\\
+Levy Economics Institute\\
+\\
+\and 
+Aashima Sinha\\
+Levy Economics Institute\\
+\\
+}
+\date{Invalid Date}
+\begin{document}
+
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
+%Ipsum lorem
+
+\maketitle
+\begin{abstract}
+In this paper we present the match quality assessment of the
+statistically matched data used to construct the LIMTIP estimates for
+the United States, specifically for those for 2022. Using a statistical
+matching procedure, we construct a synthetic dataset by combining the
+American Time-Use Survey (ATUS) 2021 with Annual Social and Economic
+Supplement (ASEC) 2022. First, we examine the alignment of the ATUS
+(weekday and weekend) and both datasets across important demographic
+characteristics. Next, we briefly describe results from the matching
+algorithm. We conclude by comparing the marginal distributions of time
+use between the ATUS and the synthetic dataset. Our results suggest that
+our statistical matching procedure yielded a high quality of match and
+the constructed synthetic dataset is appropriate for time poverty
+analysis. While not presented here, similar assesments were constructed
+for the ASEC matching from 2005 to 2021.
+\end{abstract}
+ 
+\vspace{.2in}
+
+\setcounter{tocdepth}{2}
+
+
+
+\thispagestyle{empty}
+\clearpage\pagenumbering{arabic}
+\newpage
+\spacingset{1.2} % DON'T change the spacing!
+\section{Introduction}\label{introduction}
+
+In this paper, we describe the methodology behind the construction of
+the Levy Institute Measure of Time and Income Poverty (LIMTIP) for
+United States.
+
+the construction of synthetic dataset created for use in estimation of
+the Levy Institute Measure of Time and Income Poverty (LIMTIP) for
+United States. The LIMTIP presents a comprehensive understanding of
+households' poverty status by measuring a unique estimates of time and
+income poverty combined. Construction of LIMTIP estimates requires a
+variety of information at the household and individual level. In
+addition to demographic characteristics, the estimation process requires
+information about income and time use. However, no single datset has
+access to comprehensive information of this type for all household
+members across time. To produce LIMTIP estimates, we first construct a
+synthetic data file by employing a statistical matching procedure to
+match two source datasets: the base or recipient data (ASEC), contains
+detailed demographic and income/consumption data for households and
+individuals; and the donor data (ATUS) contains individuals' time
+allocation in a range of daily activities including paid work, unpaid
+care, domestic chores, leisure, self-care, and socializing. Using
+variables that are common to both datasets we use statistical matching
+to create a unique synthetic dataset that combines information from both
+sources. Using this dataset, we can extract patterns of time use and
+income/consumption for all household members. This in turn is useful to
+study gender differences in sharing of household production among other
+activities.
+
+\section{The nature of Time Poverty and Income
+Poverty}\label{sec-timepoverty}
+
+Why do we care about Time poverty
+
+\subsection{Accounting for Time in Poverty
+Measurement}\label{accounting-for-time-in-poverty-measurement}
+
+As expressed earlier, Poverty is a multidimensional concept that goes
+beyond the simple lack of income. In addition to income, poverty can be
+understood as a lack of access to resources, including time. From the
+LIMPTIP perspective, Time poverty refers to the lack of time people may
+have to engage on activities that are essential for taking care of the
+household, its household members, self-care, and work.
+
+As with any other measures of poverty, it is necessary to identify a
+threshold that one can use to determine if the resources available by a
+person or household should be classified as poor or non poor. In the
+case of time, however, thinking about a threshold is less approrpiate,
+because all individuals have the same amount of time available to them.
+
+The approach that we have taken for the construction of the LIMTIP has
+been to identify the time balance people face after considering the time
+spent on essential activities. People with a negative balance are
+considered time poor. We express the weekly time balance of individual
+\(i\) in household \(j\), \(X_{ij}\), as:
+
+\begin{equation}\phantomsection\label{eq-bal}{X_{ij} = 168 - M - \alpha_{ij}R_j-D_{ij}^0(L_{ij}+T_{ij})
+}\end{equation}
+
+where 168 is the number of hours in a week, \(M\) the sum of personal
+care and nonsubstitutable household production requirements. This may
+include time required for sleep, eating, personal hygiene, etc. \(R_j\)
+is the required time of household production that a family \(j\) needs
+to mantain the household. This may include time required for cooking,
+cleaning, shopping, as well as time required for taking care of
+household members, plus the time required to travel related to this
+activities. Implicitly, any member of the household can engage in this
+activities. \(\alpha_{ij}\) is the share of individual \(i\) in the
+household production requirements. The equation also accounts for time
+required for employment and commuting, where \(D_{ij}\) is the dummy
+variable that takes a value of 1 if the person is employed and zero
+otherwise, \(L_{ij}\) are the hours of employment, and \(T_{ij}\) the
+hours of commuting.
+
+To implement this measure, we need a dataset that contains information
+on time use, in addition to standard information required for poverty
+analysis. As mentioned earlier, the main source of information for time
+use comes from the American Time Use Survey (ATUS), which only provides
+information for a single person in the household, and a single day. As
+it will be described in Section~\ref{sec-smatch}, it is necessary to
+combine the ATUS with the ASEC data to construct a synthetic dataset
+that contains information on time use for all household members, which
+will allow us to impute all required variables for
+Equation~\ref{eq-bal}.
+
+\subsection{Time balance
+Implementation.}\label{time-balance-implementation.}
+
+Even with the synthetic dataset, it is necessary to impose some
+restrictions for the proper identification of the elements in
+Equation~\ref{eq-bal}. First, \(R_j\) represents the required hours that
+a family with a specific household structure needs (Number of adult,
+children and eldery). To better identify the requirements of a typical
+household, \(R_j\) is estimated as the expected number of hours, given
+the family structure, that a family with income around the poverty-level
+(75-150\%), with a fall back/ and person, enganges on household
+production. The requirements may reflect some extent of outsourcing of
+household responsibilities. Instances of outsourcing may include
+consumer purchases of substitutes that they can afford.
+
+To caculate the actual share of household production requirements that
+each individual is responsible for, we use the estimated \(R_j\)
+multiplied by \(\alpha_{ij}\), which is the effective share of household
+production requirements that each individual is responsible for. This is
+estimated as the ratio of the individual's (imputed) time spent on
+household production to the total time spent on household production by
+all household members.
+
+\(M\) represent the time required for personal care and nonsubstitutable
+household production requirements, which can be typically obtained by
+assumption, or using average hours based on a particular year data.
+
+The time required for employment and commuting is calculated as total
+time spend on employment and commuting, also based on the time use
+survey. It may consider heterogeneity based on full and part time
+employment, as well as heterogeneity across regions and years.
+
+\subsection{Time Poverty}\label{time-poverty}
+
+Once the time balance is calculated, time poor individuals are
+identified as those with a negative time balance or time deficits. It
+may useful to clarify that this time balances reflect the theoretical
+deficit individuals may face under typical time requirements, thus it
+does not account for how individuals may actually allocate their time.
+
+In addition to individual time poverty status, we may also be interested
+in the time poverty status of the household. To measure the poverty
+status and poverty degree suffered by a household, we impose the
+assumption that the deficits or superatives people face cannot be
+exchanged across household members. In this case, we may consider a
+household to be time poor if at least one of its members is time poor.
+This is a more conservative approach, as it may be the case that some
+members of the household are time poor, while others are not.
+
+Formally,the time deficit experienced by a household \(j\) is defined
+as:
+
+\begin{equation}\phantomsection\label{eq-hhdef}{X_j = \sum_{i=1}^{j_n} \min(X_{ij},0)
+}\end{equation}
+
+where \(j_n\) is the number of individuals in the household. The time
+poverty status of the household is then defined as if \(X_j < 0\), which
+may indicate at least one member of the household is time poor.
+
+\subsection{Adjusting for Income
+Poverty}\label{adjusting-for-income-poverty}
+
+Once household deficits have been calculated, it is possible to adjust
+for the standard income poverty measure. This process is done by
+adjusting the income poverty threshold monetazing the value of the time
+deficits. The adjusted poverty lines are then used to calculate the time
+and income poverty status of the household.
+
+Call \(Z_j\) the poverty line used to determine time poverty status for
+a household \(j\). The adjusted poverty that considers time poverty is
+then defined as:
+
+\begin{equation}\phantomsection\label{eq-adjpline}{Z_j^{adj} = z_j + (|X_j| * P_x)*\kappa
+}\end{equation}
+
+where \(P_x\) represents how much it would cost to buy an hour of time
+(services) in the market to cover the time deficit in terms of household
+production. \(\kappa\) is a parameter that adjusts the monetized value
+of the time deficit to the same time unit as the poverty line. For the
+case of the US-LIMTIP, we use a \(\kappa=52\), because the poverty line
+is defined as an annual threshold. The new poverty threshold is then
+used to calculate the time and income poverty status of the household.
+
+\subsection{Monetazing Time Deficits}\label{monetazing-time-deficits}
+
+How are Wages estimated. Sources of information.
+
+\section{Statistical Matching Methodology}\label{sec-smatch}
+
+As described in the previous section, the construction of the LIMTIP
+requires having access to standard income, employment, and poverty data,
+as well as time use data. While the ASEC provides detailed information
+on income, employment, and demographic characteristics, in addition to
+the extended measure of income and poverty, the suplemental poverty
+measure (SPM), it does not have any information on time use. The ATUS,
+on the other hand, provides detailed information on time use, but only
+for a single individual in the household, and for a single day. To
+construct the LIMTIP, it is necessary to impute the time use of all
+household members, so the methodology outlined in
+Section~\ref{sec-timepoverty} can be implemented.
+
+In this section, provide a brief description of the datasets used in the
+construction of the LIMTIP, and the statistical matching procedure used
+to combine the datasets.
+
+\subsection{Main Data Sources}\label{main-data-sources}
+
+The measurement of time and income poverty requires microdata on
+individuals and households with information on time spent on household
+production, time spent on employment, as well as household income. Given
+the importance of the intrahousehold division of labor, and the
+differences across single and dual earning households, it is necessary
+to have information on the time spent on household production by
+households members. While good information on household production was
+available in the American Time use Survey (ATUS) and good information
+regarding time spent on employment and household income is available in
+the Annual Social and Economic Supplement (ASEC) of the Current
+Population Survey (CPS), there is no single datasource that has all
+required information for the case of the US. Further more, while the
+ATUS does collect detailed information on time use, it only collects
+this information for a single day, and a single individual within the
+household. Because of this, further efforts are necessary to create a
+synthetic dataset that captures the time use of all household members,
+as well as estimating the capturing a good approximation of actitivities
+for a typical week, rather than a single day.
+
+A summary of the main characteristics of the data can be found in
+Table~\ref{tbl-t1}, with a brief description of ASEC and ATUS survey
+data in the next subsections. Both datasets were accessed through the
+Integrated Public Use Microdata Series (IPUMS) database (Flood et al.,
+2023).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\caption{Surveys used in the constructing the LIMTIP for the United
+States}\label{tbl-t1}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Survey
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Survey Subject
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Source
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sample Size
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Year
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Survey
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Survey Subject
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Source
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sample Size
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Year
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Americal Time Use Survey & Time-Use & U.S. Census Bureau/ IPUMS & 8,136
+Individuals & 2021 \\
+----- & ----- & ----- & ----- & ----- \\
+Annual Social and Economic Supplement (CPS-ASEC) & Income, Demographics,
+Employment & U.S. Census Bureau/IPUMS & Full Sample: XXXX Restricted
+Sample: 118,990 & 2022 \\
+\end{longtable}
+
+\subsubsection{Annual Social and Economic Supplement (ASEC) of the
+Current Population Survey
+(CPS)}\label{annual-social-and-economic-supplement-asec-of-the-current-population-survey-cps}
+
+The CPS is a monthly survey administered by the US Bureau of Labor
+Statistics. The survey collects comprehensive data on labor market
+situation including statistics related to employment and unemployment,
+the survey also collects detailed information on demographic
+characteristics (age, sex, race, and marital status), educational
+attainment, and family structure. Each household in the CPS is
+interviewed for four consecutive months, not interviewed for eight, and
+interviewed again for four additional months.
+
+In March of every year, the previously interviewed households answer
+additional questions, part of the ASEC supplement formerly known as the
+Annual Demographic File. In addition to the basic monthly information,
+this supplement provides additional data on work experience, income,
+noncash benefits, and migration. In 2014, the ASEC supplement went
+through a redesign of the income-collection questions. As described in
+Semega and Welniak (2013), for the ASEC 2014, of the nearly 98,000
+addresses in the sample, approximately one-third of the sample was
+randomly assigned to be eligible to receive the redesigned income
+questions. The remaining sample (approximately two-thirds) was eligible
+to receive the set of ASEC income questions used in previous years,
+referred to as the ``traditional income questions.'' For the statistical
+matching purposes, we use the second subsample.
+
+While we implement the statistical matching procedure for the ASEC from
+2005 to 2022, the present document only describes the results for the
+ASEC 2022 match. The ASEC 2022 is used as the base dataset (recipient),
+as it contains rich information regarding demographics and economic
+status, for every member of the household. For the matching process, we
+consider data for the household, rather than family, as the aggregated
+level that some demographics are constructed on. The matching, however,
+is done at the individual level, considering only individuals who are
+directly or indirectly related to the household head. This implies that
+nonrelatives living in the household are generally not considered in the
+matching process. Similarly, people not living in households, such as
+those living in institutions or group quarters, are not considered in
+the matching process either.
+
+\subsubsection{American Time Use Survey
+(ATUS)}\label{american-time-use-survey-atus}
+
+The ATUS is a survey sponsored by the Bureau of Labor Statistics and
+collected by the US Census Bureau. It is the first continuous survey on
+time use in the United States available since 2003. Its main objective
+is to provide nationally representative estimates of peoples' allocation
+of time among different activities, collecting information on what they
+did, where they were, and with whom they were over the course of a
+single day.
+
+The ATUS is administered to a random sample of individuals selected from
+a set of eligible households that have completed their final month's
+interviews for the CPS. Only one individual per household is selected to
+participate in the ATUS. This individual is at least 15 years old and is
+part of the civilian, noninstitutionalized population in the United
+States. To be able to obtain a representative picture of time use across
+one year, data collection is spread over the entire year, and
+individuals are requested to report data for either a weekday or a
+weekend day, but not both.
+
+The ATUS 2021, which contains a total of \textbf{xx} observations, is
+used as the donor dataset to obtain information regarding time use,
+which will be transferred to the ASEC 2022.
+
+\subsection{Statistical Matching}\label{statistical-matching}
+
+In order to create synthetic datasets that combine data from the
+different sources into a single dataset, we employ a methododology known
+as statistical matching. Statistical matching is a kind of
+non-parametric imputation method that allows combining information from
+two independent datasets, without impossing any distributional
+restrictions on the outcome variables. The basic idea of this
+methodology is to combine the information from two datasets, transfering
+information from one dataset (the donor) to another (the recipient). To
+do this observations across surveys must be paired/linked based on how
+similar (statistically similar) they are based on common and observed
+characteristics, taking into acount how many individuals a survey
+observation represents in the population (using Weights). Because of the
+peculiarities of the ATUS, we need to implement a double matching
+procedure, where each ASEC observation is matched to two ATUS
+observations, one for a weekday and one for a weekend day, with the
+expectation that this would better represent their typical activities
+over one year, which means treating the ATUS collected for a weekday and
+weekend day as two separate surveys.
+
+The basic Statistical matching setup consists of having access to two
+sources of data: survey A and survey B, which collect information from
+two independent samples of the same population. Survey A collects
+information \(Z, X\), whereas survey B collects information \(Z, Y\).
+Although both surveys collect common information \(Z\) (for example
+demographics), they each contain information on variables that are not
+observed jointly: \(X\) (Consumption) and \(Y\) (Time use). In this
+case, the goal of Statistical matching is to create synthetic data that
+will contain all information \(Y,X, Z\), linking observations across the
+datasets based on how close they are based on observed characteristics.
+It is also possible to constrain matches based on the weighted
+population each survey represents.
+
+In turn, this synthetic dataset should allow researchers to analyze
+otherwise unobservable relationships between, \(X\) and \(Y\), or as in
+our case, income and time use (D'Orazio et al., 2006; Rässler, 2002).
+Thus, inference on the relation between \(X\) and \(Y\) can only be done
+to the extent that \(Z\) explains most of the common variation between
+\(X\) and \(Y\).
+
+\subsubsection{Matching Algorithm}\label{matching-algorithm}
+
+As described in Lewaa et al. (2021), statistical matching could be
+considered as a non-parametric variation of the stochastic regression
+approach, where no specific distribution assumption is imposed, and the
+imputed values are drawn directly from the observed distribution in the
+donor file. In particular, we implement a variation of the
+rank-constrained statistical matching described in Kum and Masterson
+(2010), which improves on the approach by using a weight splitting
+approach in combination with clustering analysis for an automatic
+selection of strata groups in the approach.\footnote{ This is in
+  contrast with previous iterations of Statistical matching used for the
+  estimation of the LIMEW, which was based on ex-ante ad-hoc
+  stratification, last-match-unit approach}
+
+The statistical matching procedure applied for the paper is a multi-step
+process that can be explained as follows:
+
+\paragraph{Step 1: Data harmonization and weight
+adjustment}\label{step-1-data-harmonization-and-weight-adjustment}
+
+The first step involves harmonizing all common variables that will be
+used in the matching process and survey balancing. This is a necessary
+step in all imputation methods because variables need to have consistent
+definitions before they can be utilized for imputation.
+
+Furthermore, this step includes adjusting sample weights to ensure that
+the weighted population is the same across all surveys. The standard
+practice is to adjust the sample weights of the donor sample.
+Additionally, for technical reasons, the weights are adjusted to be
+whole numbers. While it is customary to adjust weights to match the
+total population, it may also be advisable to adjust weights to align
+with subpopulations based on selected strata variables.
+
+Lastly, it is recommended to verify if both the donor and recipient
+files truly represent the same population by comparing the means,
+variances, and proportions of key variables across both surveys. In
+instances where significant imbalances are observed, reweighted methods
+can be employed to improve the balance between the surveys. However,
+there is no definitive rule to determine when a discrepancy in the
+distribution constitutes a substantial imbalance.
+
+For the case of the US-LIMTIP, the ATUS sample weights are adjusted to
+match the population of 15 years or older individuals in the ASEC based
+on the individual \texttt{ASECWT}, excluding those not living in
+households, and those not related to the head of the household. To
+improve on the quality of the imputed data, we consider divide the ATUS
+sample into two groups: one from weekdays and one from weekend days,
+effectively matching each ASEC observation with two ATUS observations.
+This is done to account for the different patterns of time use that are
+observed.
+
+For the matching implementaion, weights are adjusted for each subsample
+separately, so that the weekday/weekend ATUS samples match the recipient
+(ASEC) weighted population. This weights are further adjusted based on
+three strata variables: gender of the respondant, if there is a child
+(\textless=17 years of age) in the household, and if the respondant
+declares to be working. The adjusted weights are used for the matching,
+but not for the balance assessment.
+
+\paragraph{Step 2: Strata and Cluster identification, and propensity
+score
+estimation}\label{step-2-strata-and-cluster-identification-and-propensity-score-estimation}
+
+The second step involves identifying statistically similar records based
+on \textbf{\emph{common}} observed characteristics. This is accomplished
+through a combination of three methodologies:
+
+\begin{itemize}
+\item
+  \textbf{Principal Component Analysis (PCA)}: PCA is utilized as a data
+  reduction technique to decrease the dimensionality of the
+  \textbf{\emph{common}} variables to a few linear combinations. While
+  there are numerous suggestions on determining the optimal number of
+  components, we select the first few components that explain
+  approximately 50\% of the data's variation. For the construction of
+  the LIMTIP, we consider variables related to household struture,
+  number of children of different ages and adults of different age
+  groups and gender in the household, employment status of the household
+  head and spouse (if present), level of household income, house
+  ownership. We also consider individual demographic characteristics
+  such as age, gender, race and education level.
+\item
+  \textbf{Cluster analysis}: Once the principal components are
+  estimated, they are employed to identify clusters within the dataset
+  using a k-means cluster iterative partition algorithm. A brief
+  description of the algorithm can be found in James et al. (2021).
+
+  As this algorithm only discovers locally optimal clusters and their
+  identification is influenced by random initial conditions, it has a
+  tendency to generate suboptimal clusters. To mitigate this issue, we
+  modify the algorithm by repeating the procedure a sufficient number of
+  times and selecting the ``optimal'' cluster based on the largest
+  Calinski-Harabasz pseudo-F index (Caliński and Harabasz, 1974). This
+  ensures that the chosen cluster maximizes intra-cluster similarity
+  while minimizing inter-cluster dissimilarity.
+
+  This procedure generates various sets of clusters of different sizes.
+  The clusters with the highest number of groups are prioritized in the
+  statistical matching procedure since they represent the most similar
+  records, while clusters with fewer groups are utilized in later stages
+  of the matching process.
+\item
+  \textbf{Propensity score matching:} To enhance the matching procedure,
+  we estimate a propensity score using a logit model. The dependent
+  variable in the model is a binary indicator that determines whether an
+  observation belongs to the donor or recipient file, while the
+  independent variables consist of all common variables Z (including
+  interactions or transformations). In the scenario where both surveys
+  can be considered random samples from the same population, the
+  expected coefficients for all variables should be zero or
+  statistically insignificant. However, due to sampling variability and
+  variations in survey design, it is common to observe variation in the
+  propensity score. The logit model and propensity score can be
+  estimated for the entire pooled survey or using the primary strata
+  variables.
+\end{itemize}
+
+\subsubsection{Step 3: Matching and weight
+splitting.}\label{step-3-matching-and-weight-splitting.}
+
+Once the propensity score has been estimated and the clusters and strata
+have been defined, we proceed with our matching algorithm. We start by
+creating cells, which combine the identifed strata and clusters from the
+previous step. The cells that combine the most detailed strata and
+clusters will be used first, as they would identify the most similar
+records. In addition to the Strata and clusters, this step may also
+consider using other variables that are not part of the main strata, but
+that are important reinforcing the similarity of the records during the
+matching process.\footnote{Specifically, one variable that was used
+  outside of the main Strata has been race and age, as it was found to
+  be important in the matching process. These variables are only used
+  for few rounds of matching, and are not part of the main strata.}
+
+Starting with the most detailed sets of cells, records within each cell
+are ranked in increasing order using the propensity score. Within each
+cell, a record with the lowest propensity score from the donor file is
+matched or linked to a record with the lowest propensity score in the
+recipient file. If both records have the same weight, they are
+considered as fully matched and removed from the donor or recipient
+pool. If the weights are different, the record (donor or recipient) with
+the lowest weight is removed from the pool, and the weight of the
+matched record is adjusted by subtracting the weight value of the
+excluded record. The record with the adjusted weight is retained in the
+pool for a subsequent match.
+
+This process of matching records and adjusting weights, if necessary,
+continues until there are no more donor or recipient records left in
+that cell. If there are unmatched records from the previous steps, the
+procedure is repeated using a less detailed cluster until all records
+from the donor and recipient files are matched. Once the matching is
+completed, we obtain a synthetic dataset where all records in the donor
+file are matched to potentially multiple records in the recipient files,
+and vice versa. Records matched at an earlier stage are considered to be
+the best matches, while those matched at later stages are considered to
+be less similar.
+
+For the final synthetic dataset, we select the ``best'' matched records
+for all the donor and recipient files. In general, records that were
+matched in the earlier stages (most detailed clusters) are considered to
+be better than those at later stages. In case of ties, records matched
+with the largest split weight are prefered. If further ties exist, the
+``best'' match is randomly chosen.
+
+Due to this step, some observations in the donor sample may not be used
+at all, while others may be used more frequently than their weight would
+suggest. However, if the sample sizes and weight structures across both
+files are similar, we can expect only minor discrepancies between the
+distribution of the imputed data in the donor and recipient datasets.
+Nevertheless, if the sample sizes differ significantly, it is advisable
+to use the largest file as the recipient file, which is our approach in
+the US-LIMTIP construction.
+
+The statistical matching procedure described above aims to impute all
+missing values in the recipient file by transferring the observed
+distribution of the imputed values from the donor file. After the
+matching process is completed, and best matches are selected, we obtain
+a dataset that contains unique identifiers for each record in the
+recipient and donor files. This identifiers allow us to link/transfer
+any information from the donor file to the recipient file. This is an
+advantage over more conventional imputation methods that require a
+separte imputation model for each variable.
+
+\subsection{Estimation of Time
+Deficits}\label{estimation-of-time-deficits}
+
+\section{Statistical Matching Quality Implementation and
+Assessment}\label{statistical-matching-quality-implementation-and-assessment}
+
+\subsection{Data Alignment}\label{data-alignment}
+
+In this section, we present the alignment of the ATUS (weekday and
+weekend) and the ASEC 2022 datasets across important demographic
+characteristics. The alignment is done to ensure that the two datasets
+are comparable and that the matching procedure is appropriate.
+
+** Need to create tables by Gender and all other break downs Genrder
+based ** On each one do ASEC ATUS Day Atus ATUS Weekend Plust Difference
+
+\section{Matching Procedure}\label{matching-procedure}
+
+Briely describe the Matching and the table for matching (Rounds, number
+of matches, etc)
+
+\section{Matching Quality Assessment}\label{matching-quality-assessment}
+
+Here we present the results for Matching Quality
+
+\section{Conclusions}\label{conclusions}
+
+This paper presents the quality assessment of the statistical matching
+procedure used to combine the household survey data and time use data
+for the United States to obtain comprehensive estimates on time and
+income poverty. Overall, the two datasets are well aligned, which
+warrants the implementation of the statistical matching. Based on the
+statistics presented here, the matching quality is good, showing strong
+balance across different household characteristics. There are, however,
+a few large imbalances that are isolated in small groups. Overall, we
+conclude that the statistical matching procedure employed has precisely
+imputed time-use estimates for the household survey, which in turn
+contributed towards producing an insightful measure of poverty for the
+US-LIMTIP.
+
+\section*{References}\label{references}
+\addcontentsline{toc}{section}{References}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-calinski1974}
+Caliński, T., and Harabasz, J. (1974). A dendrite method for cluster
+analysis. \emph{Communications in Statistics}, \emph{3}(1), 1--27.
+\url{https://doi.org/10.1080/03610927408827101}
+
+\bibitem[\citeproctext]{ref-dorazio2006}
+D'Orazio, M., Di Zio, M., and Scanu, M. (2006). \emph{Statistical
+{Matching}: {Theory} and {Practice}} (1st ed.). Wiley.
+\url{https://doi.org/10.1002/0470023554}
+
+\bibitem[\citeproctext]{ref-ipums2022}
+Flood, S., King, M., Rodgers, R., Ruggles, S., Warren, J. R., Warren,
+D., Chen, A., Cooper, G., Richards, S., Schouweiler, M., and Westberry,
+M. (2023). \emph{{IPUMS}, {Current} {Population} {Survey}: {Version}
+11.0}. {[}Dataset{]} Minneapolis, MN: IPUMS, 2023.
+\url{https://doi.org/10.18128/D030.V11.0}
+
+\bibitem[\citeproctext]{ref-james_2021}
+James, G., Witten, D., Hastie, T., and Tibshirani, R. (2021). \emph{An
+introduction to statistical learning: With applications in {R}} (Second
+edition). Springer. \url{https://doi.org/10.1007/978-1-0716-1418-1}
+
+\bibitem[\citeproctext]{ref-kum_masterson2010}
+Kum, H., and Masterson, T. N. (2010). Statistical matching using
+propensity scores: {Theory} and application to the analysis of the
+distribution of income and wealth. \emph{Journal of Economic and Social
+Measurement}, \emph{35}(3-4), 177--196.
+\url{https://doi.org/10.3233/JEM-2010-0332}
+
+\bibitem[\citeproctext]{ref-lewaa2021}
+Lewaa, I., Hafez, M. S., and Ismail, M. A. (2021). Data integration
+using statistical matching techniques: {A} review. \emph{Statistical
+Journal of the IAOS}, \emph{37}(4), 1391--1410.
+\url{https://doi.org/10.3233/SJI-210835}
+
+\bibitem[\citeproctext]{ref-rassler2002}
+Rässler, S. (2002). \emph{Statistical matching: A frequentist theory,
+practical applications, and alternative {Bayesian} approaches}.
+Springer.
+
+\bibitem[\citeproctext]{ref-SemegaandWelniak2013}
+Semega, J. L., and Welniak, E. (2013). \emph{Evaluating the 2013 {CPS}
+{ASEC} {Income} {Redesign} {Content} {Test}}.
+\url{https://www.census.gov/content/dam/Census/library/working-papers/2013/demo/semega-01.pdf}
+
+\end{CSLReferences}
+
+
+
+\end{document}

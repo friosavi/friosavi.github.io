@@ -1,0 +1,472 @@
+---
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
+---
+
+## Matching: ASEC {{< meta asec.year >}} and ATUS {{< meta atus.year >}}
+
+In order to obtain a good match, the matching process begins using five strata variables, namely sex, parental status, labor force status, marital status, and spouse's labor force status, to obtain 24 matching cells. Within each of these cells, propensity scores are estimated using logit models. A dummy variable indicating if the observation corresponds to the donor or the recipient survey is used as a dependent variable. A set of demographic variables (i.e., age, educational attainment, race, parental status, marital status, and employment status) and household characteristics (i.e., number of adults, number of children, and household monthly income) are included as independent variables. For subsequent matching rounds, broader matching cells are defined accordingly, keeping the logit specifications consistent across all models, and including the omitted strata variable in the specification. The logit models and propensity scores are estimated using all information within broader cells, but the matching is done only across observations left unmatched from previous rounds.
+
+```{stata}
+*| output: false
+*| echo: false
+set scheme white2
+color_style s2
+frame change atus_cps
+use matus_cps_19, clear
+tab __round survey [w=anwgt] if __flag==1, matcell(fig1)
+mata:fig1 = st_matrix("fig1")
+mata:fig1 = fig1[,1],runningsum(fig1[,1])
+mata:fig11 = fig1[,1]:/fig1[rows(fig1),2]*100;fig12 = fig1[,2]:/fig1[rows(fig1),2]*100
+mata:fig11=fig11,range(1,rows(fig1),1);fig12=fig12,range(1,rows(fig1),1)
+font_style Garamond
+two bar matamatrix(fig11) || scatter matamatrix(fig12), connect(l) ///
+xtitle("Round") ytitle("Share Matched") ///
+legend(order(1 "Share Matched per Round" 2 "Cumulative Match per round") ///
+col(2) pos(6))
+graph export fig1.png, width(1000) replace
+```
+
+
+```{stata}
+*| output: false
+*| echo: false
+mata:st_matrix("fig1",(fig11,fig12))
+local v14: display %3.1f `=fig1[1,1]'
+local v15: display %3.1f `=100-fig1[10,3]'
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        "v14 : `v14' " _n
+        "v15 : `v15' " _n
+        "---";
+#delimit cr
+```
+
+Turning to the results of the match performance, @fig-fig1 shows the distribution of the matched records by matching round. As expected from these types of processes, {{< meta v14 >}} percent of the matches occur on the first round, ensuring the highest level of match quality. At the same time, {{< meta v15 >}} percent of the weighted sample was left unmatched after ten matching rounds. These unmatched observations should not bias the distributional statistics of the transferred information.
+
+![Distribution of Matched Records by Matching Round](fig1.png){#fig-fig1}
+
+```{stata}
+*| echo: false
+*| output: false
+
+replace hhprod_wh=hhprod_wh[__id2] if hhprod_wh==.
+replace care_wh=care_wh[__id2] if care_wh==.
+replace core_wh=core_wh[__id2] if core_wh==.
+replace proc_wh=proc_wh[__id2] if proc_wh==.
+keep if __flag==1
+
+** Distributional
+gen phhprod=hhprod!=0
+tab phhprod survey [w=nwgt], matcell(tb6)
+mata:tb6=st_matrix("tb6");tb6=tb6[2,]:/colsum(tb6)*100
+tabstat hhprod_wh if phhprod==1 [w=nwgt], stats(p10 p25 p50 p75 p90) by(survey) save
+matrix tb6 = r(Stat1),r(Stat2)
+mata:tb6=tb6\st_matrix("tb6")
+anogi hhprod_wh  if phhprod==1 [w=nwgt] , by(survey)
+matrix tb6 = r(stats)'
+local gini:display %5.3f `=tb6[5,1]'
+mata:tb6=tb6\st_matrix("tb6")[5,]
+** Summary
+
+foreach i in care core proc {
+	gen p`i'=`i'!=0
+}
+local i care
+tab p`i' survey [w=nwgt], matcell(tb6)
+mata:tb61=st_matrix("tb6");tb61=tb61[2,]:/colsum(tb61)*100
+tabstat `i' if p`i'==1 [w=nwgt],  stats(mean p50)  by(survey) save
+mata:tb6=tb6\tb61\(st_matrix("r(Stat1)"),st_matrix("r(Stat2)"))
+
+local i core
+tab p`i' survey [w=nwgt], matcell(tb6)
+mata:tb61=st_matrix("tb6");tb61=tb61[2,]:/colsum(tb61)*100
+tabstat `i' if p`i'==1 [w=nwgt],  stats(mean p50)  by(survey) save
+mata:tb6=tb6\tb61\(st_matrix("r(Stat1)"),st_matrix("r(Stat2)"))
+
+local i proc
+tab p`i' survey [w=nwgt], matcell(tb6)
+mata:tb61=st_matrix("tb6");tb61=tb61[2,]:/colsum(tb61)*100
+tabstat `i' if p`i'==1 [w=nwgt],  stats(mean p50)  by(survey) save
+mata:tb6=tb6\tb61\(st_matrix("r(Stat1)"),st_matrix("r(Stat2)"))
+mata:tb6=tb6,(tb6[,1]:/tb6[,2]:-1)*100
+mata:st_matrix("tb6",tb6)
+matrix roweq tb6 = rr1 rr1 rr1 rr1 rr1 rr1 rr1 rr2 rr2 rr2 rr3 rr3 rr3 rr4 rr4 rr4
+```
+ 
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        "v16 : `gini' " _n
+        "---";
+#delimit cr
+```
+
+@tbl-t6 provides a description of the match quality, comparing some distributional statistics on the weekly hours of household production between the original information (ATUS) and the imputed data (ASEC). The table also compares the mean and median for the subcomponents: Care, Core and Procurement. Both samples use the unadjusted survey weights. Given the large presence of zero hours allocated to household production in the sample, we provide the share of none-zero observations with hours of household production, constraining the sample when providing the relevant summary statistics. The percentile ratios are all equivalent with almost identical Gini coefficients ({{< meta v16 >}}). The means and medians on the disaggregated components of household production also show a strong equivalence between both surveys, indicating a strong balance in aggregate terms. This is expected by construction.
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+esttab matrix(tb6, fmt("1 1 1 1 1 1 3 1" "1 1 1 1 1 1 3 1" "2")), mlabels(, none)  
+varlabels(r1 " Share with >0 Hrs "
+r2 " p10" r3 " p25" r4 " p50" r5 " p75" r6 " p90" r7 " Gini"
+r8 " Share with >0"
+r9 " Average hrs per week if >0"
+r10 " Median hrs per week if >0"
+r11 " Share with >0"
+r12 " Average hrs per week if >0"
+r13 " Median hrs per week if >0"
+r14 " Share with >0"
+r15 " Average hrs per week if >0"
+r16 " Median hrs per week if >0")  
+collab("ASEC" "ATUS" "Ratio ASEC/ATUS") md
+eqlabels("Hours of Household Production" 
+"Hour on Care" 
+"Hour on Core" 
+"Hour on Procurement");
+#delimit cr
+
+display ": Matching Quality: Summary Statistics " _continue
+display `"{#tbl-t6}{tbl-colwidths="[35,15,15,15]"}"'
+```
+
+@fig-fig2 presents a visual representation of the distribution of hours allocated to household production using three of the strata variables: sex, parental status, and labor force status. The figure shows that except for some values on the right tail of the distributions---for example, women who are not parents and are not working (F\^P\^W) and men who are parents and are not working (MP\^W)---the overall distributions within the strata variables are analogous, indicating a good match quality.
+
+```{stata}
+*| output: false
+*| echo: false
+
+gen emp = lfs ==1
+egen grp = group(sex parentyn emp)
+label define survey 0 "ASEC" 1 "ATUS", modify
+label define grp 1 "F^PW" 2 "F^P^W" 3 "FPW" 4 "FP^W" 5 "M^PW" 6 "M^P^W" 7 "MPW" 8 "MP^W", modify
+label values grp grp
+
+graph hbox hhprod [w=nwgt], over(grp) ///
+by(survey, note("^=Not, F=Female, M=Male, P=Parent, W=Working")) ytitle("") 
+
+graph export fig2.png, width(1000) replace
+```
+
+![Distritubtion of Hours in Household Production, by Survey](fig2.png){#fig-fig2}
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        "v17 : 5 " _n
+        "v18 : 10 " _n
+        "---";
+#delimit cr
+```
+
+For a detailed review of the performance of the matching, @fig-fig3 shows the ratios of the disaggregated hours allocated to household production (care, procurement, and core) between the imputed data (ASEC) and the donor data (ATUS). @tbl-t7 provides additional information on the mean and median hours of household production per week, and how large they are compared to the ATUS counterpart estimate.
+
+The information is shown across the various selected varaibles used for matching. With some exceptions, the ratios of mean weekly hours of household production (and subcategories) fall within 5 percent of difference across all variables, an indication of good match quality. The largest differences are observed among youngest individuals and among people with less than a high school education. In both cases the statistics indicate {{< meta v17 >}} percent and {{< meta v18 >}} percent more hours respectively allocated to household production. In perspective, while such differences seem large, they may have a small effect on other analyses since the difference in average hours allocated to hours of household production among the specific is small (just about two hours per week).
+
+```{stata}
+*| output: false
+*| echo: false
+
+frame create fig
+
+capture gen married = inlist(marstat,1,2,3)
+capture gen emp = lfs==1
+capture gen spouse_emp=0 
+capture replace spouse_emp=(splfs==1)+1 if splfs!=0
+
+tabstat hhprod_wh care core proc, by(survey) save
+foreach i in sex parentyn emp married spouse_emp {
+	levelsof `i', local(li)
+	foreach j of local li {
+		tabstat hhprod_wh care core proc [w=nwgt] if `i'==`j', by(survey) save
+		matrix tm = r(Stat1)',r(Stat2)'
+		mata:tm=st_matrix("tm");tm=tm[,1]:/tm[,2]*100;st_matrix("tm",tm')
+		matrix tmt = nullmat(tmt)\tm
+	}
+}
+frame change fig
+clear
+svmat tmt
+gen g0 = 100
+gen d =1
+replace d=2 if inlist(_n+1,4,6,8,10) 
+gen t=15-sum(d)
+
+gen tmt2b=tmt2 + 20
+gen g0b=g0+20
+gen tmt3b=tmt3 + 40
+gen g0c=g0+40
+gen tmt4b=tmt4 + 60
+gen g0d=g0+60
+```
+
+```{stata}
+*| output: false
+*| echo: false
+#delimit;
+two (pcspike t g0 t tmt1, pstyle(p1)) (scatter t tmt1, msize(2)  pstyle(p1)) 
+(pcspike t g0b t tmt2b, pstyle(p1)) (scatter t tmt2b, msize(2)  pstyle(p1)) 
+(pcspike t g0c t tmt3b, pstyle(p1)) (scatter t tmt3b, msize(2)  pstyle(p1)) 
+(pcspike t g0d t tmt4b, pstyle(p1)) (scatter t tmt4b, msize(2)  pstyle(p1)), 
+legend(off) xscale(range(90 170 )) ytitle("") graphregion(margin(t=10)) 
+xlabel( 95 100 105 110 " " 
+115 "95" 120 "100" 125 "105" 130 " "  
+135 "95" 140 "100" 145 "105" 150 " " 
+155 "95" 160 "100" 165 "105" ) 
+ylabel(14 "Female" 13 "Male" 11 "Not a Parent" 10 "Parent" 
+8 "Not Working" 7 "Working" 5 "Not Married" 4 "Married" 2 "Souse Not-Present" 1 "Spouse Not-Working" 0 "Spouse Working") xsize(10) ysize(5) 
+text(15 100 "Household Production" 
+15 120 "Care" 15 140 "Core" 15 160 "Procurement" ) 
+note(Ratio = ASEC/ATUS);
+#delimit cr
+graph export fig3.png, replace width(1500)
+frame change atus_cps
+frame drop fig
+```
+
+![Ratio of Mean Household Production Hours, by main variables](fig3.png){#fig-fig3}
+
+ 
+```{stata}
+*| output: false
+*| echo: false
+capture matrix drop tb7
+foreach i in married parentyn sex emp spouse_emp educ hhinccl age_gr {
+levelsof `i', local(li)
+local k = `k'+1
+foreach j of local li {
+tabstat hhprod_wh [w=nwgt] if `i'==`j', by(survey) stats(mean median) save
+matrix aux =[r(Stat1)',r(Stat2)']
+matrix roweq aux = rr`k'
+matrix tb7 = nullmat(tb7)\aux
+}
+}
+local rq:roweq tb7
+mata:tb7=st_matrix("tb7")
+mata:tb7=tb7[,1], (tb7[,1]:/tb7[,3]*100),tb7[,2],(tb7[,2]:/tb7[,4]*100)
+mata:st_matrix("tb7",tb7)
+matrix roweq tb7 = `rq'
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+esttab matrix(tb7, fmt("1" "1" "1")), mlabels(, none) md 
+collab("Mean" "Ratio wrt ATUS" "Median" "Ratio wrt ATUS" )
+eqlabels("Marital Status" 
+"Parental Status" 
+"Sex" 
+"Labor Status"
+"Spouse's labor Status" 
+"Education"
+"Household income ($)"
+"Age Group")
+varlabels(r1 " Not Married"  r2 " Married" 
+r3 " Non-parent" r4 " Parent" 
+r5 " Female" r6 " Male"
+r7 " Not Working" r8 " Working" 
+r9 " No Spouse present" r10 " SP not working" r11 "SP working"
+r12 " Less than high school" r13 " High school"
+r14 " Some college" r15 " College/grad school"
+r16 " <$15k" r17 " $15k-$35k" 
+r18 " $35k-$50k" r19 " $50k-$75k" r20 " >$75k" 
+r21 " 15 to 24" r22 " 25 to 34" r23 " 35 to 44" 
+r24 " 45 to 54" r25 " 55 to 64" r26 " 65 to 74" r27 " 75 and older") ;
+#delimit cr
+display ": Average and Median Household Production Weekly Hours, by Selected Variables " _continue
+display `"{#tbl-t7}{tbl-colwidths="[35,12,12,12,12]"}"' 
+```
+
+```{stata}
+*| output: false
+*| echo: false
+drop2 grp
+egen grp = group(sex parentyn emp spouse_emp)
+mata mata clear
+mata: y = st_data(.,"hhprod care core proc")
+mata: w = st_data(.,"nwgt")
+mata: gr = st_data(.,"grp survey")
+mata: sr=order(gr,1)
+mata: y=y[sr,];w=w[sr,];gr=gr[sr,];info=panelsetup(gr,1)
+mata: mns=panelsum(y:*w:*(gr[,2]:==0),info):/panelsum(w:*(gr[,2]:==0),info),panelsum(y:*w:*(gr[,2]:==1),info):/panelsum(w:*(gr[,2]:==1),info)
+mata: mns=mns,panelsum(w:*(gr[,2]:==0),info):/sum(w:*(gr[,2]:==0))
+frame create fig
+frame change fig
+clear
+getmata mns*=mns
+gen mns1b= (mns1-mns5)/mns5*100
+gen mns2b= (mns2-mns6)/mns6*100
+gen mns3b= (mns3-mns7)/mns7*100
+gen mns4b= (mns4-mns8)/mns8*100
+sum mns9
+gen mns9b=mns9/r(max)
+recode mns9b (0/.1 =1) (0.1/.3 =2) (.3/.5=3) (.5/1=4), gen(nm)
+ 
+two (scatter mns1b mns5 if nm==1, msize(1) pstyle(p1) color(%80)) ///
+(scatter mns1b mns5 if nm==2, msize(3)    pstyle(p1) color(%60)) ///
+(scatter mns1b mns5 if nm==3, msize(5)    pstyle(p1) color(%40)) ///
+(scatter mns1b mns5 if nm==4, msize(10)   pstyle(p1) color(%20)) ///
+(scatter mns1b mns5 ,    pstyle(p1) ) , ///
+legend(order(1 "Share 0-1.5% " 2 "Share 1.5-3%" ///
+3 "Share 3-6%" 4 "Share 6-13%") ring(0) cols(5)  region(fcolor(%0))) yline(0) ///
+ytitle("Relative Diff in Hours") xtitle("Hrs observed in ATUS") xlabel(10(10)60,nogrid) ylabel(,nogrid) name(m1, replace) graphregion(margin(zero)) subtitle("Household Production") ysize(8) xsize(10) graphregion(margin(zero))
+
+two (scatter mns2b mns6 if nm==1, msize(1) pstyle(p2) color(%80)) ///
+(scatter mns2b mns6 if nm==2, msize(3)    pstyle(p2) color(%60)) ///
+(scatter mns2b mns6 if nm==3, msize(5)    pstyle(p2) color(%40)) ///
+(scatter mns2b mns6 if nm==4, msize(10)   pstyle(p2) color(%20)) ///
+(scatter mns2b mns6 ,    pstyle(p2) ) , ///
+legend(order(1 "Share 0-1.5% " 2 "Share 1.5-3%" ///
+3 "Share 3-6%" 4 "Share 6-13%") ring(0) pos(5)  region(fcolor(%0))) yline(0) ///
+ytitle("Relative Diff in Hours") xtitle("Hrs observed in ATUS") xlabel(0(5)21, nogrid) ylabel(,nogrid) name(m2, replace) graphregion(margin(zero)) subtitle("Care")
+
+
+two (scatter mns3b mns7 if nm==1, msize(1) pstyle(p4) color(%80)) ///
+(scatter mns3b mns7 if nm==2, msize(3)    pstyle(p4) color(%60)) ///
+(scatter mns3b mns7 if nm==3, msize(5)    pstyle(p4) color(%40)) ///
+(scatter mns3b mns7 if nm==4, msize(10)   pstyle(p4) color(%20)) ///
+(scatter mns3b mns7 ,    pstyle(p4) ) , ///
+legend(order(1 "Share 0-1.5% " 2 "Share 1.5-3%" ///
+3 "Share 3-6%" 4 "Share 6-13%") ring(0) pos(5)  region(fcolor(%0))) yline(0) ///
+ytitle("Relative Diff in Hours") xtitle("Hrs observed in ATUS") xlabel(5(5)27,nogrid) ylabel(,nogrid) name(m3, replace) graphregion(margin(zero)) subtitle("Core")
+
+
+two (scatter mns4b mns8 if nm==1, msize(1) pstyle(p5) color(%80)) ///
+(scatter mns4b mns8 if nm==2, msize(3)    pstyle(p5) color(%60)) ///
+(scatter mns4b mns8 if nm==3, msize(5)    pstyle(p5) color(%40)) ///
+(scatter mns4b mns8 if nm==4, msize(10)   pstyle(p5) color(%20)) ///
+(scatter mns4b mns8 ,    pstyle(p5) ) , ///
+legend(order(1 "Share 0-1.5% " 2 "Share 1.5-3%" ///
+3 "Share 3-6%" 4 "Share 6-13%") ring(0) pos(5)  region(fcolor(%0))) yline(0) ///
+ytitle("Relative Diff in Hours") xtitle("Hrs observed in ATUS") xlabel(1(2)10, nogrid) ylabel(,nogrid) name(m4, replace) graphregion(margin(zero)) subtitle("Procurement")
+ 
+grc1leg m1 m2 m3 m4
+
+graph export fig4.png, width(1200) height(1000) replace
+frame change atus_cps
+frame drop fig
+```
+
+![Difference of Mean Household Production hours by Cells](fig4.png){#fig-fig4}
+
+@fig-fig4 presents additional details on the quality of the match using the the combination of Sex, parent status, Labor status, and Spouse labor status. This figure plots the relative difference between CPS imputed hours and ATUS observed hours by group, againts the total hours observed in the ATUS. The size of the marker represents how representative a particular group is compared to the weighted sample. Larger markers indicating a larger share of the weighted sample.
+
+Similar to the results described before, with some exceptions, total household production---in particular procurement and care hours---shows good levels of balance across most of the matching cells (note: procurement and core hours are part of household production). While there are some differences larger than 20% of the ATUS data, those differences are observed to either small groups --- as in the case in Procurement activities ---, or for cases where observed hours of activities is low --- as in the case of care activities.
+
+```{stata}
+*| output: false
+*| echo: false
+frame create fig
+capture matrix drop tmt
+foreach i in educ hhinccl age_gr {
+	levelsof `i', local(li)
+	foreach j of local li {
+		tabstat hhprod_wh care core proc [w=nwgt] if `i'==`j', by(survey) save
+		matrix tm = r(Stat1)',r(Stat2)'
+		mata:tm=st_matrix("tm");tm=tm[,1]:/tm[,2]*100;st_matrix("tm",tm')
+		matrix tmt = nullmat(tmt)\tm
+	}
+}
+
+frame change fig
+clear
+svmat tmt
+gen g0 = 100
+gen d =1
+replace d=2 if inlist(_n,5,10) 
+gen t=19-sum(d)
+
+gen tmt2b=tmt2 + 40
+gen g0b=g0+40
+gen tmt3b=tmt3 + 80
+gen g0c=g0+80
+gen tmt4b=tmt4 + 120
+gen g0d=g0+120
+gen t1 = t-0.1
+gen t2 = t-0.2
+gen t3 = t-0.3
+```
+
+```{stata}
+*| output: false
+*| echo: false
+#delimit;
+two (pcspike t g0 t tmt1, pstyle(p1)) (scatter t tmt1, msize(2)  pstyle(p1)) 
+(pcspike t3 g0b t3 tmt2b, pstyle(p1)) (scatter t3 tmt2b, msize(2)  pstyle(p1)) 
+(pcspike t g0c t tmt3b, pstyle(p1)) (scatter t tmt3b, msize(2)  pstyle(p1)) 
+(pcspike t g0d t tmt4b, pstyle(p1)) (scatter t tmt4b, msize(2)  pstyle(p1)), 
+legend(off) xscale(range(70 250 )) ytitle("") graphregion(margin(t=10))
+yscale(range(0 18)) 
+xlabel( 90            100       110  120 " " 
+130 "90" 140 "100" 150 "110" 160 " "  
+170 "90" 180 "100" 190 "110" 200 " " 
+210 "90" 220 "100" 230 "110" ) 
+ylabel(
+18 " Less than high school" 
+17 " High school"
+16 " Some college" 
+15 " College/grad school"
+13 " <$15k" 12 " $15k-$35k" 
+11 " $35k-$50k" 10 " $50k-$75k" 9 " >$75k" 
+7 " 15 to 24" 6 " 25 to 34" 5 " 35 to 44" 
+4 " 45 to 54" 3 " 55 to 64" 2 " 65 to 74" 1 " 75 and older") xsize(10) ysize(5) 
+text(20 100 "Household" 19 100 "Production" 
+19 140 "Care" 19 180 "Core" 19 220 "Procurement" ) 
+note(Ratio = ASEC/ATUS);
+#delimit cr
+graph export fig5.png, replace width(1500)
+frame change atus_cps
+frame drop fig
+```
+
+```{stata}
+*| output: false
+*| echo: false
+
+tabstat2 hhprod [w=nwgt] if educ==1, by(survey) save
+matrix st = r(tmatrix)
+local v19: display %3.2f `=st[1,1]-st[1,2]'
+tabstat2 hhprod [w=nwgt] if educ==4, by(survey) save
+matrix st = r(tmatrix)
+local v20: display %03.2f `=st[1,1]-st[1,2]'
+tabstat2 care [w=nwgt] if hhinccl==1, by(survey) save
+matrix st = r(tmatrix)
+local v21: display %03.2f `=st[1,1]-st[1,2]'
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        `"v19 : "`v19'" "' _n
+        `"v20 : "`v20'" "' _n
+        `"v21 : "`v21'" "' _n
+        "---";
+#delimit cr
+```
+
+To examine the match quality beyond the framework of the strata variables, @fig-fig5 presents information on ratios for household production and its components across education, household income level, and age group. The mean and median of total household production for these selected variables are provided in @tbl-t7. In terms of education, people with high school and some college education have good levels of balance between both surveys. People with less than a high school education are imputed with longer hours allocated to household production ({{< meta v19 >}} hours more) and all its components. In contrast, there is a small but consistent underestimation of the hours of household production ({{< meta v20 >}} hours) for people with at least a college degree. Individuals in the lowest income groups show an underestimation of the hours allocated to care activities ({{< meta v21 >}} hours). 
+
+
+In terms of age, the averages and medians indicate the statistical match did a good job imputing hours, as the differences are small for all groups. Looking at care activities, however, the statistical match seems to overestimate the number of hours spent on these activities, especially for people over 75 years of age and those younger than 24. 
+
+![Ratio of Mean Household Production Hours by Selected Variables](fig5.png){#fig-fig5}
+ 

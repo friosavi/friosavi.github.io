@@ -1,0 +1,59 @@
+---
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
+---
+
+# Methodology
+
+In order to create synthetic datasets that combine data from the different sources into a single dataset, we employ a methododology known as statistical matching.
+
+The basic Statistical matching setup consists of having access to two sources of data: survey A and survey B, which collect information from two independent samples of the same population. Survey A collects information $Z, X$, whereas survey B collects information $Z, Y$. Although both surveys collect common information $Z$ (for example demographics), they each contain information on variables that are not observed jointly: $X$ (Consumption) and $Y$ (Time use). In this case, the goal of Statistical matching is to create synthetic data that will contain all information $Y,X, Z$, linking observations across the datasets based on how close they are based on observed characteristics. It is also possible to constrain matches based on the weighted population each survey represents.
+
+In turn, this synthetic dataset should allow researchers to analyze otherwise unobservable relationships between, $X$ and $Y$, or as in our case, income and time use (**D. Orazio et al, 2006; Rasseler, 2002**). Thus, inference on the relation between $X$ and $Y$ can only be done to the extent that $Z$ explains most of the common variation between $X$ and $Y$.
+
+## Matching Algorithm
+
+As described in **Lewaa et al (2021)**, statistical matching could be considered as a non-parametric variation of the stochastic regression approach, where no specific distribution assumption is imposed, and the imputed values are drawn directly from the observed distribution in the donor file. In particular, we implement a variation of the rank-constrained statistical matching described in **Kum and Masterson (2010)**, which improves on the approach by using a weight splitting approach in combination with clustering analysis for a better automatic selection of strata groups in the approach. [^ This is in contrast with previous iterations of Statistical matching used for the estimation of the LIMEW, which was based on ex-ante ad-hoc stratification, last-match-unit approach].
+
+The statistical matching procedure applied for the paper is a multi-step process that can be explained as follows:
+
+### Step 1: Data harmonization
+
+The first step involves harmonizing all common variables that will be used in the matching process and survey balancing. This is a necessary step in all imputation methods because variables need to have consistent definitions before they can be utilized for imputation using regression models.
+
+Furthermore, this step includes adjusting sample weights to ensure that the weighted population is the same across all surveys. The standard practice is to adjust the sample weights of the donor sample. Additionally, for technical reasons, the weights are adjusted to whole numbers. While it is customary to adjust weights to match the total population, it may also be advisable to adjust weights to align with subpopulations based on selected strata variables.
+
+Lastly, it is recommended to verify if both the donor and recipient files truly represent the same population by comparing the means, variances, and proportions of key variables across both surveys. In instances where significant imbalances are observed, reweighted methods can be employed to improve the balance between the surveys. However, there is no definitive rule to determine when a discrepancy in the distribution constitutes a substantial imbalance.
+
+### Step 2. Strata and Cluster identification, and propensity score estimation
+
+The second step involves identifying statistically similar records based on observed characteristics Z. This is accomplished through a combination of three methodologies:
+
+-   **Principal Component Analysis (PCA)**: PCA is utilized as a data reduction technique to decrease the dimensionality of Z to a few linear combinations. While there are numerous suggestions on determining the optimal number of components, we simply select the first few components that explain approximately 50% of the data's variation.
+
+-   **Cluster analysis**: Once the principal components are estimated, they are employed to identify clusters within the dataset using a k-means cluster iterative partition algorithm. A brief description of the algorithm can be found in Hastie et al. (2009).
+
+    As this algorithm only discovers locally optimal clusters and their identification is influenced by random initial conditions, it has a tendency to generate suboptimal clusters. To mitigate this issue, we modify the algorithm by repeating the procedure a sufficient number of times and selecting the "optimal" cluster based on the largest Calinski-Harabasz pseudo-F index (Calinski and Harabasz, 1974). This ensures that the chosen cluster maximizes intra-cluster similarity while minimizing inter-cluster dissimilarity.
+
+    This procedure generates various sets of clusters of different sizes. The clusters with the highest number of groups are prioritized in the statistical matching procedure since they represent the most similar records, while clusters with fewer groups are utilized in later stages of the matching process.
+
+-   **Propensity score matching:** To enhance the matching procedure, we estimate a propensity score using a logit model. The dependent variable in the model is a binary indicator that determines whether an observation belongs to the donor or recipient file, while the independent variables consist of all common variables Z (including interactions or transformations). In the scenario where both surveys can be considered random samples from the same population, the expected coefficients for all variables should be zero or statistically insignificant. However, due to sampling variability and variations in survey design, it is common to observe variation in the propensity score. The logit model and propensity score can be estimated for the entire pooled survey or using the primary strata variables.
+
+### Step 3. Matching and weight splitting.
+
+Once the propensity score has been estimated and the clusters and strata have been defined, we proceed with our matching algorithm. We rank all observations within each group, called cells, using the propensity score. The most detailed cluster, which defines the largest number of groups, is used for this purpose.
+
+Within each cell, the record with the lowest propensity score from the donor file is matched or linked to the record with the lowest propensity score in the recipient file. If both records have the same weight, they are considered as fully matched and removed from the donor or recipient pool. If the weights are different, the record (donor or recipient) with the lowest weight is removed from the pool, and the weight of the matched record is adjusted by subtracting the weight value of the excluded record. The adjusted weight is retained in the pool for a subsequent match.
+
+This process of matching records and adjusting weights, if necessary, continues until there are no more donor or recipient records left in that cell. If there are unmatched records from the previous steps, the procedure is repeated using a less detailed cluster until all records from the donor and recipient files are matched. Once the matching is completed, we obtain a synthetic dataset where all records in the donor file are matched to potentially multiple records in the recipient files, and vice versa.
+
+For the final synthetic dataset, we select the "best" matched records, which are those that were matched in the earlier stages (most detailed clusters) or are records matched with the largest split weight. In case of ties, the "best" match is randomly chosen.
+
+Due to this step, some observations in the donor sample may not be used at all, while others may be used more frequently than their weight would suggest. However, if the sample sizes and weight structures across both files are similar, we can expect only minor discrepancies between the distribution of the imputed data in the donor and recipient datasets. Nevertheless, if the sample sizes differ significantly, it is advisable to use the largest file as the recipient file.
+
+The statistical matching procedure described above aims to impute all missing values in the recipient file by transferring the observed distribution of the imputed values from the donor file. This transfer of information is achieved by linking records from the donor file to records in the recipient files that have similar characteristics or similar ranks, based on an index known as the propensity score, which summarizes all those characteristics. Its main advantage over other methodologies is that constrained statistical matching fully recovers the distribution of the donor sample in the imputed sample, except for minor discrepancies as explained earlier.

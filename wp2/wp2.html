@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Fernando Rios-Avila">
+<meta name="keywords" content="Statistical Matching; American Time Use Survey; Survey of Consumer Finances; Levy Institute Measure of Economic Well-Being (LIMEW); United States">
+
+<title>Quality of Match for Statistical Matches for the US</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="wp2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="wp2_files/libs/quarto-html/quarto.js"></script>
+<script src="wp2_files/libs/quarto-html/popper.min.js"></script>
+<script src="wp2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="wp2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="wp2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="wp2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="wp2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="wp2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="wp2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="wp2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Quality of Match for Statistical Matches for the US</h1>
+<p class="subtitle lead">American Time Use Survey 2019, the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Fernando Rios-Avila </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+    This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases.
+  </div>
+</div>
+
+</header>
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>This paper describes the construction of the synthetic dataset created for use in the estimation of the Levy Institute Measure of Economic Well-Being (LIMEW) for the United States. The LIMEW was developed as an alternative to conventional income measures that provides a more comprehensive measure of economic well-being. Construction of the LIMEW requires a variety of information for households. In addition to the standard demographic and household income information, the estimation process also requires information about household members’ time use and information on a household’s wealth, assets, and debts. Unfortunately, no single dataset contains all required data for the estimation.</p>
+<p>In order to produce LIMEW estimates, a synthetic dataset is created combining information from three datasets, applying a statistical matching process. For current elaboration of this dataset, the Annual Social and Economic Supplement (ASEC) of the Current Population Survey (CPS) 2020 is used as the base dataset, as it contains good information regarding demographic, social, and economic characteristics, as well as income, work experience, noncash benefits, and migration status of persons 15 years old and over. Time use data comes from the American Time Use Survey (ATUS) 2019, which provides rich data regarding how people divide their time among life’s activities, including time spent doing paid and unpaid activities, inside and outside the household, for one person in the household. Wealth data come from the Survey of Consumers Finances (SCF) 2019, which collects detailed information on household finances, income, assets, and liabilities.</p>
+<p>This paper is organized as follows. Section one describes the data. Section two assesses the alignment of the information between ASEC and ATUS at the individual level, and the ASEC and the SCF at the household level. Section three briefly describes the methodology and analyzes the matching quality of the statistical matching. Section four concludes.</p>
+</section>
+<section id="data-description" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Data Description</h1>
+<section id="annual-social-economics-supplement-asec" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="annual-social-economics-supplement-asec"><span class="header-section-number">2.1</span> Annual Social Economics Supplement (ASEC)</h2>
+<p>The CPS is a monthly survey administered by the US Bureau of Labor Statistics. It is used to assess the activities of the population and provide statistics related to employment and unemployment in the current labor market. Each household in the CPS is interviewed for four consecutive months, not interviewed for eight, and interviewed again for four additional months. Although the main purpose of the survey is to collect information on the labor market situation, the survey also collects detailed information on demographic characteristics (age, sex, race, and marital status), educational attainment, and family structure.</p>
+<p>In March of every year, the previously interviewed households answer additional questions, part of the ASEC supplement formerly known as the Annual Demographic File. In addition to the basic monthly information, this supplement provides additional data on work experience, income, noncash benefits, and migration.</p>
+<p>The ASEC 2020 is used as the base dataset (recipient), as it contains rich information regarding demographics and economic status. Because the time use survey (described below) covers individuals 15 years of age and older, younger individuals are discarded from the ASEC sample. This leaves us with a total of 124,806 observations, representing 264,870,782 individuals when weighted. For the household-level analysis, only information regarding the householder is used, leaving 50 observations, representing 150 households when weighted.</p>
+</section>
+<section id="american-time-use-survey-atus" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="american-time-use-survey-atus"><span class="header-section-number">2.2</span> American Time Use Survey (ATUS)</h2>
+<p>The ATUS, a survey sponsored by the Bureau of Labor Statistics and collected by the US Census Bureau, is the first continuous survey on time use in the United States available since 2003. Its main objective is to provide nationally representative estimates of peoples’ allocation of time among different activities, collecting information on what they did, where they were, and with whom they were.</p>
+<p>The ATUS is administered to a random sample of individuals selected from a set of eligible households that have completed their final month’s interviews for the CPS. The ATUS covers all residents who are at least 15 years old and are part of the civilian, noninstitutionalized population in the United States.</p>
+<p>The ATUS 2019, which contains a total of 9,421 observations, is used as the donor dataset to obtain information regarding time use, which will be transferred to the ASEC 2020. Since information regarding household income is incomplete, the information was imputed using a univariate imputation process and information from the ASEC 2019. The sample represents a total of 248,718,989 individuals.</p>
+</section>
+<section id="survey-of-consumer-finances-scf" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="survey-of-consumer-finances-scf"><span class="header-section-number">2.3</span> Survey of Consumer Finances (SCF)</h2>
+<p>The SCF is normally a triennial cross-sectional survey, sponsored by the Board of Governors of the Federal Reserve System in cooperation with the US Department of the Treasury, which collects information on families’ balance sheets, pensions, income, and demographic characteristics.4 The purpose of the survey is to provide detailed information on households’ assets and liabilities that can be used for analyzing households’ wealth and their use of financial services.</p>
+<p>In order to provide reliable information on household wealth distribution, the SCF is based on a dual-frame sample design. On the one hand, a geographically based random sample of respondents is interviewed to obtain a sample that is broadly representative of the population as a whole. On the other hand, a supplemental sample is obtained to include a sample of wealthy families in order to provide accurate information on wealth distribution, as the distribution of nonhome assets and liabilities is highly concentrated. In order to deal with the missing data, most variables with missing values are imputed using a multiple imputation procedure from which five replicates (imputations) for each record are obtained.</p>
+<p>The SCF 2019 is used as the donor dataset to obtain information regarding assets, debts, and net worth. For the SCF 2019, a total of 50 families/households were interviewed. In order to account for the multiple imputation information, the five replicates are combined and used for the matching procedure. This provides a sample of 50 observations, representing 150 households when weighted.</p>
+</section>
+</section>
+<section id="methodology" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Methodology</h1>
+<p>In order to create synthetic datasets that combine data from the different sources into a single dataset, we employ a methododology known as statistical matching.</p>
+<p>The basic Statistical matching setup consists of having access to two sources of data: survey A and survey B, which collect information from two independent samples of the same population. Survey A collects information <span class="math inline">\(Z, X\)</span>, whereas survey B collects information <span class="math inline">\(Z, Y\)</span>. Although both surveys collect common information <span class="math inline">\(Z\)</span> (for example demographics), they each contain information on variables that are not observed jointly: <span class="math inline">\(X\)</span> (Consumption) and <span class="math inline">\(Y\)</span> (Time use). In this case, the goal of Statistical matching is to create synthetic data that will contain all information <span class="math inline">\(Y,X, Z\)</span>, linking observations across the datasets based on how close they are based on observed characteristics. It is also possible to constrain matches based on the weighted population each survey represents.</p>
+<p>In turn, this synthetic dataset should allow researchers to analyze otherwise unobservable relationships between, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, or as in our case, income and time use (<strong>D. Orazio et al, 2006; Rasseler, 2002</strong>). Thus, inference on the relation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can only be done to the extent that <span class="math inline">\(Z\)</span> explains most of the common variation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<section id="matching-algorithm" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="matching-algorithm"><span class="header-section-number">3.1</span> Matching Algorithm</h2>
+<p>As described in <strong>Lewaa et al (2021)</strong>, statistical matching could be considered as a non-parametric variation of the stochastic regression approach, where no specific distribution assumption is imposed, and the imputed values are drawn directly from the observed distribution in the donor file. In particular, we implement a variation of the rank-constrained statistical matching described in <strong>Kum and Masterson (2010)</strong>, which improves on the approach by using a weight splitting approach in combination with clustering analysis for a better automatic selection of strata groups in the approach.[^ This is in contrast with previous iterations of Statistical matching used for the estimation of the LIMEW, which was based on ex-ante ad-hoc stratification, last-match-unit approach].</p>
+<p>The statistical matching procedure applied for the paper is a multi-step process that can be explained as follows:</p>
+<section id="step-1-data-harmonization" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="step-1-data-harmonization"><span class="header-section-number">3.1.1</span> Step 1: Data harmonization</h3>
+<p>The first step involves harmonizing all common variables that will be used in the matching process and survey balancing. This is a necessary step in all imputation methods because variables need to have consistent definitions before they can be utilized for imputation using regression models.</p>
+<p>Furthermore, this step includes adjusting sample weights to ensure that the weighted population is the same across all surveys. The standard practice is to adjust the sample weights of the donor sample. Additionally, for technical reasons, the weights are adjusted to whole numbers. While it is customary to adjust weights to match the total population, it may also be advisable to adjust weights to align with subpopulations based on selected strata variables.</p>
+<p>Lastly, it is recommended to verify if both the donor and recipient files truly represent the same population by comparing the means, variances, and proportions of key variables across both surveys. In instances where significant imbalances are observed, reweighted methods can be employed to improve the balance between the surveys. However, there is no definitive rule to determine when a discrepancy in the distribution constitutes a substantial imbalance.</p>
+</section>
+<section id="step-2.-strata-and-cluster-identification-and-propensity-score-estimation" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="step-2.-strata-and-cluster-identification-and-propensity-score-estimation"><span class="header-section-number">3.1.2</span> Step 2. Strata and Cluster identification, and propensity score estimation</h3>
+<p>The second step involves identifying statistically similar records based on observed characteristics Z. This is accomplished through a combination of three methodologies:</p>
+<ul>
+<li><p><strong>Principal Component Analysis (PCA)</strong>: PCA is utilized as a data reduction technique to decrease the dimensionality of Z to a few linear combinations. While there are numerous suggestions on determining the optimal number of components, we simply select the first few components that explain approximately 50% of the data’s variation.</p></li>
+<li><p><strong>Cluster analysis</strong>: Once the principal components are estimated, they are employed to identify clusters within the dataset using a k-means cluster iterative partition algorithm. A brief description of the algorithm can be found in Hastie et al.&nbsp;(2009).</p>
+<p>As this algorithm only discovers locally optimal clusters and their identification is influenced by random initial conditions, it has a tendency to generate suboptimal clusters. To mitigate this issue, we modify the algorithm by repeating the procedure a sufficient number of times and selecting the “optimal” cluster based on the largest Calinski-Harabasz pseudo-F index (Calinski and Harabasz, 1974). This ensures that the chosen cluster maximizes intra-cluster similarity while minimizing inter-cluster dissimilarity.</p>
+<p>This procedure generates various sets of clusters of different sizes. The clusters with the highest number of groups are prioritized in the statistical matching procedure since they represent the most similar records, while clusters with fewer groups are utilized in later stages of the matching process.</p></li>
+<li><p><strong>Propensity score matching:</strong> To enhance the matching procedure, we estimate a propensity score using a logit model. The dependent variable in the model is a binary indicator that determines whether an observation belongs to the donor or recipient file, while the independent variables consist of all common variables Z (including interactions or transformations). In the scenario where both surveys can be considered random samples from the same population, the expected coefficients for all variables should be zero or statistically insignificant. However, due to sampling variability and variations in survey design, it is common to observe variation in the propensity score. The logit model and propensity score can be estimated for the entire pooled survey or using the primary strata variables.</p></li>
+</ul>
+</section>
+<section id="step-3.-matching-and-weight-splitting." class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="step-3.-matching-and-weight-splitting."><span class="header-section-number">3.1.3</span> Step 3. Matching and weight splitting.</h3>
+<p>Once the propensity score has been estimated and the clusters and strata have been defined, we proceed with our matching algorithm. We rank all observations within each group, called cells, using the propensity score. The most detailed cluster, which defines the largest number of groups, is used for this purpose.</p>
+<p>Within each cell, the record with the lowest propensity score from the donor file is matched or linked to the record with the lowest propensity score in the recipient file. If both records have the same weight, they are considered as fully matched and removed from the donor or recipient pool. If the weights are different, the record (donor or recipient) with the lowest weight is removed from the pool, and the weight of the matched record is adjusted by subtracting the weight value of the excluded record. The adjusted weight is retained in the pool for a subsequent match.</p>
+<p>This process of matching records and adjusting weights, if necessary, continues until there are no more donor or recipient records left in that cell. If there are unmatched records from the previous steps, the procedure is repeated using a less detailed cluster until all records from the donor and recipient files are matched. Once the matching is completed, we obtain a synthetic dataset where all records in the donor file are matched to potentially multiple records in the recipient files, and vice versa.</p>
+<p>For the final synthetic dataset, we select the “best” matched records, which are those that were matched in the earlier stages (most detailed clusters) or are records matched with the largest split weight. In case of ties, the “best” match is randomly chosen.</p>
+<p>Due to this step, some observations in the donor sample may not be used at all, while others may be used more frequently than their weight would suggest. However, if the sample sizes and weight structures across both files are similar, we can expect only minor discrepancies between the distribution of the imputed data in the donor and recipient datasets. Nevertheless, if the sample sizes differ significantly, it is advisable to use the largest file as the recipient file.</p>
+<p>The statistical matching procedure described above aims to impute all missing values in the recipient file by transferring the observed distribution of the imputed values from the donor file. This transfer of information is achieved by linking records from the donor file to records in the recipient files that have similar characteristics or similar ranks, based on an index known as the propensity score, which summarizes all those characteristics. Its main advantage over other methodologies is that constrained statistical matching fully recovers the distribution of the donor sample in the imputed sample, except for minor discrepancies as explained earlier.</p>
+</section>
+</section>
+</section>
+<section id="data-aligment-and-statistics" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Data Aligment and Statistics</h1>
+<section id="atus-meta-atus.year-asec-meta-asec.year" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="atus-meta-atus.year-asec-meta-asec.year"><span class="header-section-number">4.1</span> ATUS 2019 – ASEC 2020</h2>
+<p>In order to create the synthetic dataset and transfer the time use information from the donor to the recipient dataset we need to verify that the distribution of information across surveys is comparable. To do so, we compare the distribution of individuals across the following set of variables: Gender, Parental Status, labor force Status, Presence of a Spouse, and employment status of the spouse. Since both datasets were collected within one year of each other, one should expect them to be well aligned.</p>
+<div id="tbl-t1" class="anchored">
+<table class="table">
+<caption>Table&nbsp;1: Summary Statistics, Alignment across Main variables</caption>
+<colgroup>
+<col style="width: 35%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">ASEC</th>
+<th style="text-align: center;">ATUS</th>
+<th style="text-align: center;">diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>N</td>
+<td style="text-align: center;">264870782</td>
+<td style="text-align: center;">262823885</td>
+<td style="text-align: center;">-0.8</td>
+</tr>
+<tr class="odd">
+<td>Sex</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;Female</td>
+<td style="text-align: center;">51.4</td>
+<td style="text-align: center;">51.6</td>
+<td style="text-align: center;">0.2</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;Male</td>
+<td style="text-align: center;">48.6</td>
+<td style="text-align: center;">48.4</td>
+<td style="text-align: center;">-0.2</td>
+</tr>
+<tr class="even">
+<td>Parental Status</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>&nbsp;No</td>
+<td style="text-align: center;">76.1</td>
+<td style="text-align: center;">75.6</td>
+<td style="text-align: center;">-0.5</td>
+</tr>
+<tr class="even">
+<td>&nbsp;Yes</td>
+<td style="text-align: center;">23.9</td>
+<td style="text-align: center;">24.4</td>
+<td style="text-align: center;">0.5</td>
+</tr>
+<tr class="odd">
+<td>Labor Force Status</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;Not Employed</td>
+<td style="text-align: center;">42.0</td>
+<td style="text-align: center;">38.4</td>
+<td style="text-align: center;">-3.6</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;Employed</td>
+<td style="text-align: center;">58.0</td>
+<td style="text-align: center;">61.6</td>
+<td style="text-align: center;">3.6</td>
+</tr>
+<tr class="even">
+<td>Spouse present</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>&nbsp;No</td>
+<td style="text-align: center;">51.0</td>
+<td style="text-align: center;">50.6</td>
+<td style="text-align: center;">-0.4</td>
+</tr>
+<tr class="even">
+<td>&nbsp;Yes</td>
+<td style="text-align: center;">49.0</td>
+<td style="text-align: center;">49.4</td>
+<td style="text-align: center;">0.4</td>
+</tr>
+<tr class="odd">
+<td>Spouse’s labor force status</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;Spouse not Employed</td>
+<td style="text-align: center;">18.1</td>
+<td style="text-align: center;">17.3</td>
+<td style="text-align: center;">-0.8</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;Spouse Employed</td>
+<td style="text-align: center;">30.6</td>
+<td style="text-align: center;">32.1</td>
+<td style="text-align: center;">1.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>As can be observed in <a href="#tbl-t1">Table&nbsp;1</a>, the distribution of the sample with respect to sex and parental status is almost identical for both the ASEC and ATUS, with 48.5 percent of the sample being male, and about 24.1 percent being parents. The labor force status shows a relatively larger imbalance. The ATUS indicates there is a 3.6 percentage point larger share of employed individuals in the sample compared to the corresponding statistic in the ASEC survey (58 percent). The distribution of individuals across marital status presents a less severe imbalance. The statistics show that the share of married individuals is larger (3.6 percentage points) in the ATUS compared to the ASEC. In terms of the spouse’s labor force status, the differences in the distribution among married individuals are negligible.</p>
+<div id="tbl-t2" class="anchored">
+<table class="table">
+<caption>Table&nbsp;2: Summary Statistics, Alignment across Selected variables</caption>
+<colgroup>
+<col style="width: 35%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">ASEC</th>
+<th style="text-align: center;">ATUS</th>
+<th style="text-align: center;">diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Household income category</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;0-14,999</td>
+<td style="text-align: center;">7.3</td>
+<td style="text-align: center;">8.6</td>
+<td style="text-align: center;">1.3</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;15,000-34,999</td>
+<td style="text-align: center;">16.1</td>
+<td style="text-align: center;">16.7</td>
+<td style="text-align: center;">0.6</td>
+</tr>
+<tr class="even">
+<td>&nbsp;35,000-49,999</td>
+<td style="text-align: center;">12.7</td>
+<td style="text-align: center;">12.7</td>
+<td style="text-align: center;">-0.0</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;50,000-74,999</td>
+<td style="text-align: center;">18.6</td>
+<td style="text-align: center;">19.3</td>
+<td style="text-align: center;">0.7</td>
+</tr>
+<tr class="even">
+<td>&nbsp;75,000+</td>
+<td style="text-align: center;">45.3</td>
+<td style="text-align: center;">42.7</td>
+<td style="text-align: center;">-2.6</td>
+</tr>
+<tr class="odd">
+<td>Age category</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;15 to 24</td>
+<td style="text-align: center;">15.8</td>
+<td style="text-align: center;">16.2</td>
+<td style="text-align: center;">0.4</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;25 to 34</td>
+<td style="text-align: center;">17.1</td>
+<td style="text-align: center;">16.9</td>
+<td style="text-align: center;">-0.2</td>
+</tr>
+<tr class="even">
+<td>&nbsp;35 to 44</td>
+<td style="text-align: center;">15.6</td>
+<td style="text-align: center;">15.6</td>
+<td style="text-align: center;">-0.1</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;45 to 54</td>
+<td style="text-align: center;">14.9</td>
+<td style="text-align: center;">15.3</td>
+<td style="text-align: center;">0.3</td>
+</tr>
+<tr class="even">
+<td>&nbsp;55 to 64</td>
+<td style="text-align: center;">15.9</td>
+<td style="text-align: center;">16.1</td>
+<td style="text-align: center;">0.2</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;65 to 74</td>
+<td style="text-align: center;">12.2</td>
+<td style="text-align: center;">11.8</td>
+<td style="text-align: center;">-0.4</td>
+</tr>
+<tr class="even">
+<td>&nbsp;75 and older</td>
+<td style="text-align: center;">8.4</td>
+<td style="text-align: center;">8.1</td>
+<td style="text-align: center;">-0.3</td>
+</tr>
+<tr class="odd">
+<td>Race</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;White</td>
+<td style="text-align: center;">62.3</td>
+<td style="text-align: center;">64.8</td>
+<td style="text-align: center;">2.5</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;Black</td>
+<td style="text-align: center;">12.0</td>
+<td style="text-align: center;">11.9</td>
+<td style="text-align: center;">-0.1</td>
+</tr>
+<tr class="even">
+<td>&nbsp;Hispanic</td>
+<td style="text-align: center;">17.0</td>
+<td style="text-align: center;">16.9</td>
+<td style="text-align: center;">-0.2</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;Other</td>
+<td style="text-align: center;">8.7</td>
+<td style="text-align: center;">6.4</td>
+<td style="text-align: center;">-2.2</td>
+</tr>
+<tr class="even">
+<td>Educational attainment</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>&nbsp;Less than high school</td>
+<td style="text-align: center;">13.9</td>
+<td style="text-align: center;">14.4</td>
+<td style="text-align: center;">0.4</td>
+</tr>
+<tr class="even">
+<td>&nbsp;High school</td>
+<td style="text-align: center;">26.6</td>
+<td style="text-align: center;">27.5</td>
+<td style="text-align: center;">0.9</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;Some college</td>
+<td style="text-align: center;">16.7</td>
+<td style="text-align: center;">15.5</td>
+<td style="text-align: center;">-1.2</td>
+</tr>
+<tr class="even">
+<td>&nbsp;College/grad school</td>
+<td style="text-align: center;">42.8</td>
+<td style="text-align: center;">42.6</td>
+<td style="text-align: center;">-0.1</td>
+</tr>
+<tr class="odd">
+<td>Number of children under 18 in household</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;0</td>
+<td style="text-align: center;">63.6</td>
+<td style="text-align: center;">64.3</td>
+<td style="text-align: center;">0.7</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;1</td>
+<td style="text-align: center;">15.6</td>
+<td style="text-align: center;">15.5</td>
+<td style="text-align: center;">-0.1</td>
+</tr>
+<tr class="even">
+<td>&nbsp;2</td>
+<td style="text-align: center;">13.2</td>
+<td style="text-align: center;">12.4</td>
+<td style="text-align: center;">-0.8</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;3</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">5.3</td>
+<td style="text-align: center;">0.2</td>
+</tr>
+<tr class="even">
+<td>&nbsp;4 or more</td>
+<td style="text-align: center;">2.5</td>
+<td style="text-align: center;">2.4</td>
+<td style="text-align: center;">-0.1</td>
+</tr>
+<tr class="odd">
+<td>Number of persons in household over 18</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;1</td>
+<td style="text-align: center;">16.6</td>
+<td style="text-align: center;">19.2</td>
+<td style="text-align: center;">2.6</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;2</td>
+<td style="text-align: center;">52.2</td>
+<td style="text-align: center;">55.5</td>
+<td style="text-align: center;">3.4</td>
+</tr>
+<tr class="even">
+<td>&nbsp;3</td>
+<td style="text-align: center;">18.6</td>
+<td style="text-align: center;">16.4</td>
+<td style="text-align: center;">-2.3</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;4</td>
+<td style="text-align: center;">8.5</td>
+<td style="text-align: center;">7.0</td>
+<td style="text-align: center;">-1.6</td>
+</tr>
+<tr class="even">
+<td>&nbsp;5 or more</td>
+<td style="text-align: center;">4.0</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">-2.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="#tbl-t2">Table&nbsp;2</a> presents statistics on additional variables that characterize the observations in both the donor and recipient datasets. The distribution across household income categories shows some imbalance, with the ATUS showing a considerably lower proportion of households in the highest income category, suggesting some undersampling of high-income households. For other demographic characteristics, such as age, race, and educational attainment, the distribution of individuals in both surveys is close. The largest observed differences across these characteristics are seen in the categories of some college (-1.2 percentage points) and whites (62.3 percentage points), with other differences falling below 1 percentage points. Finally, in terms of household structure, the survey’s distribution is close in terms of number of children in the household, with slightly larger discrepancies in terms of the number of adult persons in the household, where the ATUS indicates a smaller share of larger households.</p>
+<p>As expected, although some differences in the distributions can be observed between both surveys, these differences are small and there are no systematic differences that might seriously affect the quality of the matching process.</p>
+</section>
+<section id="scf-meta-scf.year-asec-meta-asec.year" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="scf-meta-scf.year-asec-meta-asec.year"><span class="header-section-number">4.2</span> SCF 2019 – ASEC 2020</h2>
+<p>Similar to the previous case, in order to create the synthetic dataset that combines the SCF and ASEC information, five strata variables are used to perform the statistical matching. These strata variables are income category, homeownership, family type, and race and age of the householder. In this case, the households/families rather than individuals are used as the unit of observation. 1 presents summary statistics that compare the distribution of observations within the strata variables. Since both datasets were collected within one year of each other, one should expect them to be well aligned.</p>
+<ol class="example" type="1">
+<li>Summary Statistics, Alignment across Strata Variables</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and SCF 2013 data.</p>
+<p>As observed in 1, the distribution of households across income categories shows good balance across both samples, displaying at most a 5 percentage point difference. The SCF has a smaller share of middle-to-high-income households. Based on race and age, the distribution is very well balanced, with a less than <strong>?meta:v9</strong> 1.5 percentage point difference in the distributions, and a small underrepresentation of Hispanic and other races in the SCF. The largest distributional differences are present across family type and homeownership. The SCF dataset shows a larger share of households within the “couples” categories (<strong>?meta:v9</strong> 2.6 percentage points), while households with single males are underrepresented (<strong>?meta:v9</strong> 2.6 percentage points). Regarding homeownership, both samples present similar shares of renters and homeowners. Within the homeowners category, however, the ASEC underrepresents households with mortgages in about <strong>?meta:v9</strong> 5 percent of the instances compared to the SCF. Under the assumption the ASEC information is correct, the excess of mortgage debt is redistributed among householders with mortgages. This strategy has the advantage of keeping the total amount of mortgage debt unchanged in the imputed data, although this might imply some overestimation of mortgage debt when comparing households with mortgages in both datasets (see 13).</p>
+<p>2 presents statistics on additional variables that characterize the observations in both datasets. Information on education and occupation categories corresponds to that of the householder. The surveys are well balanced in terms of the educational attainment of the householder, the number of persons within the household, and the occupational categories.</p>
+<ol start="2" class="example" type="1">
+<li>Summary Statistics, Alignment across Selected Variables ASEC SCF diff</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and SCF 2013 data.</p>
+<p>The distribution of the sex of the householder shows some imbalance across both datasets. In the ASEC, the householder or person of reference is selected randomly in cases of couples. For consistency, we assign the male within the couple to be considered as the householder, a definition closer to the SCF’s head of household. While the SCF survey indicates that a large share of householders (<strong>?meta:v9</strong> 72.1 percent) are male, the ASEC shows <strong>?meta:v9</strong> 71.6 percent of householders are male. The next section describes the quality of the matching.</p>
+</section>
+</section>
+<section id="matching-quality" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Matching Quality</h1>
+<p>Statistical matching is a widely used technique, predominantly in observational studies in the medical literature. This method consists of combining the information from two separate and independent surveys into a single combined dataset from which statistical inferences can be obtained. The methodology enables the combination of the datasets using common information between both surveys, preserving the distributional characteristics of the combined information. In the following, the match quality between the ASEC 2020 (recipient) and ATUS 2019 (donor), and ASEC 2020 (recipient) and SCF 2019 (donor), correspondingly, are assessed.</p>
+<section id="matching-atus-and-asec" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="matching-atus-and-asec"><span class="header-section-number">5.1</span> Matching: ATUS and ASEC</h2>
+<p>In order to obtain a good match, the matching process begins using five strata variables, namely sex, parental status, labor force status, marital status, and spouse’s labor force status, to obtain 24 matching cells. Within each of these cells, propensity scores are estimated using logit models. A dummy variable indicating if the observation corresponds to the donor or the recipient survey is used as a dependent variable. A set of demographic variables (i.e., age, educational attainment, race, parental status, marital status, and employment status) and household characteristics (i.e., number of adults, number of children, and household monthly income) are included as independent variables. For subsequent matching rounds, broader matching cells are defined accordingly, keeping the logit specifications consistent across all models, and including the omitted strata variable in the specification. The logit models and propensity scores are estimated using all information within broader cells, but the matching is done only across observations left unmatched from previous rounds.</p>
+<p>Turning to the results of the match performance, <strong>?@tbl-tb5</strong> shows the distribution of the matched records by matching round. As expected from these types of processes, <strong>?meta:v9</strong> percent of the matches occur on the first round, ensuring the highest level of match quality. At the same time, only 0.03 percent of the weighted sample was left unmatched after eight matching rounds. These unmatched observations should not bias the distributional statistics of the transferred information.</p>
+<ol start="3" class="example" type="1">
+<li>Distribution of Matched Records by Matching Round<br>
+Source: Author’s calculations based on ASEC 2014 and ATUS 2013 matched data.</li>
+</ol>
+<p>4 provides a description of the match quality, comparing some distributional statistics on the weekly hours of household production between the original information (ATUS) and the imputed data (ASEC). 4 also presents some statistics on three components of household production. Given the large presence of zero hours allocated to household production in the sample, some ratios and statistics are not available. The percentile ratios are all equivalent with identical Gini coefficients (<strong>?meta:v9</strong>). The means and medians on the disaggregated components of household production also show a strong equivalence between both surveys, indicating a strong balance in aggregate terms.</p>
+<ol start="4" class="example" type="1">
+<li>Matching Quality: Summary Statistics ATUS 2013 ASEC 2014</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and ATUS 2013 data.</p>
+<p>5 presents a visual representation of the distribution of hours allocated to household production using three of the strata variables: sex, parental status, and labor force status. The figure shows that except for some values on the right tail of the distributions—for example, women who are not parents and are not working (F<sup>P</sup>W) and men who are parents and are not working (MP^W)—the overall distributions within the strata variables are analogous, indicating a good match quality.</p>
+<ol start="5" class="example" type="1">
+<li>Distritubtion of Hours in Household Production, by Survey</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and ATUS 2013 data.</p>
+<p>For a detailed review of the performance of the matching, <strong>?@fig-f2</strong> shows the ratios of the disaggregated hours allocated to household production (care, procurement, and core) between the imputed data (ASEC) and the donor data (ATUS). 6 provides additional information on the mean and median hours of household production per week. The information is shown across the five strata variables used for the matching. With some exceptions, the ratios of mean weekly hours of household production (and subcategories) fall within 5 percent of difference across all strata variables, an indication of good match quality. The largest differences are observed among low-income households and among people with less than a high school education. In both cases the statistics indicate, on average, <strong>?meta:v9</strong> 11.1 percent and <strong>?meta:v9</strong> 12 percent more hours respectively allocated to household production. In perspective, while such differences seem large, they might have a small effect on other analyses since the average hours allocated to care among the specific groups are rather few (just about two hours).<br>
+<strong>?@fig-f2</strong>. Ratio of Mean Household Production Hours, by Strata Variables</p>
+<p>Source: Author’s calculations based on ASEC 2014 and ATUS 2013 data.</p>
+<ol start="6" class="example" type="1">
+<li>Average and Median Household Production Weekly Hours, by Selected Variables Averages Median<br>
+</li>
+</ol>
+<p>7 presents additional details on the quality of the match using the cell matching variable. Similar to the results described before, with some exceptions, total household production—in particular procurement and core hours—shows good levels of balance across most of the matching cells (note: procurement and core hours are part of household production). Some of the largest differences are observed for cells <strong>?meta:v9</strong> 1, 3, 5, 13, and 14, with a difference larger than 20 percent in relative terms in terms of care activities. The imputed sample overestimates the allocation of hours in care activities, but it represents a less-than-one-hour difference. These cells are the ones that had the lowest rate of first-round matching, which could explain these results. In general, it seems that after the statistical match, the imputed sample tends to understate the average hours in household production, but such differences are somewhat small.</p>
+<ol start="7" class="example" type="1">
+<li>Ratio and Absolute Differences of Mean Household Production Hours, by Matching Cell</li>
+</ol>
+<p>To examine the match quality beyond the framework of the strata variables, 8 presents information on ratios for household production and its components across education, household income level, and age group. In addition, 6 provides the mean and median of total household production for selected variables. In terms of education, people with high school and some college education have good levels of balance between both surveys. People with less than a high school education are imputed with longer hours allocated to household production (<strong>?meta:v9</strong> 2.1 hours more) and all its components. In contrast, there is a small but consistent underestimation of the hours of household production (<strong>?meta:v9</strong> 0.5 hours) for people with at least a college degree. Individuals in the lowest income groups show an underestimation of the hours allocated to household production (<strong>?meta:v9</strong> 2.3 hours), a bias that is particularly large when observing the hours assigned to care and core activities. In contrast, individuals living in the richest households exhibit a somewhat consistent underestimation. Similar gaps are observed when looking at the medians.</p>
+<p>In terms of age, the averages and medians indicate the statistical match did a good job imputing hours, as the differences are small for all groups. Looking at care activities, however, the statistical match seems to overestimate the number of hours spent on these activities, especially for people <strong>?meta:v9</strong> over 55 years of age.  </p>
+<ol start="8" class="example" type="1">
+<li>Ratio of Mean Household Production Hours, by Selected Variables</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and ATUS 2013 data.</p>
+</section>
+<section id="matching-asec-meta-asec.year-and-scf-meta-scf.year" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="matching-asec-meta-asec.year-and-scf-meta-scf.year"><span class="header-section-number">5.2</span> Matching: ASEC 2020 and SCF 2019</h2>
+<p>For the matching process between the ASEC 2020 and SCF 2019, five strata variables, namely income categories, homeownership, family type, and race and age of the householder (head of household), are used to create 360 matching cells. Given the availability of information from both surveys within each cell, and the requirements imposed for consistent estimation of the propensity scores via logit models, we end up with 162 cells in the first round, which represent about 92 percent of the whole sample.</p>
+<p>A dummy variable indicating whether the observation corresponds to the donor or the recipient survey is used as the dependent variable. In addition to the strata variables, a set of variables including dummies for zero income, zero wage income, dummies for other sources of income, age (and its square) of the householder, educational attainment, occupation category, and number of people in household are included in the model specification. Standardized indexes for income and wage income are also included. The logit models and propensity scores are estimated using all information within broader cells, but the matching is elaborated only across observations left unmatched from previous rounds. For subsequent matching rounds, broader matching cells are defined accordingly, keeping the logit specifications consistent across all models, and including the omitted strata variable in the specification</p>
+<p>Turning to the results of the match performance, 9 shows the distribution of the matched records by matching round. As expected, a large share of the matches (<strong>?meta:v9</strong> 81.4 percent) occurs on the first round, when the highest level of quality match is ensured. While in the first round the match ratio is lower than in the previous case (ATUS-ASEC), it is still sufficiently large to obtain good matching quality in terms of the strata variables. Only <strong>?meta:v9</strong> 0.7 percent of the weighted sample is left unmatched after all matching rounds. These unmatched observations are composed of middle-to-high-income renter households, with a mostly nonelderly and predominately Hispanic or white householder. This should not bias the distributional statistics of the transferred information in the aggregate.</p>
+<ol start="9" class="example" type="1">
+<li>Distribution of Matched Records by Matching Round Matching round Records matched Percent</li>
+</ol>
+<p>10 provides a better look at the match quality, comparing some distributional statistics on a household’s assets and liabilities. 10 also presents some statistics on individual asset and debt categories. The upper percentiles and Gini coefficients are equivalent across both samples (<strong>?meta:v9</strong> 0.874). The lower percentiles, however, present a more pronounced difference, with the ASEC presenting lower net worth estimates. This is related to differences in the incidence of homeowners with mortgages shown in 1. The differences in the percentiles are also replicated when looking at the percentile ratios. The means and medians show a fair level of equivalence between both surveys for the disaggregated components. The largest difference corresponds to asset3 (liquid assets), showing an average difference of <strong>?meta:v9</strong> 4 percent, or about <strong>?meta:v9</strong> $2,121.</p>
+<ol start="10" class="example" type="1">
+<li>Matching Quality: Summary Statistics SCF2013 ASEC 2014 Ratio ASEC/SCF Distributional statistics (net worth)</li>
+</ol>
+<p>11 presents a visual representation of the distribution of logged household net worth using three of the strata variables: race, homeownership, and age. The figure shows that for most cases the distribution of the logged net worth is equivalent in both surveys. There are, however, some differences in the distributions regarding extreme values (outliers) among some groups, like households with white elderly homeowners (WOE), nonwhite elderly homeowners (^WOE), or white nonelderly and nonhomeowners (W<sup>O</sup>E). While extreme values might not affect statistics like medians and percentiles, they might create problems when analyzing information at the means for more detailed subgroups.<br>
+</p>
+<ol start="11" class="example" type="1">
+<li>Distritubtion of Logged Net Worth, by Survey</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and SCF 2013 data.</p>
+<p>12 provides an alternative to comparing the distribution of logged net worth between both the donor and the imputed sample. The close superposition between the kernel densities for both suggests that, as indicated before, the moments of the distributions of the imputed and donor samples are highly comparable in the aggregate. A closer look at 12, however, still indicates that the presence of outliers might affect the estimation of relevant means for specific groups. Overall, there is a difference of only <strong>?meta:v9</strong> $1,774 between the mean imputed and donor net worth, and no differences when comparing medians.</p>
+<ol start="12" class="example" type="1">
+<li>Kernel Density of Logged Net Worth, by Survey</li>
+</ol>
+<p>For a detailed review of the performance of the matching, figures 6 and 7 show the ratios of asset and debt values between the imputed data (ASEC) and the donor data (SCF) across the five strata variables used for the matching. 15 also presents information on the mean and median gaps of the net worth of the households with respect to the strata characteristics. The first strata variable to be analyzed corresponds to the household income. After the matching, the average values of asset1, asset4, asset5, and net worth are overstated (up to 36 percent) in the recipient dataset among households in the lowest income group. This implies a difference of a little more than $7,411 for asset1 or <strong>?meta:v9</strong> $11,140 for net worth. In contrast, with a few exceptions, all other assets/debts are understated in the imputed dataset by almost <strong>?meta:v9</strong> 10 percent on average, with the richest households having the largest bias (<strong>?meta:v9</strong> 14 percent or <strong>?meta:v9</strong> $227,000 lower net worth). In all cases, debt1 and debt2 are understated for all income groups except the richest, with a bias of less than 15 percent.</p>
+<p>With respect to homeownership, the results show a good balance, on average, with net worth differences ranging from <strong>?meta:v9</strong> $2,500 to <strong>?meta:v9</strong> $79,500. The groups with the largest imbalances correspond to: homeowners without a mortgage, for which mutual funds (asset4) are understated by almost 22 percent and other debt (debt2) is overstated by 16 percent; and homeowners with a mortgage, for which mortgage debt (debt1) is overstated by about 11 percent and mutual funds (asset4) are overstated by 18 percent. In terms of family type, while households with couples and single women have well-balanced statistics, real estate assets in single-male households are understated by 35 percent (asset2) and mutual funds (asset4) are overstated by 13 percent. In aggregate, net worth is understated by <strong>?meta:v9</strong> 3 percent (<strong>?meta:v9</strong> $9,350) (15).</p>
+<ol start="13" class="example" type="1">
+<li>Ratio of Mean Household Assets and Liabilities, by Strata Variables</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and SCF 2013 data.</p>
+<ol start="14" class="example" type="1">
+<li>Ratio of Mean Household Assets and Liabilities, by Strata Variables</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and SCF 2013 data.</p>
+<p>When considering race, while the balance statistics show that information corresponding to households with white, black, and Hispanic householders is well balanced, the imputed sample consistently understates the asset/debt holdings from other race households by almost <strong>?meta:v9</strong> 17 percent. In terms of net worth alone, the net assets of “other races” are understated in just over <strong>?meta:v9</strong> 28 percent of the cases, which implies an almost <strong>?meta:v9</strong> $151,731 difference. The median gaps show a much smaller absolute difference (<strong>?meta:v9</strong> $10,000), suggesting that the large differences in the means are driven by outliers. Finally, in terms of age groups, the statistics show that the imputed data is well balanced for most of the asset/debt components except for mortgage debt (debt1). The statistics show that the imputed data understates the debt of elderly households in about 11 percent of the cases. This happens because the share of elderly households with mortgage debt is lower in the ASEC survey compared to the corresponding share in the SCF.</p>
+<ol start="15" class="example" type="1">
+<li>Mean and Median Net Worth by Strata Variables</li>
+</ol>
+<p>To analyze how the matching performs for more detailed cells, the mean ratios between samples for all assets and debts are calculated for different combinations of the strata variables. 16 plots the densities corresponding to the mean ratios for selected combinations of the strata variables. As can be seen for most of the cases, the distributions of the mean ratios are highly concentrated around one, indicating that, on average, there is good balance between both surveys. As the figure also indicates, for some of the ratios, some large imbalances can be observed (ratios above two). These types of large imbalances for narrower cells are expected, as the SCF also collects information for high-income families, which might appear as large outliers. While for most variables the ratio distributions indicate a good balance, the ones corresponding to retirement assets (asset5) suggest that the imputed data tends to overstate it (25 percent).</p>
+<ol start="16" class="example" type="1">
+<li>Kernel Density Ratios of Mean Household Assets and Liabilities</li>
+</ol>
+<p>Source: Author’s calculations based on ASEC 2014 and SCF 2013 data.</p>
+</section>
+</section>
+<section id="conclusions" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Conclusions</h1>
+<p>Overall, the ATUS and ASEC data are well aligned, with the some imbalances with respect to labor force status. The matching quality is good, with some limitations. There is a strong balance across the individual strata variables, showing good balance for aggregate measures (household production) for most of the variables analyzed. The results across the individual matching cells and other variables, however, show less balance.</p>
+<p>On the one hand, the imputed information on the hours allocated to care activities shows important (relative) imbalances across many matching cells. The absolute differences, however, are small and should not create a large bias. On the other hand, information across other variables, such as education, household income, and (particularly) age, show important balance problems. The imputed dataset overstates household production of people with less than a high school education, and understates it for those with tertiary education, as well as for people in poor households. Across age, while the aggregate results are balanced, the individual components show large over- and under-estimations for different age groups.</p>
+<p>With respect to the SCF and ASEC, the data is also well aligned, with the exception of mortgage holding, with small differences in the proportions of the breakdown by the sex of the householder. The results regarding the quality of the match are mixed. While the overall results show good balance between the imputed and donor surveys, with small underestimations of some items, analyzing the results across the strata variables shows relatively large imbalances (up to <strong>?meta:v9</strong> 20 percent) for a relatively small subset of strata variables. As we would expect, larger imbalances are observed for narrower groupings. The data shows some underestimation of mortgage debt, probably caused by the differences in the alignment of household property (see 1). Given that the SCF collects information from high-income households, it is possible that the information transferred from these observations has a strong influence on the cellspecific statistics. These results imply that careful consideration must be taken when making statistical inferences from certain populations. One can make inferences for the aggregate population, but attempting a similar analysis using two or more variables at the same time may carry too much bias to be informative.</p>
+</section>
+<section id="references" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> References</h1>
+<p>Kennickell, A. B. 2000. “Revisions to the Variance Estimation Procedure for the SCF.” Washington, DC: Board of Governors of the Federal Reserve System.</p>
+<p>Kennickell, A. B., and R. L. Woodburn. 1999. “Consistent Weight Design for the 1989, 1992, and 1995 SCFs, and the Distribution of Wealth.” Review of Income and Wealth 45(2): 193–215.</p>
+<p>Kum, H., and T. N. Masterson. 2010. “Statistical matching using propensity scores: Theory and application to the analysis of the distribution of income and wealth.” Journal of Economic and Social Measurement 35(3): 177–96.</p>
+<p>Semega, J., and E. Welniak, Jr.&nbsp;2013. “Evaluating the 2013 CPS ASEC Income Redesign Content Test.” US Census Bureau Income Statistics Working Paper. Washington, DC: US Census Bureau.</p>
+<p>Wolff, E. N., and A. Zacharias. 2003. “The Levy Institute Measure of Economic Well-Being.” Levy Institute Working Paper 372. Annandale-on-Hudson, NY: Levy Economics Institute of Bard College.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

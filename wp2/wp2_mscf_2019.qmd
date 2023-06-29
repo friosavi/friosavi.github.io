@@ -1,0 +1,443 @@
+---
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
+---
+
+## Matching: ASEC {{< meta asec.year >}} and SCF {{< meta scf.year >}}
+
+For the matching process between the ASEC {{< meta asec.year >}} and SCF {{< meta scf.year >}}, we consider 5 variables, namely income categories, homeownership, family type, and race and age of the householder (head of household), as the most important to evaluate the quality of the matching. 
+
+For the estimation of the propensity score, in addition to the previously mentioned variables, a set of variables including dummies for zero income, zero wage income, dummies for other sources of income, age (and its square) of the householder, educational attainment, occupation category, and number of people in household are included in the model specification. They are used to create the propensity scores and principal components to elaborate the matching. Standardized indexes for income and wage income are also included.
+
+Turning to the results of the match performance, @fig-fig2p1 shows the distribution of the matched records by matching round. As expected, a large share of the matches ({{< meta v2_1 >}} percent) occurs on the first round, when the highest level of quality match is ensured. This is sufficiently large to obtain good matching quality in terms of the strata variables. Only {{< meta v2_2 >}} percent of the weighted sample is matched in the last round 3 rounds. This should not bias the distributional statistics of the transferred information in the aggregate.
+
+```{stata}
+*| echo: false
+*| output: false
+
+set linesize 255
+set scheme white2
+color_style bay
+
+capture frame create scf_cps
+frame change scf_cps
+use mscf_cps_19, clear
+tab __round survey [w=anwgt] if __flag==1, matcell(fig1)
+mata:fig1 = st_matrix("fig1")
+mata:fig1 = fig1[,1],runningsum(fig1[,1])
+mata:fig11 = fig1[,1]:/fig1[rows(fig1),2]*100;fig12 = fig1[,2]:/fig1[rows(fig1),2]*100
+mata:fig11=fig11,range(1,rows(fig1),1);fig12=fig12,range(1,rows(fig1),1)
+graph set svg fontface Garamond
+two bar matamatrix(fig11) || scatter matamatrix(fig12), connect(l) ///
+xtitle("Round") ytitle("Share Matched") ///
+scale(1.15) legend(order(1 "Share Matched per Round" 2 "Cumulative Match per Round") ///
+col(2) pos(6))
+graph export fig2_1.png, width(2000) replace
+
+mata:st_matrix("fig1",(fig11,fig12))
+local v2_1: display %3.1f `=fig1[1,1]'
+local v2_2: display %3.1f `=100-fig1[10,3]'
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        "v2_1: `v2_1' " _n
+        "v2_2: `v2_2' " _n
+        "---";
+#delimit cr
+```
+
+![Distribution of Matched Records by Matching Round](fig2_1.png){#fig-fig2p1}
+
+@tbl-t10 provides a better look at the match quality, comparing some distributional statistics on a household's assets and liabilities. @tbl-t10 also presents some statistics on total assets and total debt. The upper percentiles and Gini coefficients are equivalent across both samples ({{< meta v9 >}} 0.874). The lower percentiles, however, present a more pronounced difference, with the ASEC presenting lower net worth estimates. This is related to differences in the incidence of homeowners with mortgages shown in @tbl-t3. The differences in the percentiles are also replicated when looking at the percentile ratios. The means and medians show a fair level of equivalence between both surveys for the disaggregated components. The largest difference corresponds to asset3 (liquid assets), showing an average difference of {{< meta v9 >}} 4 percent, or about {{< meta v9 >}} \$2,121.
+
+
+```{stata}
+*| echo: false
+*| output: false
+
+foreach i in networth asset1 asset2 asset3 asset4 asset5 debt1 debt2 {
+    replace `i'=`i'[__id2] if `i'==.
+}
+keep if __flag==1
+
+tabstat2 networth [w=wgt], stats(p10 p25 p50 p75 p90) by(survey) save
+matrix tb10 = r(tmatrix)
+mata:tb10=st_matrix("tb10")
+anogi networth   [aw=wgt] , by(survey)
+matrix tb10 = r(stats)'
+mata:tb10=tb10\st_matrix("tb10")[5,]
+egen tasset = rowtotal(asset1 asset2 asset3 asset4 asset5)
+egen tdebt = rowtotal(debt1 debt2)
+
+tabstat2 tasset  [w=wgt], stats(mean median) by(survey) save
+mata tb10=tb10\st_matrix("r(tmatrix)")
+
+tabstat2 tdebt  [w=wgt], stats(mean median) by(survey) save
+mata tb10=tb10\st_matrix("r(tmatrix)")
+
+tabstat2 networth  [w=wgt], stats(mean median) by(survey) save
+mata tb10=tb10\st_matrix("r(tmatrix)")
+mata tb10 = tb10,tb10[,1]:/tb10[,2]*100
+mata st_matrix("tb10",tb10)
+
+** Summary
+matrix roweq tb10 = rr1  rr1 rr1 rr1 rr1 rr1 rr2 
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+
+#delimit;
+esttab matrix(tb10, fmt("%10.0fc %10.0fc %10.0fc %10.0fc %10.0fc 3 %10.0fc" "%10.0fc %10.0fc %10.0fc %10.0fc %10.0fc 3 %10.0fc" 1)), mlabels(, none)  
+varlabels(
+r1 " p10" r2 " p25" r3 " p50" r4 " p75" r5 " p90" 
+r6 " Gini"
+r7 " Avg. Total Assets"
+r8 " Median Total Assets"
+r9 " Avg. Total Debt"
+r10 " Median Total Debt"
+r11 " Avg. Networth"  
+r12 " Median Networth") 
+collab("ASEC" "SCF" "Ratio ASEC/SCF") md
+eqlabels("Distributional Statistics Networth " 
+"Summary Statistics");
+#delimit cr
+display ": Matching Quality: Summary Statistics " _continue
+display `"{#tbl-t10}{tbl-colwidths="[35,12,12,12]"}"' 
+```
+
+@fig-fig2p2 presents a visual representation of the distribution of logged household net worth using three variables: race, homeownership, and age, using kernel density curves. Because there is a substantial share of the population who has zero or negative networth, we plot both sides of the distribution using a slight modification of the log transformation:
+
+$$
+\begin{aligned}
+log\_networth &= log(networth) & \ if \ networth>0 \\
+log\_networth &= 0 & \ if \ networth=0 \\
+log\_networth &= -log(-networth) & \ if \ networth<0 \\
+\end{aligned}
+$$
+
+The figure shows that for most cases the distribution of the logged net worth is equivalent in both surveys. There are, however, some differences in the distributions regarding extreme values (outliers) among some groups, like households with white elderly homeowners (WHE), nonwhite elderly homeowners (\^WHE), or white nonelderly and nonhomeowners (W^H^E). While extreme values might not affect statistics like medians and percentiles, they might create problems when analyzing information at the means for more detailed subgroups. However, because the overall distribution is quite similar between donor and recipient sample across subgroups, the matching should suffice for less detailed analysis of the synthetic data.
+
+```{stata}
+*| output: false
+*| echo: false
+
+egen grp = group(white homeown elder)
+drop survey
+gen survey = donor
+label define survey 0 "ASEC" 1 "SCF", modify
+label values survey survey
+
+label define grp 1 "^W^H^E" 2 "^W^HE" 3 "^WH^E" 4 "^WHE" 5 "W^H^E" 6 "W^HE" 7 "WH^E" 8 "WHE", modify
+label values grp grp
+
+gen lognet = log(networth)
+replace lognet = 0 if networth==0
+replace lognet = -log(-networth) if networth<0
+#delimit;
+joy_plot lognet [w=wgt] if survey==1, over(grp) bwadj2(.4) bwadj(.5) dadj(2.5) xtitle("Log Networth") offset(-1)
+xlabel(`=-log(100000)' "-100,000"
+`=-log(5000)' "-5,000"
+`=-log(500)' "-500"
+`=-log(100)' "-100" 0 "0"
+`=log(100)' "100" 
+`=log(500)' "500" 
+`=log(5000)' "5000" 
+`=log(100000)' "100,000"
+`=log(10000000)' "10,000,000"
+) ysize(8) xsize(10) range(-15 20) 
+title("SCF") name(m1, replace)  ;
+joy_plot lognet [w=wgt] if survey==0, over(grp) bwadj2(.4) bwadj(.5) dadj(3) xtitle("Log Networth") offset(-1)
+xlabel(`=-log(100000)' "-100,000"
+`=-log(5000)' "-5,000"
+`=-log(500)' "-500"
+`=-log(100)' "-100" 0 "0"
+`=log(100)' "100" 
+`=log(500)' "500" 
+`=log(5000)' "5000" 
+`=log(100000)' "100,000"
+`=log(10000000)' "10,000,000"
+) ysize(8) xsize(10) range(-15 20) title("ASEC")
+name(m0, replace)  ;
+graph combine m0 m1, xsize(10) ysize(5) note("^=Not, W=White, H=Homeowner, E=Elderly") scale(1.2);
+graph export fig2_2.pdf, replace fontface(Garamond);
+ #delimit cr
+```     
+
+![Distribution of Logged Net Worth, by Survey](fig2_2.pdf){#fig-fig2p2}
+
+For a detailed review of the performance of the matching, figures 6 and 7 show the ratios of asset and debt values between the imputed data (ASEC) and the donor data (SCF) across five variables used for the matching. @tbl-t11 also presents information on the mean and median gaps of the net worth of the households with respect to the strata characteristics. 
+
+```{stata}
+*| output: false
+*| echo: false
+** Table 1l
+gen cx=1
+capture matrix drop tb11
+foreach i in cx home_prop hhinccl elder famtype racecl {
+	levelsof `i', local(li)
+	foreach j of local li {
+		tabstat2 networth [w=wgt] if `i'==`j',  by(survey) save	stats(mean median)
+		matrix tb11 = nullmat(tb11)\r(tmatrix2)
+	}
+}
+
+mata:tb11=st_matrix("tb11")
+mata:tb11=tb11[,1],tb11[,1]:/tb11[,3]*100,tb11[,2],tb11[,2]:/tb11[,4]*100
+mata:st_matrix("tb11",tb11)
+matrix roweq tb11 = r1 r2 r2 r2 r3 r3 r3 r3 r3 r4 r4 r5 r5 r5 r6 
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+
+#delimit;
+esttab matrix(tb11, fmt(%10.0fc 1 %10.0fc 1)), mlabels(, none)
+collab("Mean - ASEC" "Ratio to SCF" "Median - ASEC" "Ratio to SCF")
+eqlabels("Total" 
+"Homeownership" 
+"Income Group" 
+"Age"
+"Family type" 
+"Race")
+varlabels(r1 " "  r2 " Renter" 
+r3 " Owner with Mortgage" r4 " Owner w/o Mortgage" 
+r5 " <$20k" r6 " $20k-$50k"
+r7 " $50k-$75k" r8 " $75k-$100k" 
+r9 " >$100k" r10 " Non-Eldery" r11 " Elder"
+r12 " Couple" 
+r13 " Single female"
+r14 " Single male"
+r15 " White"
+r16 " Black" r17 " Hispanic"
+r18 " Other") md;
+#delimit cr
+display ": Average and Median Networth, by Selected Variables " _continue
+display `"{#tbl-t11}{tbl-colwidths="[35,12,10,12,10]"}"'
+```
+
+
+The first variable to be analyzed corresponds to the household income. After the matching, the average values of asset1, asset4, asset5, and net worth are overstated (up to 36 percent) in the recipient dataset among households in the lowest income group. This implies a difference of a little more than \$7,411 for asset1 or {{< meta v9 >}} \$11,140 for net worth. In contrast, with a few exceptions, all other assets/debts are understated in the imputed dataset by almost {{< meta v9 >}} 10 percent on average, with the richest households having the largest bias ({{< meta v9 >}} 14 percent or {{< meta v9 >}} \$227,000 lower net worth). In all cases, debt1 and debt2 are understated for all income groups except the richest, with a bias of less than 15 percent.
+
+With respect to homeownership, the results show a good balance, on average, with net worth differences ranging from {{< meta v9 >}} \$2,500 to {{< meta v9 >}} \$79,500. The groups with the largest imbalances correspond to: homeowners without a mortgage, for which mutual funds (asset4) are understated by almost 22 percent and other debt (debt2) is overstated by 16 percent; and homeowners with a mortgage, for which mortgage debt (debt1) is overstated by about 11 percent and mutual funds (asset4) are overstated by 18 percent. In terms of family type, while households with couples and single women have well-balanced statistics, real estate assets in single-male households are understated by 35 percent (asset2) and mutual funds (asset4) are overstated by 13 percent. In aggregate, net worth is understated by {{< meta v9 >}} 3 percent ({{< meta v9 >}} \$9,350) (@tbl-t11).
+
+ 
+```{stata}
+*| output: false
+*| echo: false
+
+local var home_prop
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==0, by(`var') save
+matrix m0=r(tmatrix2)
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==1, by(`var') save
+matrix m1=r(tmatrix2)
+mata:m01=st_matrix("m0"):/st_matrix("m1")*100 
+mata:st_matrix("m01",m01)
+
+local var hhinccl
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==0, by(`var') save
+matrix m0=r(tmatrix2)
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==1, by(`var') save
+matrix m1=r(tmatrix2)
+mata:m01=st_matrix("m0"):/st_matrix("m1")*100 
+mata:st_matrix("m02",m01)
+
+local var elder
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==0, by(`var') save
+matrix m0=r(tmatrix2)
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==1, by(`var') save
+matrix m1=r(tmatrix2)
+mata:m01=st_matrix("m0"):/st_matrix("m1")*100 
+mata:st_matrix("m03",m01)
+
+local var famtype
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==0, by(`var') save
+matrix m0=r(tmatrix2)
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==1, by(`var') save
+matrix m1=r(tmatrix2)
+mata:m01=st_matrix("m0"):/st_matrix("m1")*100 
+mata:st_matrix("m04",m01)
+
+local var racecl
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==0, by(`var') save
+matrix m0=r(tmatrix2)
+tabstat2 asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth [w=wgt] if donor==1, by(`var') save
+matrix m1=r(tmatrix2)
+mata:m01=st_matrix("m0"):/st_matrix("m1")*100 
+mata:st_matrix("m05",m01)
+
+** Figures
+capture frame create fig
+frame fig: {
+clear
+svmat m01
+gen n1 = _n-.2
+gen n2 = _n
+gen n3 = _n+.2
+gen m0 = 100
+two ( rspike m011 m0 n1, lw(2) ) (rspike m012 m0 n2, lw(2) ) ///
+(rspike m013 m0 n3, lw(2) ), ///
+xlabel(1 "Asset1" 2 "Asset2" 3 "Asset3" 4 "Asset4" 5 "Asset5" 6 "Debt1" 7 "Debt2" 8 "Networth") ///
+scale(1.15) legend(order(1 "Renter" 2 "Owner w/ Mortgage" 3 "Owner w/o Mortgage") pos(6) cols(3))
+}
+*graph export fig2p3_1.png, width(2000) replace
+graph export fig2p3_1.pdf, fontface(Garamond) replace
+frame fig: {
+clear
+svmat m02
+gen n1 = _n-.2
+gen n2 = _n-.1
+gen n3 = _n
+gen n4 = _n+.1
+gen n5 = _n+.2
+
+gen m0 = 100
+two ///
+(rspike m021 m0 n1, lw(1) ) ///
+(rspike m022 m0 n2, lw(1) )  ///
+(rspike m023 m0 n3, lw(1) )  ///
+(rspike m024 m0 n4, lw(1) )  ///
+(rspike m025 m0 n5, lw(1) ) , ///
+xlabel(1 "Asset1" 2 "Asset2" 3 "Asset3" 4 "Asset4" 5 "Asset5" 6 "Debt1" 7 "Debt2" 8 "Networth") ///
+scale(1.15) legend(order(1 "<$20k" 2 "$20k-$50k" 3 "$50k-$75k" 4 "$75k-$100k" 5 ">$100k") pos(6) cols(3))
+}
+graph export fig2p3_2.pdf, fontface(Garamond) replace
+
+frame fig: {
+clear
+svmat m03
+gen n1 = _n-.1
+gen n2 = _n+.1
+
+gen m0 = 100
+two ///
+(rspike m031 m0 n1, lw(2.5) ) ///
+(rspike m032 m0 n2, lw(2.5) ) , ///
+xlabel(1 "Asset1" 2 "Asset2" 3 "Asset3" 4 "Asset4" 5 "Asset5" 6 "Debt1" 7 "Debt2" 8 "Networth") ///
+scale(1.15) legend(order(1 "Nonelderly" 2 "Elder" ) pos(6) cols(3)) 
+}
+graph export fig2p3_3.pdf, fontface(Garamond) replace
+
+frame fig: {
+clear
+svmat m04
+gen n1 = _n-.2
+gen n2 = _n
+gen n3 = _n+.2
+gen m0 = 100
+two ///
+(rspike m041 m0 n1, lw(2) ) ///
+(rspike m042 m0 n2, lw(2) ) ///
+(rspike m043 m0 n3, lw(2) ) , ///
+xlabel(1 "Asset1" 2 "Asset2" 3 "Asset3" 4 "Asset4" 5 "Asset5" 6 "Debt1" 7 "Debt2" 8 "Networth") ///
+scale(1.15) legend(order(1 "Couple" 2 "Single Female" 3 "Single Male") pos(6) cols(3))
+}
+graph export fig2p3_4.pdf, fontface(Garamond) replace
+
+frame fig: {
+clear
+svmat m05
+gen n1 = _n-.25
+gen n2 = _n-.0833
+gen n3 = _n+.0833
+gen n4 = _n+.25
+gen m0 = 100
+two ///
+(rspike m051 m0 n1, lw(2) ) ///
+(rspike m052 m0 n2, lw(2) ) ///
+(rspike m053 m0 n3, lw(2) ) ///
+(rspike m054 m0 n4, lw(2) ) , ///
+xlabel(1 "Asset1" 2 "Asset2" 3 "Asset3" 4 "Asset4" 5 "Asset5" 6 "Debt1" 7 "Debt2" 8 "Networth") ///
+scale(1.15) legend(order(1 "White" 2 "Black" 3 "Hispanic" 4 "Other") pos(6) cols(3))
+}
+graph export fig2p3_5.pdf, fontface(Garamond) replace
+```
+
+::: {#fig-fig2p3 layout-ncol=2}
+
+![Homeownership](fig2p3_1.pdf){#fig-fig2p3a}
+
+![Income group](fig2p3_2.pdf){#fig-fig2p3b}
+
+![Age](fig2p3_3.pdf){#fig-fig2p3c}
+
+![Family type](fig2p3_4.pdf){#fig-fig2p3d}
+
+![Race](fig2p3_5.pdf){#fig-fig2p3e}
+
+Ratio of Mean Household Assets and Liability by Main Variables
+:::
+
+
+When considering race, while the balance statistics show that information corresponding to households with white, black, and Hispanic householders is well balanced, the imputed sample consistently understates the asset/debt holdings from other race households by almost {{< meta v9 >}} 17 percent. In terms of net worth alone, the net assets of "other races" are understated in just over {{< meta v9 >}} 28 percent of the cases, which implies an almost {{< meta v9 >}} \$151,731 difference. The median gaps show a much smaller absolute difference ({{< meta v9 >}} \$10,000), suggesting that the large differences in the means are driven by outliers. Finally, in terms of age groups, the statistics show that the imputed data is well balanced for most of the asset/debt components except for mortgage debt (debt1). The statistics show that the imputed data understates the debt of elderly households in about 11 percent of the cases. This happens because the share of elderly households with mortgage debt is lower in the ASEC survey compared to the corresponding share in the SCF.
+
+ 
+To analyze how the matching performs for more detailed cells, the mean ratios between samples for all assets and debts are calculated for different combinations of the strata variables. @fig2p4 plots the densities corresponding to the mean ratios for selected combinations of the strata variables. As can be seen for most of the cases, the distributions of the mean ratios are highly concentrated around one, indicating that, on average, there is good balance between both surveys. As the figure also indicates, for some of the ratios, some large imbalances can be observed (ratios above two). These types of large imbalances for narrower cells are expected, as the SCF also collects information for high-income families, which might appear as large outliers. While for most variables the ratio distributions indicate a good balance, the ones corresponding to retirement assets (asset5) suggest that the imputed data tends to overstate it (25 percent).
+
+```{stata}
+*| output: false
+*| echo: false
+
+drop2 grpx
+egen grpx=group(home_prop hhinccl elder famtype white)
+drop2 n0 n1
+bysort grpx:gen n0=sum(donor==0)
+bysort grpx:gen n1=sum(donor==1)
+capture frame drop xs
+frame put grpx wgt asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth donor if n0!=0 & n1!=0, into(xs)
+frame change xs
+sort grpx
+mata: y = st_data(.,"asset1 asset2 asset3 asset4 asset5 debt1 debt2 networth")
+mata: g = st_data(.,"grpx")
+mata: w = st_data(.,"wgt")
+mata: s = st_data(.,"donor")
+mata: info = panelsetup(g,1)
+mata: mn0 = panelsum(y:*w:*(s:==0),info):/panelsum(w:*(s:==0),info)
+mata: mn1 = panelsum(y:*w:*(s:==1),info):/panelsum(w:*(s:==1),info)
+mata: mnn = mn0:/mn1
+mata: wgt = panelsum(w:*(s:==1),info):/sum(w:*(s:==1))*100
+clear
+getmata mnn*=mnn
+getmata wgt*=wgt
+
+label var mnn1 Asset1
+label var mnn2 Asset2
+label var mnn3 Asset3
+label var mnn4 Asset4
+label var mnn5 Asset5
+label var mnn6 Debt1
+label var mnn7 Debt2
+label var mnn8 Networth
+joy_plot mnn1 mnn2 mnn3 mnn4 mnn5 [aw=wgt1] , range(0 3) bw(0.05) ///
+xline(1) scale(1.5) ysize(6) xsize(7)
+graph export fig2_4a.pdf, replace fontface(Garamond)
+
+joy_plot mnn6 mnn7 mnn8 [aw=wgt1]           , range(0 3) bw(0.05) ///
+xline(1) scale(1.5) ysize(6) xsize(7)
+graph export fig2_4b.pdf, replace fontface(Garamond)
+```
+
+::: {#fig-fig2p4 layout-ncol=2}
+
+![Assets](fig2_4a.pdf){#fig-fig2p4a}
+
+![Liabilities](fig2_4b.pdf){#fig-fig2p4b}
+
+Kernel Density Ratios of Mean Household Assets and Liabilities
+:::
+
+
+
+
+

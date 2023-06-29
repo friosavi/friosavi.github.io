@@ -1,0 +1,35 @@
+---
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
+---
+
+# Data Description
+
+## Annual Social Economics Supplement (ASEC)
+
+The CPS is a monthly survey administered by the US Bureau of Labor Statistics. It is used to assess the activities of the population and provide statistics related to employment and unemployment in the current labor market. Each household in the CPS is interviewed for four consecutive months, not interviewed for eight, and interviewed again for four additional months. Although the main purpose of the survey is to collect information on the labor market situation, the survey also collects detailed information on demographic characteristics (age, sex, race, and marital status), educational attainment, and family structure.
+
+In March of every year, the previously interviewed households answer additional questions, part of the ASEC supplement formerly known as the Annual Demographic File. In addition to the basic monthly information, this supplement provides additional data on work experience, income, noncash benefits, and migration.
+
+The ASEC {{< meta asec.year >}} is used as the base dataset (recipient), as it contains rich information regarding demographics and economic status. Because the time use survey (described below) covers individuals 15 years of age and older, younger individuals are discarded from the ASEC sample. This leaves us with a total of {{< meta asec.sample >}} observations, representing {{< meta asec.wsample >}} individuals when weighted. For the household-level analysis, only information regarding the householder is used, leaving {{< meta asec.hsample >}} observations, representing {{< meta asec.whsample >}} households when weighted.
+
+## American Time Use Survey (ATUS)
+
+The ATUS, a survey sponsored by the Bureau of Labor Statistics and collected by the US Census Bureau, is the first continuous survey on time use in the United States available since 2003. Its main objective is to provide nationally representative estimates of peoples' allocation of time among different activities, collecting information on what they did, where they were, and with whom they were.
+
+The ATUS is administered to a random sample of individuals selected from a set of eligible households that have completed their final month's interviews for the CPS. The ATUS covers all residents who are at least 15 years old and are part of the civilian, noninstitutionalized population in the United States.
+
+The ATUS {{< meta atus.year >}}, which contains a total of {{< meta atus.sample >}} observations, is used as the donor dataset to obtain information regarding time use, which will be transferred to the ASEC {{< meta asec.year >}}. Since information regarding household income is incomplete, the information was imputed using a univariate imputation process and information from the ASEC {{< meta atus.year >}}. The sample represents a total of 248,718,989 individuals.
+
+## Survey of Consumer Finances (SCF)
+
+The SCF is normally a triennial cross-sectional survey, sponsored by the Board of Governors of the Federal Reserve System in cooperation with the US Department of the Treasury, which collects information on families' balance sheets, pensions, income, and demographic characteristics.4 The purpose of the survey is to provide detailed information on households' assets and liabilities that can be used for analyzing households' wealth and their use of financial services.
+
+In order to provide reliable information on household wealth distribution, the SCF is based on a dual-frame sample design. On the one hand, a geographically based random sample of respondents is interviewed to obtain a sample that is broadly representative of the population as a whole. On the other hand, a supplemental sample is obtained to include a sample of wealthy families in order to provide accurate information on wealth distribution, as the distribution of nonhome assets and liabilities is highly concentrated. In order to deal with the missing data, most variables with missing values are imputed using a multiple imputation procedure from which five replicates (imputations) for each record are obtained.
+
+The SCF {{< meta scf.year >}} is used as the donor dataset to obtain information regarding assets, debts, and net worth. For the SCF {{< meta scf.year >}}, a total of {{< meta scf.hsample0 >}} families/households were interviewed. In order to account for the multiple imputation information, the five replicates are combined and used for the matching procedure. This provides a sample of {{< meta scf.hsample >}} observations, representing {{< meta scf.whsample >}} households when weighted.
