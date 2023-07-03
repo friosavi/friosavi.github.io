@@ -25,16 +25,16 @@ atus:
   year:     2019
   sample:   "9,421"
   wsample:   "262,823,885" 
-  hsample: 50
-  whsample:   150
+  hsample: "60,413"
+  whsample:   "128,451,203"
 
 scf:
   year:     2019
   sample:   1000
   wsample:     200
-  hsample: 50
-  hsample0: 50
-  whsample:   150
+  hsample0: "5,777"
+  hsample: "28,885"
+  whsample:   "128,642,431"
 ---
 
 # Introduction
@@ -132,7 +132,10 @@ In order to create the synthetic dataset and transfer the time use information f
 *| echo: false
 *| output: false
 clear all
-use smallDTA, clear
+frame create atus_cps
+frame change atus_cps
+
+use atus_cps_19, clear
 
 tab survey [w=nwgt],     matcell(ms0)
 tab sex            survey [w=nwgt],     matcell(ms1)
@@ -215,6 +218,9 @@ foreach i in hhinccl age_gr race educ child18 adultnum {
 	matrix roweq ms`j'=rr`j'
 	matrix tb2 = nullmat(tb2)\ms`j'
 }
+matrix jj=J(30,1,0)
+local cnm:rowname jj
+matrix rowname tb2 = `cnm'
 ```
 
 
@@ -223,23 +229,23 @@ foreach i in hhinccl age_gr race educ child18 adultnum {
 *| echo: false
 #delimit;
 esttab matrix(tb2, fmt("1" "1" "1")), mlabels(, none)  
-varlabels(rr1:r1 " 0-14,999"      rr1:r2 " 15,000-34,999" rr1:r3 " 35,000-49,999"
-rr1:r4 " 50,000-74,999" rr1:r5 " 75,000+" 
-rr2:r1 " 15 to 24"      rr2:r2 " 25 to 34" rr2:r3 " 35 to 44" rr2:r4 " 45 to 54" 
-rr2:r5 " 55 to 64"      rr2:r6 " 65 to 74" rr2:r7 " 75 and older"
-rr3:r1 " White"         rr3:r2 " Black" rr3:r3 " Hispanic" rr3:r4 " Other"
-rr4:r1 " Less than high school" rr4:r2 " High school"
-rr4:r3 " Some college"  rr4:r4 " College/grad school"
-rr5:r1 " 0" rr5:r2 " 1" rr5:r3 " 2" rr5:r4 " 3" rr5:r5 " 4 or more"
-rr6:r1 " 1" rr6:r2 " 2" rr6:r3 " 3" rr6:r4 " 4" rr6:r5 " 5 or more") 
+varlabels(r1 " <$15k" r2 " $15k-$35k" 
+r3 " $35k-$50k" r4 " $50k-$75k" r5 " >$75k" 
+r6 " 15 to 24" r7 " 25 to 34" r8 " 35 to 44" 
+r9 " 45 to 54" r10 " 55 to 64" r11 " 65 to 74" r12 " 75 and older" 
+r13 " White"  r14 " Black" 
+r15 " Hispanic" r16 " Other"
+r17 " Less than high school" r18 " High school"
+r19 " Some college" r20 " College/grad school"
+r21 " 0" r22 " 1"  r23 " 2" r24 " 3" r25 " 4 or more"
+r26 " 1" r27 " 2" r28 " 3" r29 " 4" r30 " 5 or more") 
 collab("ASEC" "ATUS" "diff") md
-eqlabels(
-  "Household income category" 
-  "Age category" 
-  "Race" 
-  "Educational attainment"
-  "Number of children under 18 in household" 
-  "Number of persons in household over 18");
+eqlabels("Household income category" 
+"Age category" 
+"Race" 
+"Educational attainment"
+"Number of children under 18 in household" 
+"Number of persons in household over 18");
 #delimit cr
 display ": Summary Statistics, Alignment across Selected variables " _continue
 display `"{#tbl-t2}{tbl-colwidths="[35,15,15,15]"}"' 
@@ -273,22 +279,134 @@ As expected, although some differences in the distributions can be observed betw
 
 ## SCF {{< meta scf.year >}} -- ASEC {{< meta asec.year >}}
 
-Similar to the previous case, in order to create the synthetic dataset that combines the SCF and ASEC information, five strata variables are used to perform the statistical matching. These strata variables are income category, homeownership, family type, and race and age of the householder. In this case, the households/families rather than individuals are used as the unit of observation.  @tbl-t3 presents summary statistics that compare the distribution of observations within the strata variables. Since both datasets were collected within one year of each other, one should expect them to be well aligned.
+```{stata}
+*| echo: false
+*| output: false
 
-@tbl-t3. Summary Statistics, Alignment across Strata Variables  
+frame create scf_cps
+frame change scf_cps
+
+use scf_cps_19, clear
+
+tab survey 		    [iw=wgt] , matcell(ms0)
+tab hhinccl donor [iw=wgt] , matcell(ms1)
+tab home_prop donor [iw=wgt] , matcell(ms2)
+tab famtype donor [iw=wgt] , matcell(ms3)
+tab racecl  donor [iw=wgt] , matcell(ms4)
+tab agecl   donor [iw=wgt] , matcell(ms5)
+
+mata: 
+    tt  = st_matrix("ms0")'
+	tb3 = st_matrix("ms1")\
+	      st_matrix("ms2")\
+		  st_matrix("ms3")\
+		  st_matrix("ms4")\
+		  st_matrix("ms5")
+	tb3 = tb3:/tt*100
+	tt  = tt,(tt[,2]:-tt[,1]):/tt[,1]*100
+	tb3 = tt\(tb3,tb3[,2]:-tb3[,1])
+end
+
+mata: st_matrix("tb3",tb3)
+matrix roweq   tb3 = rr1 rr2 rr2 rr2 rr2 rr2  rr3 rr3 rr4 rr4 rr4 rr5 rr5 rr5 rr5 rr6 rr6 rr6 rr6
+set linesize 255
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+
+esttab matrix(tb3, fmt("0 1" "0 1" "1 1")), mlabels(, none) md ///
+varlabels( ///
+r1 "N"  r2 " <$20K" r3 " $20k-$50k" r4 " $50k-$75k" ///
+r5 " $75K-$100k" r6 " >$100k" ///
+r7 " Renter" r8 " Owner w/Mortgage" r9 " Owner wo/Mortgage" ///
+r10 " Couple" r11 " Single Female" r12 " Single Male" ///
+r13 " White" r14 " Black" r15 " Hispanic" r16 " Other" ///
+r17 " <35 and younger" r18 " 35 to 49" r19 " 50 to 65" ///
+r20 " >65 and older" ) ///
+collab("ASEC" "SCF" "diff") ///
+eqlabels("" "Household income category" ///
+"Homeownership" "Family type" ///
+"Race category" "Age Category")
+display ": Summary Statistics, Alignment across Main variables " _continue
+display `"{#tbl-t3}{tbl-colwidths="[35,15,15,15]"}"' 
+```
+
+
+Similar to the previous case, in order to create the synthetic dataset that combines the SCF and ASEC information, we use five strata variables to evaluate the aligment across surveys. These strata variables are income category, homeownership, family type, and race and age of the householder. In this case, the households/families rather than individuals are used as the unit of observation.  @tbl-t3 presents summary statistics that compare the distribution of observations within the strata variables. Since both datasets were collected within one year of each other, one should expect them to be well aligned.
+
+```{stata}
+*| echo: false
+*| output: false
+* Look at Group specific values
+local v11:display %3.1f `=tb3[10,3]' 
+local v12:display %3.1f `=tb3[11,3]' 
+local v13:display %3.1f `=tb3[8,3]' 
+```
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        "v9 : 5.8 " _n
+        "v10 : 3.0 " _n
+        "v11 : `v11' " _n
+        "v12 : `v12' " _n
+        "v13 : `v13' " _n
+        "---";
+#delimit cr
+```
+
+As observed in @tbl-t3, the distribution of households across income categories shows good balance across both samples, displaying at most a {{< meta v9 >}} percentage point difference when comparing households with highest income group.  The SCF has a smaller share of middle-to-high-income households. This difference, however could be attributed to standard income growth across years. Nevertheless, for the matching, we aim to use income ranking rather than income levels to ensure good matching. Based on race and age, the distribution is very well balanced, with a less than {{< meta v10 >}}  percentage point difference in the distributions, and a small underrepresentation of Hispanic and other races in the SCF. The largest distributional differences are present across family type and homeownership. The SCF dataset shows a slightly larger share of households within the "couples" categories ({{< meta v11 >}} percentage points), while households with single females are underrepresented ({{< meta v12 >}} percentage points). Regarding homeownership, both samples present similar shares of renters and homeowners. Within the homeowners category, however, the ASEC underrepresents households with mortgages in about {{< meta v13 >}} percent of the instances compared to the SCF. To reduce the impact of the imbalance on the matching, we make use to include and indicator for "mortage" in the imputation process.
+
+@tbl-t4 presents statistics on additional variables that characterize the observations in both datasets. Information on education and occupation categories corresponds to that of the householder. The surveys are well balanced in terms of the educational attainment of the householder, the number of persons within the household, and the occupational categories. Although some imbalance is observed regarding the share of individuals with a Highschool degree.
+
+```{stata}
+*| echo: false
+*| output: false
+capture matrix drop tb2
+gen nump4=nump
+replace nump4=4 if nump>4
+capture matrix drop tb4
+foreach i in educl sex_1 nump4  occ {
+	local j = `j'+1
+	tab `i' survey [iw=wgt],     matcell(ms`j')
+	mata:mm=st_matrix("ms`j'");mm=mm:/colsum(mm)*100;mm=mm,mm[,2]:-mm[,1]
+	mata:st_matrix("ms`j'",mm)
+	matrix roweq ms`j'=rr`j'
+	matrix tb4 = nullmat(tb4)\ms`j'
+}
+matrix jj=J(17,1,0)
+local cnm:rowname jj
+matrix rowname tb4 = `cnm'
+```
+
+
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+esttab matrix(tb4, fmt("1" "1" "1")), mlabels(, none)  
+varlabels(r1 " Less than high school" r2 " High school grad"  
+r3 " Some college" r4 " College or higher"  
+r5 " Male" r6 " Female"  
+r7 " 1 Member" r8 " 2 Members"  r9 " 3 Members" r10 " 4 or more Member"  
+r11 " Occ1: 37–199" r12 " Occ2: 203–389"  
+r13 " Occ3: 403–469 & 903–905"   
+r14 " Occ4: 503–699" r15 " Occ5: 703–889"  
+r16 " Occ6: 473–499" r17 " Other" )  
+collab("ASEC" "SCF" "diff") md
+eqlabels("Education category" 
+"Sex of householder" 
+"Number of members in household" 
+"Occupation category");
+#delimit cr
+display ": Summary Statistics, Alignment across Selected variables " _continue
+display `"{#tbl-t4}{tbl-colwidths="[35,15,15,15]"}"' 
+```
  
-
-Source: Author's calculations based on ASEC 2014 and SCF 2013 data.
-
-As observed in @tbl-t3, the distribution of households across income categories shows good balance across both samples, displaying at most a 5 percentage point difference. The SCF has a smaller share of middle-to-high-income households. Based on race and age, the distribution is very well balanced, with a less than {{< meta v9 >}} 1.5 percentage point difference in the distributions, and a small underrepresentation of Hispanic and other races in the SCF. The largest distributional differences are present across family type and homeownership. The SCF dataset shows a larger share of households within the "couples" categories ({{< meta v9 >}} 2.6 percentage points), while households with single males are underrepresented ({{< meta v9 >}} 2.6 percentage points). Regarding homeownership, both samples present similar shares of renters and homeowners. Within the homeowners category, however, the ASEC underrepresents households with mortgages in about {{< meta v9 >}} 5 percent of the instances compared to the SCF. Under the assumption the ASEC information is correct, the excess of mortgage debt is redistributed among householders with mortgages. This strategy has the advantage of keeping the total amount of mortgage debt unchanged in the imputed data, although this might imply some overestimation of mortgage debt when comparing households with mortgages in both datasets (see @fig-f6).
-
-@tbl-t4 presents statistics on additional variables that characterize the observations in both datasets. Information on education and occupation categories corresponds to that of the householder. The surveys are well balanced in terms of the educational attainment of the householder, the number of persons within the household, and the occupational categories.
-
-@tbl-t4. Summary Statistics, Alignment across Selected Variables ASEC SCF diff 
-
-Source: Author's calculations based on ASEC 2014 and SCF 2013 data.
-
-The distribution of the sex of the householder shows some imbalance across both datasets. In the ASEC, the householder or person of reference is selected randomly in cases of couples. For consistency, we assign the male within the couple to be considered as the householder, a definition closer to the SCF's head of household. While the SCF survey indicates that a large share of householders ({{< meta v9 >}} 72.1 percent) are male, the ASEC shows {{< meta v9 >}} 71.6 percent of householders are male. The next section describes the quality of the matching.
 
 # Matching Quality
 
@@ -298,22 +416,157 @@ Statistical matching is a widely used technique, predominantly in observational 
 
 In order to obtain a good match, the matching process begins using five strata variables, namely sex, parental status, labor force status, marital status, and spouse's labor force status, to obtain 24 matching cells. Within each of these cells, propensity scores are estimated using logit models. A dummy variable indicating if the observation corresponds to the donor or the recipient survey is used as a dependent variable. A set of demographic variables (i.e., age, educational attainment, race, parental status, marital status, and employment status) and household characteristics (i.e., number of adults, number of children, and household monthly income) are included as independent variables. For subsequent matching rounds, broader matching cells are defined accordingly, keeping the logit specifications consistent across all models, and including the omitted strata variable in the specification. The logit models and propensity scores are estimated using all information within broader cells, but the matching is done only across observations left unmatched from previous rounds.
 
-Turning to the results of the match performance, @tbl-tb5 shows the distribution of the matched records by matching round. As expected from these types of processes, {{< meta v9 >}} percent of the matches occur on the first round, ensuring the highest level of match quality. At the same time, only 0.03 percent of the weighted sample was left unmatched after eight matching rounds. These unmatched observations should not bias the distributional statistics of the transferred information.
+```{stata}
+*| output: false
+*| echo: false
+set scheme white2
+color_style s2
+frame change atus_cps
+use matus_cps_19, clear
+tab __round survey [w=anwgt] if __flag==1, matcell(fig1)
+mata:fig1 = st_matrix("fig1")
+mata:fig1 = fig1[,1],runningsum(fig1[,1])
+mata:fig11 = fig1[,1]:/fig1[rows(fig1),2]*100;fig12 = fig1[,2]:/fig1[rows(fig1),2]*100
+mata:fig11=fig11,range(1,rows(fig1),1);fig12=fig12,range(1,rows(fig1),1)
+font_style Garamond
+two bar matamatrix(fig11) || scatter matamatrix(fig12), connect(l) ///
+xtitle("Round") ytitle("Share Matched") ///
+legend(order(1 "Share Matched per Round" 2 "Cumulative Match per round") ///
+col(2) pos(6))
+graph export fig1.png, width(1000) replace
+```
 
-@tbl-t5. Distribution of Matched Records by Matching Round  
-Source: Author's calculations based on ASEC 2014 and ATUS 2013 matched data.
 
-@tbl-t6 provides a description of the match quality, comparing some distributional statistics on the weekly hours of household production between the original information (ATUS) and the imputed data (ASEC). @tbl-t6 also presents some statistics on three components of household production. Given the large presence of zero hours allocated to household production in the sample, some ratios and statistics are not available. The percentile ratios are all equivalent with identical Gini coefficients ({{< meta v9 >}}). The means and medians on the disaggregated components of household production also show a strong equivalence between both surveys, indicating a strong balance in aggregate terms.
+```{stata}
+*| output: false
+*| echo: false
+mata:st_matrix("fig1",(fig11,fig12))
+local v14: display %3.1f `=fig1[1,1]'
+local v15: display %3.1f `=100-fig1[10,3]'
+```
 
-@tbl-t6. Matching Quality: Summary Statistics ATUS 2013 ASEC 2014 
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        "v14 : `v14' " _n
+        "v15 : `v15' " _n
+        "---";
+#delimit cr
+```
+
+Turning to the results of the match performance, @fig-fig1 shows the distribution of the matched records by matching round. As expected from these types of processes, {{< meta v14 >}} percent of the matches occur on the first round, ensuring the highest level of match quality. At the same time, {{< meta v15 >}} percent of the weighted sample was left unmatched after ten matching rounds. These unmatched observations should not bias the distributional statistics of the transferred information.
+
+![Distribution of Matched Records by Matching Round](fig1.png){#fig-fig1}
+
+```{stata}
+*| echo: false
+*| output: false
+
+replace hhprod_wh=hhprod_wh[__id2] if hhprod_wh==.
+replace care_wh=care_wh[__id2] if care_wh==.
+replace core_wh=core_wh[__id2] if core_wh==.
+replace proc_wh=proc_wh[__id2] if proc_wh==.
+keep if __flag==1
+
+** Distributional
+gen phhprod=hhprod!=0
+tab phhprod survey [w=nwgt], matcell(tb6)
+mata:tb6=st_matrix("tb6");tb6=tb6[2,]:/colsum(tb6)*100
+tabstat hhprod_wh if phhprod==1 [w=nwgt], stats(p10 p25 p50 p75 p90) by(survey) save
+matrix tb6 = r(Stat1),r(Stat2)
+mata:tb6=tb6\st_matrix("tb6")
+anogi hhprod_wh  if phhprod==1 [w=nwgt] , by(survey)
+matrix tb6 = r(stats)'
+local gini:display %5.3f `=tb6[5,1]'
+mata:tb6=tb6\st_matrix("tb6")[5,]
+** Summary
+
+foreach i in care core proc {
+	gen p`i'=`i'!=0
+}
+local i care
+tab p`i' survey [w=nwgt], matcell(tb6)
+mata:tb61=st_matrix("tb6");tb61=tb61[2,]:/colsum(tb61)*100
+tabstat `i' if p`i'==1 [w=nwgt],  stats(mean p50)  by(survey) save
+mata:tb6=tb6\tb61\(st_matrix("r(Stat1)"),st_matrix("r(Stat2)"))
+
+local i core
+tab p`i' survey [w=nwgt], matcell(tb6)
+mata:tb61=st_matrix("tb6");tb61=tb61[2,]:/colsum(tb61)*100
+tabstat `i' if p`i'==1 [w=nwgt],  stats(mean p50)  by(survey) save
+mata:tb6=tb6\tb61\(st_matrix("r(Stat1)"),st_matrix("r(Stat2)"))
+
+local i proc
+tab p`i' survey [w=nwgt], matcell(tb6)
+mata:tb61=st_matrix("tb6");tb61=tb61[2,]:/colsum(tb61)*100
+tabstat `i' if p`i'==1 [w=nwgt],  stats(mean p50)  by(survey) save
+mata:tb6=tb6\tb61\(st_matrix("r(Stat1)"),st_matrix("r(Stat2)"))
+mata:tb6=tb6,(tb6[,1]:/tb6[,2]:-1)*100
+mata:st_matrix("tb6",tb6)
+matrix roweq tb6 = rr1 rr1 rr1 rr1 rr1 rr1 rr1 rr2 rr2 rr2 rr3 rr3 rr3 rr4 rr4 rr4
+```
  
-Source: Author's calculations based on ASEC 2014 and ATUS 2013 data.
 
-@fig-f1 presents a visual representation of the distribution of hours allocated to household production using three of the strata variables: sex, parental status, and labor force status. The figure shows that except for some values on the right tail of the distributions---for example, women who are not parents and are not working (F^P^W) and men who are parents and are not working (MP\^W)---the overall distributions within the strata variables are analogous, indicating a good match quality.
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+display "---" _n
+        "v16 : `gini' " _n
+        "---";
+#delimit cr
+```
 
-@fig-f1. Distritubtion of Hours in Household Production, by Survey
+@tbl-t6 provides a description of the match quality, comparing some distributional statistics on the weekly hours of household production between the original information (ATUS) and the imputed data (ASEC). The table also compares the mean and median for the subcomponents: Care, Core and Procurement. Both samples use the unadjusted survey weights. Given the large presence of zero hours allocated to household production in the sample, we provide the share of none-zero observations with hours of household production, constraining the sample when providing the relevant summary statistics. The percentile ratios are all equivalent with almost identical Gini coefficients ({{< meta v16 >}}). The means and medians on the disaggregated components of household production also show a strong equivalence between both surveys, indicating a strong balance in aggregate terms. This is expected by construction.
 
-Source: Author's calculations based on ASEC 2014 and ATUS 2013 data.
+```{stata}
+*| output: asis
+*| echo: false
+#delimit;
+esttab matrix(tb6, fmt("1 1 1 1 1 1 3 1" "1 1 1 1 1 1 3 1" "2")), mlabels(, none)  
+varlabels(r1 " Share with >0 Hrs "
+r2 " p10" r3 " p25" r4 " p50" r5 " p75" r6 " p90" r7 " Gini"
+r8 " Share with >0"
+r9 " Average hrs per week if >0"
+r10 " Median hrs per week if >0"
+r11 " Share with >0"
+r12 " Average hrs per week if >0"
+r13 " Median hrs per week if >0"
+r14 " Share with >0"
+r15 " Average hrs per week if >0"
+r16 " Median hrs per week if >0")  
+collab("ASEC" "ATUS" "Ratio ASEC/ATUS") md
+eqlabels("Hours of Household Production" 
+"Hour on Care" 
+"Hour on Core" 
+"Hour on Procurement");
+#delimit cr
+
+display ": Matching Quality: Summary Statistics " _continue
+display `"{#tbl-t6}{tbl-colwidths="[35,15,15,15]"}"'
+```
+
+@fig-fig2 presents a visual representation of the distribution of hours allocated to household production using three of the strata variables: sex, parental status, and labor force status. The figure shows that except for some values on the right tail of the distributions---for example, women who are not parents and are not working (F^P^W) and men who are parents and are not working (MP\^W)---the overall distributions within the strata variables are analogous, indicating a good match quality.
+
+```{stata}
+*| output: false
+*| echo: false
+
+gen emp = lfs ==1
+egen grp = group(sex parentyn emp)
+label define survey 0 "ASEC" 1 "ATUS", modify
+label define grp 1 "F^PW" 2 "F^P^W" 3 "FPW" 4 "FP^W" 5 "M^PW" 6 "M^P^W" 7 "MPW" 8 "MP^W", modify
+label values grp grp
+
+graph hbox hhprod [w=nwgt], over(grp) ///
+by(survey, note("^=Not, F=Female, M=Male, P=Parent, W=Working")) ytitle("") 
+
+graph export fig2.png, width(1000) replace
+```
+
+![Distritubtion of Hours in Household Production, by Survey](fig2.png){#fig-fig2}
 
 For a detailed review of the performance of the matching, @fig-f2 shows the ratios of the disaggregated hours allocated to household production (care, procurement, and core) between the imputed data (ASEC) and the donor data (ATUS). @tbl-t7 provides additional information on the mean and median hours of household production per week. The information is shown across the five strata variables used for the matching. With some exceptions, the ratios of mean weekly hours of household production (and subcategories) fall within 5 percent of difference across all strata variables, an indication of good match quality. The largest differences are observed among low-income households and among people with less than a high school education. In both cases the statistics indicate, on average, {{< meta v9 >}} 11.1 percent and {{< meta v9 >}} 12 percent more hours respectively allocated to household production. In perspective, while such differences seem large, they might have a small effect on other analyses since the average hours allocated to care among the specific groups are rather few (just about two hours).\
 @fig-f2. Ratio of Mean Household Production Hours, by Strata Variables
