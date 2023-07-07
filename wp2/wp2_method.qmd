@@ -1,8 +1,12 @@
 ---
-title: "Untitled"
-format: html
----
+title: "Quality of Match for Statistical Matches for the US"
 
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
+---
 
 # Methodology
 
@@ -14,7 +18,7 @@ In turn, this synthetic dataset should allow researchers to analyze otherwise un
 
 ## Matching Algorithm
 
-As described in **Lewaa et al (2021)**, statistical matching could be considered as a non-parametric variation of the stochastic regression approach, where no specific distribution assumption is imposed, and the imputed values are drawn directly from the observed distribution in the donor file. In particular, we implement a variation of the rank-constrained statistical matching described in **Kum and Masterson (2010)**, which improves on the approach by using a weight splitting approach in combination with clustering analysis for a better automatic selection of strata groups in the approach.\[\^ This is in contrast with previous iterations of Statistical matching used for the estimation of the LIMEW, which was based on ex-ante ad-hoc stratification, last-match-unit approach\].
+As described in **Lewaa et al (2021)**, statistical matching could be considered as a non-parametric variation of the stochastic regression approach, where no specific distribution assumption is imposed, and the imputed values are drawn directly from the observed distribution in the donor file. In particular, we implement a variation of the rank-constrained statistical matching described in **Kum and Masterson (2010)**, which improves on the approach by using a weight splitting approach in combination with clustering analysis for a better automatic selection of strata groups in the approach. [^ This is in contrast with previous iterations of Statistical matching used for the estimation of the LIMEW, which was based on ex-ante ad-hoc stratification, last-match-unit approach].
 
 The statistical matching procedure applied for the paper is a multi-step process that can be explained as follows:
 

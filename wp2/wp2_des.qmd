@@ -1,6 +1,11 @@
 ---
-title: " "
-format: html
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
 ---
 
 # Data Description

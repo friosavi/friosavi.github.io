@@ -1,9 +1,14 @@
 ---
-title: " "
-format: html
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
 ---
 
-## Matching: ATUS and ASEC
+## Matching: ASEC {{< meta asec.year >}} and ATUS {{< meta atus.year >}}
 
 In order to obtain a good match, the matching process begins using five strata variables, namely sex, parental status, labor force status, marital status, and spouse's labor force status, to obtain 24 matching cells. Within each of these cells, propensity scores are estimated using logit models. A dummy variable indicating if the observation corresponds to the donor or the recipient survey is used as a dependent variable. A set of demographic variables (i.e., age, educational attainment, race, parental status, marital status, and employment status) and household characteristics (i.e., number of adults, number of children, and household monthly income) are included as independent variables. For subsequent matching rounds, broader matching cells are defined accordingly, keeping the logit specifications consistent across all models, and including the omitted strata variable in the specification. The logit models and propensity scores are estimated using all information within broader cells, but the matching is done only across observations left unmatched from previous rounds.
 
@@ -437,13 +442,13 @@ frame drop fig
 
 tabstat2 hhprod [w=nwgt] if educ==1, by(survey) save
 matrix st = r(tmatrix)
-local v19: display %3.2f `=st[1,1]-st[2,1]'
+local v19: display %3.2f `=st[1,1]-st[1,2]'
 tabstat2 hhprod [w=nwgt] if educ==4, by(survey) save
 matrix st = r(tmatrix)
-local v20: display %03.2f `=st[1,1]-st[2,1]'
+local v20: display %03.2f `=st[1,1]-st[1,2]'
 tabstat2 care [w=nwgt] if hhinccl==1, by(survey) save
 matrix st = r(tmatrix)
-local v21: display %03.2f `=st[1,1]-st[2,1]'
+local v21: display %03.2f `=st[1,1]-st[1,2]'
 ```
 
 ```{stata}
@@ -451,9 +456,9 @@ local v21: display %03.2f `=st[1,1]-st[2,1]'
 *| echo: false
 #delimit;
 display "---" _n
-        `"v19 : "`v19'" "` _n
-        `"v20 : "`v20'" "` _n
-        `"v21 : "`v21'" "` _n
+        `"v19 : "`v19'" "' _n
+        `"v20 : "`v20'" "' _n
+        `"v21 : "`v21'" "' _n
         "---";
 #delimit cr
 ```
@@ -464,3 +469,4 @@ To examine the match quality beyond the framework of the strata variables, @fig-
 In terms of age, the averages and medians indicate the statistical match did a good job imputing hours, as the differences are small for all groups. Looking at care activities, however, the statistical match seems to overestimate the number of hours spent on these activities, especially for people over 75 years of age and those younger than 24. 
 
 ![Ratio of Mean Household Production Hours by Selected Variables](fig5.png){#fig-fig5}
+ 

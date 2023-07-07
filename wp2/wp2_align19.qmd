@@ -1,7 +1,13 @@
 ---
-title: " "
-format: html
+title: "Quality of Match for Statistical Matches for the US"
+
+subtitle: "American Time Use Survey 2019,  the Survey of Consumer Finances 2019, and the Annual Social and Economic Supplement 2020"
+
+abstract-title: "Abstract"
+
+abstract: "This paper describes the quality of the statistical matching between the March 2020 supplement to the Current Population Survey (CPS) and the 2019 American Time Use Survey (ATUS) and Survey of Consumer Finances (SCF), which are used as the basis for the 2019 Levy Institute Measure of Economic Well-Being (LIMEW) estimates for the United States. In the first part of the paper, the alignment of the datasets is examined. In the second, various aspects of the match quality are described. The results indicate that the matches are of high quality, with some indication of bias in specific cases."
 ---
+
 
 # Data Aligment and Statistics
 
@@ -48,13 +54,13 @@ set linesize 255
 *| output: asis
 *| echo: false
 
-esttab matrix(tb1, fmt("0 1" "0 1" "1 1")), mlabels(, none) md ///
-varlabels(r1 "N"  r2 " Female" r3 " Male" ///
-r4 " No" r5 " Yes" ///
-r6 " Not Employed"  r7 " Employed" ///
-r8 " No" r9 " Yes" ///
-r10 " Spouse not Employed" ///
-r11 " Spouse Employed" ) ///
+esttab matrix(tb1, fmt("%13.0fc 1" "%13.0fc 1" "1 1")), mlabels(, none) md ///
+varlabels(r1 "N"  r2 "  Female" r3 "  Male" ///
+r4 "  No" r5 "  Yes" ///
+r6 "  Not Employed"  r7 "  Employed" ///
+r8 "  No" r9 "  Yes" ///
+r10 "  Spouse not Employed" ///
+r11 "  Spouse Employed" ) ///
 collab("ASEC" "ATUS" "diff") eqlabels("" "Sex" "Parental Status" "Labor Force Status" "Spouse present" "Spouse's labor force status")
 display ": Summary Statistics, Alignment across Main variables " _continue
 display `"{#tbl-t1}{tbl-colwidths="[35,15,15,15]"}"' 
@@ -111,16 +117,16 @@ matrix rowname tb2 = `cnm'
 *| echo: false
 #delimit;
 esttab matrix(tb2, fmt("1" "1" "1")), mlabels(, none)  
-varlabels(r1 " <$15k" r2 " $15k-$35k" 
-r3 " $35k-$50k" r4 " $50k-$75k" r5 " >$75k" 
-r6 " 15 to 24" r7 " 25 to 34" r8 " 35 to 44" 
-r9 " 45 to 54" r10 " 55 to 64" r11 " 65 to 74" r12 " 75 and older" 
-r13 " White"  r14 " Black" 
-r15 " Hispanic" r16 " Other"
-r17 " Less than high school" r18 " High school"
-r19 " Some college" r20 " College/grad school"
-r21 " 0" r22 " 1"  r23 " 2" r24 " 3" r25 " 4 or more"
-r26 " 1" r27 " 2" r28 " 3" r29 " 4" r30 " 5 or more") 
+varlabels(r1 "  <$15k" r2 "  $15k-$35k" 
+r3 "  $35k-$50k" r4 "  $50k-$75k" r5 "  >$75k" 
+r6 "  15 to 24" r7 "  25 to 34" r8 "  35 to 44" 
+r9 "  45 to 54" r10 "  55 to 64" r11 "  65 to 74" r12 "  75 and older" 
+r13 "  White"  r14 "  Black" 
+r15 "  Hispanic" r16 "  Other"
+r17 "  Less than high school" r18 "  High school"
+r19 "  Some college" r20 "  College/grad school"
+r21 "  0" r22 "  1"  r23 "  2" r24 "  3" r25 "  4 or more"
+r26 "  1" r27 "  2" r28 "  3" r29 "  4" r30 "  5 or more") 
 collab("ASEC" "ATUS" "diff") md
 eqlabels("Household income category" 
 "Age category" 
@@ -161,6 +167,9 @@ As expected, although some differences in the distributions can be observed betw
 
 ## SCF {{< meta scf.year >}} -- ASEC {{< meta asec.year >}}
 
+
+Similar to the previous case, in order to create the synthetic dataset that combines the SCF and ASEC information, we use five strata variables to evaluate the aligment across surveys. These strata variables are income category, homeownership, family type, and race and age of the householder. In this case, the households/families rather than individuals are used as the unit of observation.  @tbl-t3 presents summary statistics that compare the distribution of observations within the strata variables. Since both datasets were collected within one year of each other, one should expect them to be well aligned.
+
 ```{stata}
 *| echo: false
 *| output: false
@@ -190,7 +199,7 @@ mata:
 end
 
 mata: st_matrix("tb3",tb3)
-matrix roweq   tb3 = rr1 rr2 rr2 rr2 rr2 rr2  rr3 rr3 rr4 rr4 rr4 rr5 rr5 rr5 rr5 rr6 rr6 rr6 rr6
+matrix roweq   tb3 = rr1 rr2 rr2 rr2 rr2 rr2  rr3 rr3 rr3 rr4 rr4 rr4 rr5 rr5 rr5 rr5 rr6 rr6 rr6 rr6
 set linesize 255
 ```
 
@@ -198,15 +207,15 @@ set linesize 255
 *| output: asis
 *| echo: false
 
-esttab matrix(tb3, fmt("0 1" "0 1" "1 1")), mlabels(, none) md ///
+esttab matrix(tb3, fmt("%13.0fc 1" "%13.0fc 1" "1 1")), mlabels(, none) md ///
 varlabels( ///
-r1 "N"  r2 " <$20K" r3 " $20k-$50k" r4 " $50k-$75k" ///
-r5 " $75K-$100k" r6 " >$100k" ///
-r7 " Renter" r8 " Owner w/Mortgage" r9 " Owner wo/Mortgage" ///
-r10 " Couple" r11 " Single Female" r12 " Single Male" ///
-r13 " White" r14 " Black" r15 " Hispanic" r16 " Other" ///
-r17 " <35 and younger" r18 " 35 to 49" r19 " 50 to 65" ///
-r20 " >65 and older" ) ///
+r1 "N"  r2 "  <$20K" r3 "  $20k-$50k" r4 "  $50k-$75k" ///
+r5 "  $75K-$100k" r6 "  >$100k" ///
+r7 "  Renter" r8 "  Owner w/Mortgage" r9 "  Owner wo/Mortgage" ///
+r10 "  Couple" r11 "  Single Female" r12 "  Single Male" ///
+r13 "  White" r14 "  Black" r15 "  Hispanic" r16 "  Other" ///
+r17 "  <35 and younger" r18 "  35 to 49" r19 "  50 to 65" ///
+r20 "  >65 and older" ) ///
 collab("ASEC" "SCF" "diff") ///
 eqlabels("" "Household income category" ///
 "Homeownership" "Family type" ///
@@ -216,7 +225,6 @@ display `"{#tbl-t3}{tbl-colwidths="[35,15,15,15]"}"'
 ```
 
 
-Similar to the previous case, in order to create the synthetic dataset that combines the SCF and ASEC information, we use five strata variables to evaluate the aligment across surveys. These strata variables are income category, homeownership, family type, and race and age of the householder. In this case, the households/families rather than individuals are used as the unit of observation.  @tbl-t3 presents summary statistics that compare the distribution of observations within the strata variables. Since both datasets were collected within one year of each other, one should expect them to be well aligned.
 
 ```{stata}
 *| echo: false
@@ -271,14 +279,14 @@ matrix rowname tb4 = `cnm'
 *| echo: false
 #delimit;
 esttab matrix(tb4, fmt("1" "1" "1")), mlabels(, none)  
-varlabels(r1 " Less than high school" r2 " High school grad"  
-r3 " Some college" r4 " College or higher"  
-r5 " Male" r6 " Female"  
-r7 " 1 Member" r8 " 2 Members"  r9 " 3 Members" r10 " 4 or more Member"  
-r11 " Occ1: 37–199" r12 " Occ2: 203–389"  
-r13 " Occ3: 403–469 & 903–905"   
-r14 " Occ4: 503–699" r15 " Occ5: 703–889"  
-r16 " Occ6: 473–499" r17 " Other" )  
+varlabels(r1 "  Less than high school" r2 "  High school grad"  
+r3 "  Some college" r4 "  College or higher"  
+r5 "  Male" r6 "  Female"  
+r7 "  1 Member" r8 "  2 Members"  r9 "  3 Members" r10 "  4 or more Member"  
+r11 "  Occ1: 37–199" r12 "  Occ2: 203–389"  
+r13 "  Occ3: 403–469 & 903–905"   
+r14 "  Occ4: 503–699" r15 "  Occ5: 703–889"  
+r16 "  Occ6: 473–499" r17 "  Other" )  
 collab("ASEC" "SCF" "diff") md
 eqlabels("Education category" 
 "Sex of householder" 

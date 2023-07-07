@@ -228,3 +228,39 @@ eqlabels(
   "Number of persons in household over 18"
 );
 
+gen cx=1
+capture matrix drop tb11
+foreach i in cx home_prop hhinccl elder famtype racecl {
+	levelsof `i', local(li)
+	foreach j of local li {
+		tabstat2 networth [w=wgt] if `i'==`j',  by(survey) save	stats(mean median)
+		matrix tb11 = nullmat(tb11)\r(tmatrix2)
+	}
+}
+
+mata:tb11=st_matrix("tb11")
+mata:tb11=tb11[,1],tb11[,1]:/tb11[,3]*100,tb11[,2],tb11[,2]:/tb11[,4]*100
+mata:st_matrix("tb11",tb11)
+matrix roweq tb11 = r1 r2 r2 r2 r3 r3 r3 r3 r3 r4 r4 r5 r5 r5 r6 
+
+#delimit;
+esttab matrix(tb11, fmt(%10.0fc 1 %10.0fc 1)), mlabels(, none)
+collab("Mean-ASEC" "Ratio to SCF" "Median-ASEC" "Ratio to SCF")
+eqlabels("Total" 
+"Homeownership" 
+"Income Group" 
+"Age"
+"Family type" 
+"Race")
+varlabels(r1 ""  r2 " Renter" 
+r3 " Owner with Mortgage" r4 " Owner w/o Mortgage" 
+r5 " <$20k" r6 " $20k-$50k"
+r7 " $50k-$75k" r8 " $75k-$100k" 
+r9 " >$100k" r10 " Non-Eldery" r11 " Elder"
+r12 " Couple" 
+r13 " Single female"
+r14 " Single male"
+r15 " White"
+r16 " Black" r17 " Hispanic"
+r18 " Other") ;
+#delimit cr
