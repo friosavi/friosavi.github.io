@@ -168,4 +168,99 @@ text(15 100 "Household Production" ///
 note(Ratio = ASEC/ATUS)
 
 
+matrix drop tb7
+foreach i in married parentyn sex emp spouse_emp educ hhinccl age_gr {
+	levelsof `i', local(li)
+	local k = `k'+1
+	foreach j of local li {
+		tabstat hhprod_wh [w=nwgt] if `i'==`j', by(survey) stats(mean median) save
+		matrix aux 	=[r(Stat1)',r(Stat2)']
+		matrix roweq aux = rr`k'
+		matrix tb7 = nullmat(tb7)\aux
+	}
+}
+local rq:roweq tb7
+mata:tb7=st_matrix("tb7")
+mata:tb7=tb7[,1], (tb7[,1]:/tb7[,3]*100),tb7[,2],(tb7[,2]:/tb7[,4]*100)
+mata:st_matrix("tb7",tb7)
+matrix roweq tb7 = `rq'
 
+
+#delimit;
+esttab matrix(tb7, fmt("1" "1" "1")), mlabels(, none) md 
+collab("Mean" "Ratio wrt ATUS" "Median" "Ratio wrt ATUS" )
+eqlabels("Marital Status" 
+"Parental Status" 
+"Sex" 
+"Labor Status"
+"Spouse's labor Status" 
+"Education"
+"Household income ($)"
+"Age Group")
+varlabels(r1 " Not Married"  r2 " Married" 
+r3 " Non-parent" r4 " Parent" 
+r5 " Female" r6 " Male"
+r7 " Not Working" r8 " Working" 
+r9 " No Spouse present" r10 " SP not working" r11 "SP working"
+r12 " Less than high school" r13 " High school"
+r14 " Some college" r15 " College/grad school"
+r16 " <$15k" r17 " $15k-$35k" 
+r18 " $35k-$50k" r19 " $50k-$75k" r20 " >$75k" 
+r21 " 15 to 24" r22 " 25 to 34" r23 " 35 to 44" 
+r24 " 45 to 54" r25 " 55 to 64" r26 " 65 to 74" r27 " 75 and older") ;
+#delimit cr
+
+varlabels(rr1:r1 "0-14,999"  rr1:r2 "15,000-34,999" rr1:r3 "35,000-49,999" rr1:r4 "50,000-74,999" rr1:r5 "75,000+" 
+rr2:r1 "15 to 24" rr2:r2 "25 to 34" rr2:r3 "35 to 44" rr2:r4 "45 to 54" 
+rr2:r5 "55 to 64" rr2:r6 "65 to 74" rr2:r7 "75 and older"
+rr3:r1 "White" rr3:r2 "Black" rr3:r3 "Hispanic" rr3:r4 "Other"
+rr4:r1 "Less than high school" rr4:r2 "High school"
+rr4:r3 "Some college" rr4:r4 "College/grad school"
+rr5:r1 "0" rr5:r2 "1" rr5:r3 "2" rr5:r4 "3" rr5:r5 "4 or more"
+rr6:r1 "1" rr6:r2 "2" rr6:r3 "3" rr6:r4 "4" rr6:r5 "5 or more" ) 
+collab("ASEC" "ATUS" "diff") 
+eqlabels(
+  "Household income category" 
+  "Age category" 
+  "Race" 
+  "Educational attainment"
+  "Number of children under 18 in household" 
+  "Number of persons in household over 18"
+);
+
+gen cx=1
+capture matrix drop tb11
+foreach i in cx home_prop hhinccl elder famtype racecl {
+	levelsof `i', local(li)
+	foreach j of local li {
+		tabstat2 networth [w=wgt] if `i'==`j',  by(survey) save	stats(mean median)
+		matrix tb11 = nullmat(tb11)\r(tmatrix2)
+	}
+}
+
+mata:tb11=st_matrix("tb11")
+mata:tb11=tb11[,1],tb11[,1]:/tb11[,3]*100,tb11[,2],tb11[,2]:/tb11[,4]*100
+mata:st_matrix("tb11",tb11)
+matrix roweq tb11 = r1 r2 r2 r2 r3 r3 r3 r3 r3 r4 r4 r5 r5 r5 r6 
+
+#delimit;
+esttab matrix(tb11, fmt(%10.0fc 1 %10.0fc 1)), mlabels(, none)
+collab("Mean-ASEC" "Ratio to SCF" "Median-ASEC" "Ratio to SCF")
+eqlabels("Total" 
+"Homeownership" 
+"Income Group" 
+"Age"
+"Family type" 
+"Race")
+varlabels(r1 ""  r2 " Renter" 
+r3 " Owner with Mortgage" r4 " Owner w/o Mortgage" 
+r5 " <$20k" r6 " $20k-$50k"
+r7 " $50k-$75k" r8 " $75k-$100k" 
+r9 " >$100k" r10 " Non-Eldery" r11 " Elder"
+r12 " Couple" 
+r13 " Single female"
+r14 " Single male"
+r15 " White"
+r16 " Black" r17 " Hispanic"
+r18 " Other") ;
+#delimit cr
