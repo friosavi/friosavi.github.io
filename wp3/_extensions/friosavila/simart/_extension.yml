@@ -1,0 +1,25 @@
+title: Simart
+author: Fernando Rios-Avila
+version: 1.0.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    common:
+      filters:
+        - simart.lua
+    pdf:
+      toc-depth: 2
+      number-sections: true
+      documentclass: article
+      margin-bottom: 1in
+      margin-top: 1in
+      margin-left: 1in
+      margin-right: 1in
+      fontsize: 11pts
+      csl: "apa-no-ampersand.csl"
+      template-partials: 
+        - "title.tex"
+        - "before-body.tex"
+        - "_authors.tex"
+    html:
+      css: styles.css

@@ -1,0 +1,46 @@
+
+$-- Implements the frontmatter, title page, and abstract.
+$--
+$-- %%%% TODO %%%%%
+$-- Customize is needed, otherwise remove this partials to use Quarto default one
+$-- %%%%%%%%%%%%%%%%
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
+%Ipsum lorem
+
+$if(has-frontmatter)$
+\frontmatter
+$endif$
+$if(title)$
+$if(beamer)$
+\frame{\titlepage}
+$else$
+\maketitle
+$endif$
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$endif$
+ 
+\vspace{.2in}
+
+$if(keywords)$
+\textbf{\textit{Keyword: }}
+    $for(keywords/allbutlast)$$keywords$, $endfor$
+    $for(keywords/last)$$keywords$$endfor$ 
+$endif$
+
+$if(jelcodes)$
+\textbf{\textit{JEL: }}
+    $for(jelcodes/allbutlast)$$jelcodes$, $endfor$
+    $for(jelcodes/last)$$jelcodes$$endfor$ 
+$endif$
+
+\thispagestyle{empty}
+\clearpage\pagenumbering{arabic}
+\newpage
+\spacingset{1.2} % DON'T change the spacing!
