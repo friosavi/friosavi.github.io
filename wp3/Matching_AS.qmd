@@ -1,0 +1,66 @@
+---
+title: "Untitled"
+format: html
+---
+
+# Data Aligment and Statistics
+
+To undertake a meaningful statistical matching process, one primary condition is that the surveys (which are to be statistically merged) represent the same population, with approximately similar characteristics across their weighted samples. If this were not to be true, the donor or recipient data would need to be reweighted for the synthetic data to be appropriate for inferences. In this section, we present the alignment of the ATUS (weekday and weekend) and the ASEC 2022 datasets across important demographic characteristics. The alignment is done to ensure that the two datasets are comparable and that the matching procedure is appropriate. 
+
+Table 2 compare the distribution of individuals across selected characteristics, including the strata variables. Since both datasets were collected within one year of each other, we expect them to be well aligned, as most of the variables used reflect structural characteristics that are rather stable across time. 
+The majority of the statistics presented in Table 2 suggest that there is reasonably good alignment between the ASEC and ATUS. The statistics on the quality of matches shown in the next section compare the imputed and real distribution of time use based on the original survey weights.
+
+** Need to create tables by Gender and all other break downs Genrder based
+** On each one do ASEC ATUS Day Atus ATUS Weekend Plust Difference
+
+# Matching Procedure
+Briely describe the Matching and the table for matching (Rounds, number of matches, etc)
+
+Statistical matching (also known as data fusion) is a widely used technique in empirical studies and has been applied in cases when a single survey does not contain all variables needed for drawing statistical inferences about a population. There are numerous empirical works in the economic field that have applied this strategy (see, for example, Rässler [2002] and, more recently, D’Orazio, Di Zio, and Scanu [2006], add more xxx).
+This method is similar to a single imputation method and consists of combining the information from two separate and independent surveys into a single synthetic dataset. This new dataset will have variables that are not otherwise available in standard surveys, as is the case for the analysis of income and time use data. The matching of the datasets is done using common information between the two surveys, while trying to preserve the distributional characteristics of the combined information under the assumption that both surveys represent the same population.
+Statistical matching procedures can be broadly classified into two types. The first one is known as “unconstrained statistical matching.” This strategy frequently uses some type of distance criterion (propensity score matching, for example) so that the best possible candidate/respondent (based on observable characteristics) is chosen (often with replacement) from the donor file to be matched with the corresponding recipient observation.
+The second type is known as “constrained statistical matching” In this case, the strategy imposes the restriction that all observations, specifically their weighted representation from both the donor and recipient surveys, need to be used in the final match. This strategy often relies on a rank imputation, using some main variables, called strata variables to avoid undesirable matches.  
+This paper uses the “constrained statistical matching” methodology proposed in Kim and Masterson (2010), which has also been used in the estimation of the Levy Institute Measure of Economic Well-Being (LIMEW) (Wolff and Zacharias 2003) and Levy Institute Measure of Time and Consumption Poverty (LIMTCP) (Zacharias, Masterson, and Memis 2014).
+
+# Matching Rounds
+We now turn our attention to the matching process and our main results. First, we look at the distribution of matched records by matching round. While one would prefer to have a larger share of the observations be matched during the first steps of the matching algorithm to ensure a higher quality match, the rate at which observations are matched can vary based on the restrictions that can be imposed on strata variables. Figure xx presents the share of observations in the household that are matched during each round. 
+We find that the bulk of the matches for both ATUS weekday and weekend samples occur in the first round, i.e 73.5 and 72.32 percent of the observations. Further,  and by round 10,  around 92 percent are matched for both. All observations in the recipient files are matched to a donor from the time use data.
+
+
+# Matching Quality Assessment
+
+In this section we discuss the assessment of the match quality. The ability of the match to preserve the true individual values of the distribution (strongest test), the joint distribution of the transferred data, the correlation of the data, or the marginal distributions (weakest test) are key determinants to assess the statistical matching quality (Rässler 2002; 2004). We apply statistical matching since the true values of the transferred data—as well as the joint distribution or correlations—are unknown. We then assess the quality of the match based on comparisons of the marginal distribution of the transferred data (time use) across various selected household characteristics.
+
+While there are different strategies that have been developed to assess the quality of the transferred data, including the comparison of the coefficients of potential explanatory econometric models (see Rios-Avila [2015] for an example of this alternative), in this paper we compare the average (mean and median) estimates and the value of ratios of the transferred variables over the true averages in the original sample. In particular, we report the ratios of household production components across multiple selected characteristics and strata variables.
+
+Table xx provides a comparison of the distribution of weekly hours of household production in the donor and matched file, specifically looking at different percentiles of the unconditional distribution. The Gini coefficient of the time spent on household production is also presented. The close balance of the overall distribution is expected, as the matching process guarantees an almost-perfect transference of the overall distribution from the time use to the household survey data.
+
+Table xx provides the mean time-use estimates of the sub-components of household production, namely child care , adult care, domestic cores  (cooking, cleaning, laundry, etc.), and procurement (shopping, etc.). Further, it compares the donor–recipient ratio of averages. We see that for all the time use aggregates, the differences in the averages of the synthetic and original file variables are small, with the largest proportional difference observed for abc (about xx percent). This shouldn’t be considered as a problem because less than an hour per day (on average) is dedicated to procurement. Add
+
+In Figure xx we present boxplot representations of the distribution of time spent on household production by number of adults and number of children. A visual inspection of these data suggests the quality of the match data is high, but that the distribution observed in the recipient files seems smoother compared to the distribution from the donor data. There are a few observable misalignments [will specify], but the distribution across characteristics appears to follow similar trends.
+
+We now turn to assessing the match quality of household production time, comparing the matched data first with ATUS weekday and ATUS weekend.
+
+Matching ATUS weekday and ASEC
+
+Tables xx presents the mean estimates of time allocation in household production for the sample aged 18 to 64 years for men, women and combined sample from ATUS weekday, and ratios of  mean estimates comparing the matched data with ATUS weekday, for different sub groups of the main characteristic variables.
+
+We can see that most the ratios of ASEC to ATUS weekday mean values across selected variables fall within a narrow band of under 10 percent, and almost all the ratios fall within the 15 percent difference, with only few exceptions. 
+
+The largest differences are observed for – (i) the black category in race variable,  30 percent for combined sample, 25 percent for men and 22 for women; (ii) 15-24 age category, wherein the differences are 29 percent for combined sample, 34 percent for men and 22 for women; (iii) households with one adult living in the household such that the differnce is 22 percent for the combined sample and 26 percent for women.
+
+Looking  into the ratios of the median values in Table xx, we observe similar trends, such that median values across selected variables fall within a narrow band of under 10 percent, and almost all the ratios fall within the 15 percent difference, with only few exceptions. However, there are greater differences associated with race and age variable categories discussed above and slightly lower for households with one adult living in the household.  Overall, we observe a large share of narrower gaps, suggesting high match quality between ATUS weekday and ASEC. 
+
+Next, we assess the match quality for ATUS weekend and ASEC, and find a higher match quality compared to ATUS weekday. Mean values across selected variables fall within a narrow band of under 10 percent, and nearly all the ratios fall within the 15 percent difference, except for handful of exceptions.
+
+For example, for the interaction variable of employment status and number of children, men who are employed and have children, their matching difference was 19 percent. For the family structure/marital status variable, single men household category has a difference of 20 percent. [ or can say nearly all the ratios fall within the 20 percent difference].
+
+When we look at the median estimates in Table xx, we observe that the difference for majority variables fall within 15 percent. However, those above 15 percent, though few, were more than in the mean estimate differences and also larger in size. For example, for the interaction variable of employment status and number of children, men who are employed and have children, their matching difference was 45 percent. For the family structure variable/ marital status, single men category has a difference of 33 percent, single women, 18 percent and for the combined sample difference is 19 percent. Moreover, there are difference in the Black category of race variable, such that the difference for Black women is 19 percent and for the combined sample 25 percent. For the category three or more adults in the household, the difference for men sample was (41 percent) followed by the combined sample (25 percent) and women (14 percent). For the age variable, 15-24 year-category the difference for the combined sample was 28 percent. 
+
+While few categories across the selected variables show some differences, the overall match quality can be considered high across majority of variables. 
+
+To provide a more comprehensive overview of the marginal distribution across all the categorical variables involved in the matching process, including a few variable combinations, we present a kernel density graph of ratios, weighted by the number of observations used for the ratio in each category. Thus, ratios that represent a more comprehensive group, say men or women, will have more weight on the kernel density compared to the ratio of young unemployed women living in rural areas. This information is presented in Figure xx
+
+The quality of the match within population subgroups shows generally good results. The largest share of the distribution falls within the 10 percent difference between the matched and donor data, and almost all the ratios fall within the 20 percent difference. While there are a few observations that fall beyond this interval for all countries—observed in the long tails of the distribution—they represent very small segments of the population or often involve gaps that are small in magnitude. We expect that such differences would not affect the conclusions of the matching results.
+
+
