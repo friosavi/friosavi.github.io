@@ -15,11 +15,12 @@ author:
       affiliations:
         - name: "Levy Economics Institute"
           address: Annandale-on-Hudson, NY 12504
-date: "\today"
+date: "Today"
 
 abstract: |
     In this paper we present the match quality assessment of the statistically matched data used to construct the LIMTIP estimates for the United States, specifically for those for 2022. Using a statistical matching procedure, we construct a synthetic dataset by combining the American Time-Use Survey (ATUS) 2021 with Annual Social and Economic Supplement (ASEC) 2022. First, we examine the alignment of the ATUS (weekday and weekend) and both datasets across important demographic characteristics. Next, we briefly describe results from the matching algorithm. We conclude by comparing the marginal distributions of time use between the ATUS and the synthetic dataset. Our results suggest
     that our statistical matching procedure yielded a high quality of match and the constructed synthetic dataset is appropriate for time poverty analysis. While not presented here, similar assesments were constructed for the ASEC matching from 2005 to 2021.
+
 bibliography: biblio.bib
 ---
 
